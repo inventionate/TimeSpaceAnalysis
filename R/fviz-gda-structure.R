@@ -13,7 +13,7 @@ NULL
 #' @param palette colour palette (boolean).
 #' @param impute impute missing data (boolean).
 #' @param cloud which cloud should be plotted (string: real, fitted, both, deviation)
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
 #'
@@ -21,13 +21,13 @@ NULL
 #' @export
 fviz_gda_structure <- function(res_gda, df_var_quali, var_quali, title = "MCA quali structure effects",
                                scale_mean_points = TRUE, axes = 1:2, palette = "Set1", impute = TRUE,
-                               myriad = TRUE, cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse") {
+                               open_sans = TRUE, cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse") {
 
   # Check GDA result
   if(!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Berechnung der passiven Variable durchführen
   res_quali <- supvar_stats(res_gda, df_var_quali, var_quali, impute)
@@ -124,7 +124,7 @@ fviz_gda_structure <- function(res_gda, df_var_quali, var_quali, title = "MCA qu
     if(scale_mean_points) p <- p + geom_point(data = df_ges , aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = "weight"), shape = 18, inherit.aes = FALSE)
     else  p <- p + geom_point(data = df_ges , aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), size = 4, shape = 18, inherit.aes = FALSE)
     # Punkte beschriften
-    p <- p + ggrepel::geom_text_repel(data = df_ges, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), label = "rowname"), size = 4, inherit.aes = FALSE, family = "Myriad Pro")
+    p <- p + ggrepel::geom_text_repel(data = df_ges, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), label = "rowname"), size = 4, inherit.aes = FALSE, family = "Open Sans")
     # Punkte verbinden
     p <- p + geom_path(data = df_ges, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), group = "var_1"))
     p <- p + geom_path(data = df_ges, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), group = "var_2"), linetype = "dashed")

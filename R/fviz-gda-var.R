@@ -8,7 +8,7 @@ NULL
 #' @param contrib "auto" calculates the optimal modalities to show (based on the basic criterion). Otherwise define an amount of modalities to plot.
 #' @param title plot title.
 #' @param axes the GDA dimensions to plot.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param group vector containing group definition.
 #' @param group_names names of the groups.
 #' @param group_style style to plot (vector containing "shape", "colour" or "both).
@@ -24,12 +24,12 @@ NULL
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
-fviz_gda_var <- function(res_gda, contrib = "auto", title = "GDA plane high contribution modalities", axes = 1:2, myriad = TRUE,
+fviz_gda_var <- function(res_gda, contrib = "auto", title = "GDA plane high contribution modalities", axes = 1:2, open_sans = TRUE,
                          group = NULL, group_names = NULL, group_style = "both", textsize = 4, colour_palette = "Set1",
                          individuals = FALSE, individuals_size = "auto", individuals_alpha = 0.5, individuals_names = FALSE,
                          plot_modif_rates = TRUE, axis_lab_name = "Achse", group_lab_name = "Themengruppen") {
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Eigenwerte extrahieren
   eigenvalues <- .get_eigenvalues(res_gda)

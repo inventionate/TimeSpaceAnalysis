@@ -14,7 +14,7 @@ NULL
 #' @param axes axes to plot.
 #' @param palette used colour brewer palette.
 #' @param path_alpha opacity of the path.
-#' @param myriad use myriad font or not (boolean).
+#' @param open_sans use Open Sans font or not (boolean).
 #' @param impute use imputation to handle missing data.
 #' @param variable which diagram to plot (vector containing 1, 2 or "both").
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
@@ -24,14 +24,14 @@ NULL
 #' @export
 fviz_gda_interaction <- function(res_gda, df_var_quali, var_quali, title = "MCA quali interaction effects", mean_alpha = 0.75,
                                path_linetype = "solid", path_size = 1, path_colour = "black", scale_mean_points = TRUE, axes = 1:2,
-                               palette = "Set1", path_alpha = 1, myriad = TRUE, impute = TRUE, variable = "both",
+                               palette = "Set1", path_alpha = 1, open_sans = TRUE, impute = TRUE, variable = "both",
                                plot_modif_rates = TRUE, axis_lab_name = "Achse") {
 
   # Check GDA result
   if(!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Berechnung passive Variable durchführen
   res_quali <- supvar_stats(res_gda, df_var_quali, var_quali, impute)
@@ -56,7 +56,7 @@ fviz_gda_interaction <- function(res_gda, df_var_quali, var_quali, title = "MCA 
   if(scale_mean_points) p <- p + geom_point(data = df_coord , aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = "weight"), shape = 18, alpha = mean_alpha, inherit.aes = FALSE)
   else  p <- p + geom_point(data = df_coord , aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), size = 4, shape = 18, alpha = mean_alpha, inherit.aes = FALSE)
   # Punkte beschriften
-  p <- p + ggrepel::geom_text_repel(data = df_coord, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), label = "rowname"), size = 4, alpha = mean_alpha, inherit.aes = FALSE, family = "Myriad Pro")
+  p <- p + ggrepel::geom_text_repel(data = df_coord, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), label = "rowname"), size = 4, alpha = mean_alpha, inherit.aes = FALSE, family = "Open Sans")
   # Pfad plotten
   p <- p + geom_path(data = df_coord, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), group = "category"), arrow = arrow(length = unit(0.3, "cm")), linetype = path_linetype, size = path_size, alpha = path_alpha, colour = path_colour)
   # Beide Möglichkeiten abbilden

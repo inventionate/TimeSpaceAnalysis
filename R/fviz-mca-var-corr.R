@@ -10,6 +10,7 @@ NULL
 #' @param invisible hide "passive" or "active" variables.
 #' @param labels label points or not (boolean).
 #' @param repel repel labels (boolean).
+#' @param open_sans use Open Sans font family (boolean).
 #' @param select selection of variables (names) or eta2 values (all above value).
 #' @param title plot title.
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
@@ -18,10 +19,10 @@ NULL
 #' @export
 fviz_mca_var_corr <- function(res_gda,  axes = c(1,2), geom=c("point", "text"), labelsize = 4, pointsize = 2,
                               invisible = NULL, labels = TRUE, repel = TRUE, select = list(name = NULL, eta2 = NULL),
-                              myriad = TRUE, plot_modif_rates = TRUE, title = "MCA - Variable Representation") {
+                              open_sans = TRUE, plot_modif_rates = TRUE, title = "MCA - Variable Representation") {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   vars <- get_mca_var_corr(res_gda, axes = axes)
 

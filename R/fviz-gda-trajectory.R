@@ -7,7 +7,7 @@ NULL
 #' @param res_gda MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).
 #' @param select vector of names, within_inertia of individuals selection (within_inertia: vector containing the number of high variation and low variationindividuals) or case (vector containing NULL, complete, or incomplete).
 #' @param axes axes to plot.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param labels plot individual labels (boolean).
 #' @param title the plot title
 #' @param labels plot labels (boolean).
@@ -19,10 +19,10 @@ NULL
 #' @export
 fviz_gda_trajectory <- function(res_gda, select = list(name = NULL, within_inertia = NULL, case = NULL),
                                 title = "Trajectory individuals plot", axes = 1:2, labels = FALSE,
-                                myriad = TRUE, time_point_names = NULL, plot_modif_rates = TRUE, axis_lab_name = "Achse") {
+                                open_sans = TRUE, time_point_names = NULL, plot_modif_rates = TRUE, axis_lab_name = "Achse") {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)

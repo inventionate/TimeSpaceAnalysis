@@ -8,7 +8,7 @@ NULL
 #' @param colour ellipse border colour.
 #' @param linetype ellipse edge linetype.
 #' @param axes the GDA dimensions to plot.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param scale_size scale minimal point size.
 #' @param title the plot title.
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
@@ -19,11 +19,11 @@ NULL
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
 fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dashed", density = FALSE, fill = "gray",
-                                  axes = 1:2, myriad = TRUE, scale_size = 1, title = "GDA individuals plot", plot_modif_rates = TRUE,
+                                  axes = 1:2, open_sans = TRUE, scale_size = 1, title = "GDA individuals plot", plot_modif_rates = TRUE,
                                   axis_lab_name = "Achse") {
 
-  # Add Myriad Pro font family
-  if( myriad ) .add_fonts()
+  # Add Open Sans font family
+  if( open_sans ) .add_fonts()
 
   if(inherits(res_gda, c("MCA"))) p <- .create_plot()
   else stop("Only MCA plots are currently supported!")

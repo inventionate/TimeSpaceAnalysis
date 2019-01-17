@@ -18,13 +18,13 @@ designate_axes <- function (x = NULL, y = NULL, designation = c("left/bottom", "
 
   if(!rotate) {
     list(
-      annotate("text", x = x[1], y = -y[1], label = designation[1], size = size, family = "Myriad Pro", fontface = fontface, alpha = alpha),
-      annotate("text", x = x[2], y = -y[1], label = designation[2], size = size, family = "Myriad Pro", fontface = fontface, alpha = alpha)
+      annotate("text", x = x[1], y = -y[1], label = designation[1], size = size, family = "Open Sans", fontface = fontface, alpha = alpha),
+      annotate("text", x = x[2], y = -y[1], label = designation[2], size = size, family = "Open Sans", fontface = fontface, alpha = alpha)
     )
   } else {
     list(
-      annotate("text", x = -x[1], y = y[1], label = designation[1], size = size, family = "Myriad Pro", angle = 90, fontface = fontface, alpha = alpha),
-      annotate("text", x = -x[1], y = y[2], label = designation[2], size = size, family = "Myriad Pro", angle = 90, fontface = fontface, alpha = alpha)
+      annotate("text", x = -x[1], y = y[1], label = designation[1], size = size, family = "Open Sans", angle = 90, fontface = fontface, alpha = alpha),
+      annotate("text", x = -x[1], y = y[2], label = designation[2], size = size, family = "Open Sans", angle = 90, fontface = fontface, alpha = alpha)
     )
   }
 }

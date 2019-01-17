@@ -13,7 +13,7 @@ NULL
 #' @param alpha_point opacity of individual points.
 #' @param conc_linetype linetype of concentration ellipses.
 #' @param conf_linetype linetype of confidence ellipses.
-#' @param myriad use Myriad Pro font family (boolean).
+#' @param open_sans use Open Sans font family (boolean).
 #' @param concentration_ellipses plot concentration ellipse (boolean).
 #' @param confidence_ellipses plot confidence ellipses (boolean).
 #' @param conf_colour colour confidence ellipses (boolean).
@@ -32,13 +32,13 @@ NULL
 #' @export
 fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = "MCA quali var ellipses",
                                     facet = TRUE, alpha_point = 0.75, conc_linetype = "solid", conf_linetype = "solid",
-                                    scale_mean_points = TRUE, axes = 1:2, palette = "Set1", myriad = TRUE, impute = TRUE,
+                                    scale_mean_points = TRUE, axes = 1:2, palette = "Set1", open_sans = TRUE, impute = TRUE,
                                     concentration_ellipses = TRUE, confidence_ellipses = FALSE, conf_colour = FALSE,
                                     plot_modif_rates = TRUE, ncol = 3, individuals = TRUE, impute_ncp = 2, relevel = NULL,
                                     alpha_ellipses = 0.15, plot_eta2 = TRUE, axis_lab_name = "Achse", show_prop = FALSE) {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Datensatz auslesen
   var <- df_var_quali %>% select(!! var_quali) %>% mutate_all(funs(as.character))

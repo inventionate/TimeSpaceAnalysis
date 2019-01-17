@@ -5,7 +5,7 @@
 #'
 #' @return ggplot2 geoms.
 #' @export
-add_theme <- function(plot, font_family = "Myriad Pro") {
+add_theme <- function(plot, font_family = "Open Sans") {
   plot +
     coord_fixed() +
     theme_minimal() +

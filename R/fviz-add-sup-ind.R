@@ -11,13 +11,13 @@ NULL
 #' @param group_names names of the groups.
 #' @param group_style style to plot (vector containing "shape", "colour" or "both).
 #' @param ind_visible show individual points.
-#' @param myriad use Myriad Pro font.
+#' @param open_sans use Open Sans font.
 #' @param axes the GDA dimensions to plot.
 #'
 #' @return ggplot2 visalization of supplementary individuals.
 #' @export
 fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visible = FALSE, label = NULL,
-                             size = 10, myriad = TRUE, group = NULL, group_names = NULL, group_style = "both",
+                             size = 10, open_sans = TRUE, group = NULL, group_names = NULL, group_style = "both",
                              axes = 1:2) {
 
   # Datensatz vorbereiten
@@ -40,7 +40,7 @@ fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visibl
 
   # Plotten
   p <- fviz_gda_var(res_gda, group = group, group_names = group_names,
-                    group_style = group_style, myriad = myriad, axes = axes)
+                    group_style = group_style, open_sans = open_sans, axes = axes)
   if(ind_visible) p <- p + geom_point(data = data.frame(res_gda$ind$coord), aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), inherit.aes = FALSE, alpha = 0.2)
   p <- p + geom_label(data = res_sup_ind_coord, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), inherit.aes = FALSE,
                size = size, colour = "red", label = label_names, label.size = 1.5)

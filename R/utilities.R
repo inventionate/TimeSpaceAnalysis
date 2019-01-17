@@ -46,10 +46,10 @@
   return (d)
 }
 
-# Add Myriad Pro font
+# Add Open Sans font
 .add_fonts <- function () {
   showtext::showtext_auto()
-  sysfonts::font_add("Myriad Pro", regular = "MyriadPro-Regular.otf", bold = "MyriadPro-Bold.otf", italic = "MyriadPro-It.otf", bolditalic = "MyriadPro-BoldIt.otf")
+  sysfonts::font_add("Open Sans", regular = "OpenSans-Regular.ttf", bold = "OpenSans-Bold.ttf", italic = "OpenSans-Italic.ttf", bolditalic = "OpenSans-BoldItalic.ttf")
 }
 
 # Calculate crossed within variance

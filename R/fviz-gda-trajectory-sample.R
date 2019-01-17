@@ -6,7 +6,7 @@ NULL
 #'
 #' @param res_gda MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).
 #' @param time_point_names vector containing the name of the time points.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param axes the axes to plot.
 #' @param ind_points show individuals (boolean).
 #' @param title title of the plot
@@ -18,13 +18,13 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, myriad = TRUE, axes = 1:2,
+fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, open_sans = TRUE, axes = 1:2,
                                      ind_points = TRUE, concentration_ellipse = TRUE, complete = TRUE,
                                      title = "Trajectory plot to compare samples", plot_modif_rates = TRUE,
                                      alpha = 0.15, axis_lab_name = "Achse") {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)

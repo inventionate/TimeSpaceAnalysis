@@ -8,7 +8,7 @@ NULL
 #' @param df_var_quali data frame containing one qualitative variable (with IDs as rownames).
 #' @param var_quali name of the structuring variable.
 #' @param axes the axes to plot.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param time_point_names vector containing the name of the time points.
 #' @param ind_points show individuals (boolean).
 #' @param title title of the plot.
@@ -21,13 +21,13 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes = 1:2, myriad = TRUE, impute = TRUE,
+fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes = 1:2, open_sans = TRUE, impute = TRUE,
                                          time_point_names = NULL, ind_points = TRUE, concentration_ellipse = TRUE,
                                          title = "Trajectory individuals structuring factors ellipse plot",
                                          plot_modif_rates = TRUE, alpha = 0.15, select = NULL, axis_lab_name = "Achse") {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)

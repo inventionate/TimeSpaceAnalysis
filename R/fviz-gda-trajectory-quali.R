@@ -8,7 +8,7 @@ NULL
 #' @param df_var_quali data frame containing one qualitative variable (with IDs as rownames).
 #' @param var_quali name of the structuring variable.
 #' @param axes the axes to plot.
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param labels plot labels (boolean).
 #' @param select select vector of names, within_inertia of individuals selection (within_inertia: vector containing the number of high variation and low variationindividuals) or case (vector containing NULL, complete, or incomplete).
 #' @param title the plot title.
@@ -19,13 +19,13 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, axes = 1:2, myriad = TRUE, labels = FALSE,
+fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, axes = 1:2, open_sans = TRUE, labels = FALSE,
                                       title = "Trajectory individuals structuring factors plot", time_point_names = NULL,
                                       select = list(name = NULL, within_inertia = NULL, case = NULL), impute = TRUE,
                                       plot_modif_rates = TRUE, axis_lab_name = "Achse") {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)

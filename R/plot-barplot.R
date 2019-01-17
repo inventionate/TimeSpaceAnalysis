@@ -17,18 +17,18 @@ NULL
 #' @param ylim y-axis range.
 #' @param xlim y-axis range.
 #' @param include_na show NAs or not (boolean).
-#' @param myriad use Myriad Pro font.
+#' @param open_sans use Open Sans font.
 #' @param abs_freq use absolute or relative freq (boolean).
 #' @param symbol relative freq symbol.
 #'
 #' @return ggplot2 barplot.
 #' @export
 plot_barplot <- function(dfname, xlab = "", ylab = "", title = "", sort = FALSE, labels_inline = FALSE, amount = FALSE, rotate_x_axis_text = FALSE,
-                         textsize = 20, titlesize = 25, labelsize = 8, include_na = TRUE, digits = 0, ylim = NA, xlim = NA, myriad = TRUE,
+                         textsize = 20, titlesize = 25, labelsize = 8, include_na = TRUE, digits = 0, ylim = NA, xlim = NA, open_sans = TRUE,
                          abs_freq = TRUE, symbol = "%"){
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   if(include_na) absolute_freq <- table(dfname, useNA = "always")
   else absolute_freq <- table(dfname)
@@ -78,13 +78,13 @@ plot_barplot <- function(dfname, xlab = "", ylab = "", title = "", sort = FALSE,
 
     if( abs_freq ) {
 
-      p <- p + geom_text(aes(label = absolute), family = "Myriad Pro", vjust = 1.5, size = labelsize, colour = "white", position = "stack") +
-        geom_text(aes(label = glue("({relative}{symbol})")), family = "Myriad Pro", vjust = 4, size = labelsize/1.5, colour = "white", position = "stack")
+      p <- p + geom_text(aes(label = absolute), family = "Open Sans", vjust = 1.5, size = labelsize, colour = "white", position = "stack") +
+        geom_text(aes(label = glue("({relative}{symbol})")), family = "Open Sans", vjust = 4, size = labelsize/1.5, colour = "white", position = "stack")
 
     } else {
 
-      p <- p + geom_text(aes(label = glue("{relative}{symbol}")), family = "Myriad Pro", vjust = 1.5, size = labelsize, colour = "white", position = "stack") +
-        geom_text(aes(label = glue("({absolute})")), family = "Myriad Pro", vjust = 4, size = labelsize/1.5, colour = "white", position = "stack")
+      p <- p + geom_text(aes(label = glue("{relative}{symbol}")), family = "Open Sans", vjust = 1.5, size = labelsize, colour = "white", position = "stack") +
+        geom_text(aes(label = glue("({absolute})")), family = "Open Sans", vjust = 4, size = labelsize/1.5, colour = "white", position = "stack")
 
     }
 
@@ -92,13 +92,13 @@ plot_barplot <- function(dfname, xlab = "", ylab = "", title = "", sort = FALSE,
 
     if( abs_freq ) {
 
-      p <- p + geom_text(aes(label = absolute), family = "Myriad Pro", vjust = -1.5, size = labelsize, colour = "black", position = "stack") +
-        geom_text(aes(label = glue("({relative}{symbol})"), family = "Myriad Pro"), vjust = -0.5, size = labelsize/1.5, colour = "black", position = "stack")
+      p <- p + geom_text(aes(label = absolute), family = "Open Sans", vjust = -1.5, size = labelsize, colour = "black", position = "stack") +
+        geom_text(aes(label = glue("({relative}{symbol})"), family = "Open Sans"), vjust = -0.5, size = labelsize/1.5, colour = "black", position = "stack")
 
     } else {
 
-      p <- p + geom_text(aes(label = glue("{relative}{symbol}")), family = "Myriad Pro", vjust = -1.5, size = labelsize, colour = "black", position = "stack") +
-        geom_text(aes(label = glue("({absolute})")), family = "Myriad Pro", vjust = -0.5, size = labelsize/1.5, colour = "black", position = "stack")
+      p <- p + geom_text(aes(label = glue("{relative}{symbol}")), family = "Open Sans", vjust = -1.5, size = labelsize, colour = "black", position = "stack") +
+        geom_text(aes(label = glue("({absolute})")), family = "Open Sans", vjust = -0.5, size = labelsize/1.5, colour = "black", position = "stack")
 
     }
 

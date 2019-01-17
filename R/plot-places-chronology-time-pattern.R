@@ -11,17 +11,17 @@ NULL
 #' @param legend show or hide legends (boolean).
 #' @param bar_width specify the width of the bars.
 #' @param ncol number of cols, if there are multiple plots (facets).
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param labels facet labels.
 #' @param facet_label show facets (boolean).
 #'
 #' @return ggplot2 visualization of place chronology time pattern data.
 #' @export
 plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all", graph = TRUE, print_prop_duration = TRUE, legend = TRUE,
-                                                bar_width = 1, ncol = 3, myriad = TRUE, labels = NULL, facet_label = TRUE) {
+                                                bar_width = 1, ncol = 3, open_sans = TRUE, labels = NULL, facet_label = TRUE) {
 
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
     # Datensatz Zeitmuster
     data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)

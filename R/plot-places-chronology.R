@@ -27,7 +27,7 @@ NULL
 #' @param print_place_duration print place overall duration (hours).
 #' @param facet_scales should Scales be fixed ("fixed", the default), free ("free"), or free in one dimension ("free_x", "free_y").
 #' @param point_padding Amount of padding around labeled point. Defaults to unit(0, "lines").
-#' @param myriad use Myriad Pro font (boolean).
+#' @param open_sans use Open Sans font (boolean).
 #' @param exclude_sleep exclude sleep duration (boolean).
 #' @param shape if not NULL the path will be curved.
 #' @param labels facet labels.
@@ -38,9 +38,9 @@ plot_places_chronology <- function(data, id = "all", weekday = "all", map = NULL
                                    alpha_path = 0.75, linetype_path = "solid", force_repel = 3, legend = TRUE, structure = TRUE, map_extent = "panel",
                                    title = NULL, axis_label = TRUE, xlim = NULL, ylim = NULL, graph = TRUE, ncol = 3, unique_places = TRUE,
                                    print_place_duration = TRUE, activity_duration_overall = TRUE, facet_scales = "fixed", point_padding = unit(1, "lines"),
-                                   myriad = TRUE, exclude_sleep = TRUE, shape = 0.2, labels = NULL) {
-  # Add Myriad Pro font family
-  if(myriad) .add_fonts()
+                                   open_sans = TRUE, exclude_sleep = TRUE, shape = 0.2, labels = NULL) {
+  # Add Open Sans font family
+  if(open_sans) .add_fonts()
 
   # Datensatz aufbereiten.
   data_pc <- get_places_chronology(data, id, weekday, title, exclude_sleep)
