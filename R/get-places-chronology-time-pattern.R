@@ -6,13 +6,23 @@
 #'
 #' @return reshaped data frame for further visualization.
 #' @export
-get_places_chronology_time_pattern <- function(data, id = "all", weekday = "all") {
+get_places_chronology_time_pattern <- function(data,
+                                               id = "all",
+                                               weekday = "all") {
 
   # Relevante Variablen auswählen
-  data <- data %>%
+  data <-
+    data %>%
     ungroup() %>%
-    select(questionnaire_id, day, duration, activity) %>%
-    mutate(activity = as.factor(activity))
+    select(
+      questionnaire_id,
+      day,
+      duration,
+      activity
+    ) %>%
+    mutate(
+      activity = as.factor(activity)
+    )
 
   # Leeren Datensatz hinzufügen, um vergleichbare Ausgangsbedingungen zu schaffen.
   # D. h., jeder Person wird eine vergleichbare Aktivität mit der Länge Null hinzugefügt.
@@ -28,16 +38,33 @@ get_places_chronology_time_pattern <- function(data, id = "all", weekday = "all"
   data_zero_duration_activites <- NULL
   for(i in seq_along(activities))
   {
-    data_zero_duration_activites <- bind_rows(data_zero_duration_activites, data_scaffold %>% mutate(duration = 0, activity = activities[i]))
+    data_zero_duration_activites <-
+      bind_rows(
+        data_zero_duration_activites,
+        data_scaffold %>%
+          mutate(
+            duration = 0,
+            activity = activities[i]
+          )
+      )
   }
 
-  data_pc_zm <- data <- bind_rows(data, data_zero_duration_activites %>% mutate_at(vars(activity), funs(as.factor)))
+  data_pc_zm <-
+    data <-
+    bind_rows(
+      data,
+      data_zero_duration_activites %>%
+        mutate_at(vars(activity), ~ as.factor(.)))
 
   # Nach ID filtern
   # Es darf dein NA Auschluss durchgeführt werden, weil sonst die Fahrzeit verloren geht!
-  if(id[[1]] != "all") data_pc_zm <- data %>% filter(questionnaire_id %in% id)
+  if (id[[1]] != "all") {
+    data_pc_zm <- data %>% filter(questionnaire_id %in% id)
+  }
 
-  if(weekday[[1]] != "all") data_pc_zm <- filter(data_pc_zm, day %in% weekday)
+  if (weekday[[1]] != "all") {
+    data_pc_zm <- filter(data_pc_zm, day %in% weekday)
+  }
 
   # Berechnung der Dauer für eine durchschnittliche Woche (nicht pro Woche)
   data_pc_zm <- data_pc_zm %>%
@@ -49,7 +76,18 @@ get_places_chronology_time_pattern <- function(data, id = "all", weekday = "all"
     distinct(questionnaire_id, day, activity, prop_duration) %>%
     ungroup() %>%
     # Festlegen der Reihenfolge der Levels und orden der Daten.
-    mutate(activity = fct_relevel(activity, "Lehrveranstaltung", "Lerngruppe", "Selbststudium", "Fahrzeit", "Arbeitszeit", "Freizeit", "Schlafen")) %>%
+    mutate(
+      activity = fct_relevel(
+        activity,
+        "Lehrveranstaltung",
+        "Lerngruppe",
+        "Selbststudium",
+        "Fahrzeit",
+        "Arbeitszeit",
+        "Freizeit",
+        "Schlafen"
+      )
+    ) %>%
     arrange(questionnaire_id, day, activity)
 
   return(data_pc_zm)

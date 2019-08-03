@@ -49,7 +49,11 @@
 # Add Open Sans font
 .add_fonts <- function () {
   showtext::showtext_auto()
-  sysfonts::font_add("Open Sans", regular = "OpenSans-Regular.ttf", bold = "OpenSans-Bold.ttf", italic = "OpenSans-Italic.ttf", bolditalic = "OpenSans-BoldItalic.ttf")
+  sysfonts::font_add("Fira Sans",
+                     regular = "FiraSans-Regular.otf",
+                     bold = "FiraSans-Bold.otf",
+                     italic = "FiraSans-Italic.otf",
+                     bolditalic = "FiraSans-BoldItalic.otf")
 }
 
 # Calculate crossed within variance

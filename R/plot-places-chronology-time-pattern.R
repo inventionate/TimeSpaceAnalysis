@@ -17,53 +17,120 @@ NULL
 #'
 #' @return ggplot2 visualization of place chronology time pattern data.
 #' @export
-plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all", graph = TRUE, print_prop_duration = TRUE, legend = TRUE,
-                                                bar_width = 1, ncol = 3, open_sans = TRUE, labels = NULL, facet_label = TRUE) {
+plot_places_chronology_time_pattern <- function(data,
+                                                id = "all",
+                                                weekday = "all",
+                                                graph = TRUE,
+                                                print_prop_duration = TRUE,
+                                                legend = TRUE,
+                                                bar_width = 1,
+                                                ncol = 3,
+                                                open_sans = TRUE,
+                                                labels = NULL,
+                                                facet_label = TRUE) {
 
   # Add Open Sans font family
-  if(open_sans) .add_fonts()
+  if (open_sans) .add_fonts()
 
-    # Datensatz Zeitmuster
-    data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)
+  # Datensatz Zeitmuster
+  data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)
 
-    # Tagesauswahl definieren
-    if (weekday[[1]] != "all") {
-      # Farbpalette festlegen
-      # colours <- RColorBrewer::brewer.pal(name="Spectral", n = nlevels(data_pc_zm$activity))
-      colours <- c("#f15b60", "#ce7058", "#faa75b", "#9e67ab", "#5a9bd4", "#7ac36a", "#737373")
-      # Die Farbe für "Lerngruppe" ändern, damit es sich von "Zwischenzeit" unterscheidet.
-      colours[2] <- "#d77fb4"
+  # Tagesauswahl definieren
+  if (weekday[[1]] != "all") {
+    # Farbpalette festlegen
+    # colours <- RColorBrewer::brewer.pal(name="Spectral", n = nlevels(data_pc_zm$activity))
+    colours <- c("#f15b60",
+                 "#ce7058",
+                 "#faa75b",
+                 "#9e67ab",
+                 "#5a9bd4",
+                 "#7ac36a",
+                 "#737373")
+    # Die Farbe für "Lerngruppe" ändern, damit es sich von "Zwischenzeit" unterscheidet.
+    colours[2] <- "#d77fb4"
 
-      # Prozentuale Verteilung der Aktivitäten
-      if(print_prop_duration) {
-        data_pc_zm %>%
-          select(questionnaire_id, activity, prop_duration) %>%
-          mutate(prop_duration =  round(prop_duration * 100, 2)) %>%
-          arrange(questionnaire_id) %>%
-          group_by(questionnaire_id, activity) %>%
-          spread(questionnaire_id, prop_duration) %>%
-          as_tibble() %>%
-          print(n = nrow(.))
+    # Prozentuale Verteilung der Aktivitäten
+    if(print_prop_duration) {
+      data_pc_zm %>%
+        select(questionnaire_id, activity, prop_duration) %>%
+        mutate(prop_duration =  round(prop_duration * 100, 2)) %>%
+        arrange(questionnaire_id) %>%
+        group_by(questionnaire_id, activity) %>%
+        spread(questionnaire_id, prop_duration) %>%
+        as_tibble() %>%
+        print(n = nrow(.))
       }
 
       # Plotten der Zeitmuster
-      plot_pc_zm <- ggplot(data_pc_zm, aes(x = day, y = prop_duration)) +
-        geom_bar(aes(fill = activity), stat = "identity", position = "stack", width = bar_width) +
-        scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("0%", "25%", "50%", "75%", "100%")) +
+      plot_pc_zm <-
+        ggplot(data_pc_zm, aes(x = day, y = prop_duration)) +
+        geom_bar(
+          aes(fill = activity),
+          stat = "identity",
+          position = "stack",
+          width = bar_width
+        ) +
+        scale_y_continuous(
+          breaks = c(0, 0.25, 0.5, 0.75, 1),
+          labels = c("0%", "25%", "50%", "75%", "100%")
+        ) +
         #scale_fill_brewer(name = "Tätigkeiten:",
         #                 labels = c("Veranstaltungen", "Zwischenzeit", "Selbststudium", "Fahrzeit", "Arbeitszeit", "Freizeit", "Schlafen"),
         #                palette = "Spectral") +
-        scale_fill_manual(name = "Tätigkeiten", values = colours, guide = guide_legend(reverse=TRUE))
+        scale_fill_manual(
+          name = "Tätigkeiten",
+          values = colours,
+          guide = guide_legend(reverse=TRUE)
+        )
 
-      if(length(id) > 1 | id[[1]] == "all") plot_pc_zm <- plot_pc_zm + facet_wrap(~questionnaire_id, ncol = ncol, labeller = as_labeller(labels))
+      if (length(id) > 1 | id[[1]] == "all") {
+        plot_pc_zm <-
+          plot_pc_zm +
+          facet_wrap(
+            ~questionnaire_id,
+            ncol = ncol,
+            labeller = as_labeller(labels)
+          )
+      }
 
     } else {
       # Allgemeines Zeitmuster plotten.
-      plot_pc_zm <- plot_time_pattern(data_pc_zm, id = id, reshape_data = FALSE, ncol = ncol, print_prop_duration = print_prop_duration, labels = labels)
+      plot_pc_zm <-
+        plot_time_pattern(
+          data_pc_zm,
+          id = id,
+          reshape_data = FALSE,
+          ncol = ncol,
+          print_prop_duration = print_prop_duration,
+          labels = labels
+        )
     }
 
     # Theme
-    plot_pc_zm <- add_theme(plot_pc_zm) + coord_cartesian() + theme(legend.title = element_blank(), legend.position = "right")
+    plot_pc_zm <-
+      plot_pc_zm +
+      theme_minimal() +
+      theme(
+        text = element_text(family = "Fira Sans"),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 14, face = "bold"),
+        panel.spacing.x=unit(1.5, "lines"),
+        panel.spacing.y=unit(1, "lines"),
+        axis.text = element_text(size = 9),
+        axis.title = element_text(size = 12),
+        axis.ticks = element_line(size = 0.5, colour = "black"),
+        panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.background = element_blank(),
+        panel.border = element_rect(
+          fill = "transparent",
+          colour = "black",
+          size = 1,
+          linetype = "solid"
+        ),
+        legend.title = element_blank(),
+        legend.position = "right"
+      )
 
     if(!legend) plot_pc_zm <- plot_pc_zm + theme(legend.position = "none")
 

@@ -1,8 +1,8 @@
 Package: TimeSpaceAnalysis
 Type: Package
 Title: Statistical tools for time-space analysis
-Version: 1.1.4
-Date: 2018-03-26
+Version: 1.2.0
+Date: 2019-08-03
 Author: Fabian Mundt
 Maintainer: Fabian Mundt <f.mundt@inventionate.de>
 Encoding: UTF-8
@@ -32,7 +32,8 @@ Depends:
     bookdown,
     rlang,
     glue,
-    stringr
+    stringr,
+    magick
 Suggests:
     kml3d,
     explor,

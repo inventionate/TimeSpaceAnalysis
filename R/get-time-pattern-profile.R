@@ -15,21 +15,65 @@ get_time_pattern_profile <- function(data_tp, id = "all")
   data_ts <- get_time_pattern_series(data_tp)
 
   # Filter ID
-  if (id[[1]] != "all") {data_ts[[2]] <- filter(na.omit(data_ts[[2]]), zeitmuster %in% id) } else {data_ts[[2]] <- na.omit(data_ts[[2]])}
+  if (id[[1]] != "all") {
+    data_ts[[2]] <-
+      filter(
+        na.omit(data_ts[[2]]),
+        zeitmuster %in% id
+      )
+  } else {
+    data_ts[[2]] <- na.omit(data_ts[[2]])
+  }
 
   # Prozentuale Durchschnittswerte berechnen
-  data_series_average_prop <- data_ts[[2]] %>%
-    mutate(day = if_else(day == "Mo", 1, if_else(day == "Di", 2, if_else(day == "Mi", 3, if_else(day == "Do", 4, if_else(day == "Fr", 5, if_else(day == "Sa", 6, 7))))))) %>%
-    mutate(activity = fct_recode(
-      activity,
-      "Private Zeit" = "Freizeit")) %>%
-    mutate(activity = fct_relevel(activity, "Lehrveranstaltungen", "Zwischenzeit", "Selbststudium", "Arbeitszeit", "Fahrzeit", "Private Zeit", "Schlafen")) %>%
+  data_series_average_prop <-
+    data_ts[[2]] %>%
+    mutate(
+      day = case_when(
+        day == "Mo" ~ 1,
+        day == "Di" ~ 2,
+        day == "Mi" ~ 3,
+        day == "Do" ~ 4,
+        day == "Fr" ~ 5,
+        day == "Sa" ~ 6,
+        day == "So" ~ 7
+        )
+    ) %>%
+    mutate(
+      activity = fct_recode(
+        activity,
+        "Private Zeit" = "Freizeit")
+    ) %>%
+    mutate(
+      activity = fct_relevel(
+        activity,
+        "Lehrveranstaltungen",
+        "Zwischenzeit",
+        "Selbststudium",
+        "Arbeitszeit",
+        "Fahrzeit",
+        "Private Zeit",
+        "Schlafen")
+    ) %>%
     group_by(zeitmuster, day) %>%
-    mutate(prop_avg_duration = avg_duration / sum(avg_duration)) %>%
-    arrange(zeitmuster, day, desc(activity)) %>%
+    mutate(
+      prop_avg_duration = avg_duration / sum(avg_duration)
+    ) %>%
+    arrange(
+      zeitmuster, day, desc(activity)
+    ) %>%
     ungroup() %>%
-    right_join(., data_ts$data_series_profile_prop_label, by = "zeitmuster") %>%
-    unite(zeitmuster, zeitmuster, prop, sep = " ")
+    right_join(
+      .,
+      data_ts$data_series_profile_prop_label,
+      by = "zeitmuster"
+    ) %>%
+    unite(
+      zeitmuster,
+      zeitmuster,
+      prop,
+      sep = " "
+    )
 
   return(data_series_average_prop)
 }
