@@ -7,12 +7,12 @@
 fviz_gda_quali_ellipses(res_gda, df_var_quali, var_quali,
   title = "MCA quali var ellipses", facet = TRUE, alpha_point = 0.75,
   conc_linetype = "solid", conf_linetype = "solid",
-  scale_mean_points = TRUE, axes = 1:2, palette = "Set1", myriad = TRUE,
-  impute = TRUE, concentration_ellipses = TRUE,
+  scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
+  open_sans = TRUE, impute = TRUE, concentration_ellipses = TRUE,
   confidence_ellipses = FALSE, conf_colour = FALSE,
-  plot_modif_rates = TRUE, ncol = 3, individuals = TRUE, impute_ncp = 2,
-  relevel = NULL, alpha_ellipses = 0.15, plot_eta2 = TRUE,
-  axis_lab_name = "Achse", show_prop = FALSE)
+  plot_modif_rates = TRUE, ncol = 3, individuals = TRUE,
+  impute_ncp = 2, relevel = NULL, alpha_ellipses = 0.15,
+  plot_eta2 = TRUE, axis_lab_name = "Achse", show_prop = FALSE)
 }
 \arguments{
 \item{res_gda}{GDA (MCA, MFA) result (rownames have to be individual questionnaire IDs).}
@@ -37,7 +37,7 @@ fviz_gda_quali_ellipses(res_gda, df_var_quali, var_quali,
 
 \item{palette}{Colour brewer scale.}
 
-\item{myriad}{use Myriad Pro font family (boolean).}
+\item{open_sans}{use Open Sans font family (boolean).}
 
 \item{impute}{impute missing data (boolean).}
 

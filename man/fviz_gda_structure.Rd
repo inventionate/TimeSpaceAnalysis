@@ -6,7 +6,7 @@
 \usage{
 fviz_gda_structure(res_gda, df_var_quali, var_quali,
   title = "MCA quali structure effects", scale_mean_points = TRUE,
-  axes = 1:2, palette = "Set1", impute = TRUE, myriad = TRUE,
+  axes = 1:2, palette = "Set1", impute = TRUE, open_sans = TRUE,
   cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse")
 }
 \arguments{
@@ -26,7 +26,7 @@ fviz_gda_structure(res_gda, df_var_quali, var_quali,
 
 \item{impute}{impute missing data (boolean).}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{cloud}{which cloud should be plotted (string: real, fitted, both, deviation)}
 

@@ -5,9 +5,10 @@
 \title{Visualize supplementary variables.}
 \usage{
 fviz_gda_quali_supvar(res_gda, df_var_quali, var_quali,
-  title = "MCA quali var structure", path = FALSE, linetype = "solid",
-  axes = 1:2, scale_point = TRUE, size_point = 3, scale_text = FALSE,
-  size_text = 3, palette = "Set1", myriad = TRUE, impute = TRUE,
+  title = "MCA quali var structure", path = FALSE,
+  linetype = "solid", axes = 1:2, scale_point = TRUE,
+  size_point = 3, scale_text = FALSE, size_text = 3,
+  palette = "Set1", open_sans = TRUE, impute = TRUE,
   plot_modif_rates = TRUE, impute_ncp = 2, relevel = NULL,
   plot_eta2 = TRUE, axis_lab_name = "Achse")
 }
@@ -36,7 +37,7 @@ fviz_gda_quali_supvar(res_gda, df_var_quali, var_quali,
 
 \item{palette}{RColorBrewer palette.}
 
-\item{myriad}{use Myriad Pro font family (boolean).}
+\item{open_sans}{use Open Sans font family (boolean).}
 
 \item{impute}{impute missing data (boolean).}
 

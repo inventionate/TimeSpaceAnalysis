@@ -5,10 +5,10 @@
 \title{Visualize trajectories and structuring factors.}
 \usage{
 fviz_gda_trajectory_quali(res_gda, df_var_quali, var_quali, axes = 1:2,
-  myriad = TRUE, labels = FALSE,
+  open_sans = TRUE, labels = FALSE,
   title = "Trajectory individuals structuring factors plot",
-  time_point_names = NULL, select = list(name = NULL, within_inertia = NULL,
-  case = NULL), impute = TRUE, plot_modif_rates = TRUE,
+  time_point_names = NULL, select = list(name = NULL, within_inertia =
+  NULL, case = NULL), impute = TRUE, plot_modif_rates = TRUE,
   axis_lab_name = "Achse")
 }
 \arguments{
@@ -20,7 +20,7 @@ fviz_gda_trajectory_quali(res_gda, df_var_quali, var_quali, axes = 1:2,
 
 \item{axes}{the axes to plot.}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{labels}{plot labels (boolean).}
 

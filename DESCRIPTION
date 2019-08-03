@@ -41,7 +41,7 @@ Suggests:
     testthat
 BugReports: https://github.com/inventionate/TimeSpaceAnalysis/issues
 URL: https://github.com/inventionate/TimeSpaceAnalysis
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 LazyData: TRUE
 Collate: 
     'get-path-coord.R'

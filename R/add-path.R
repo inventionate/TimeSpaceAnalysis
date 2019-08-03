@@ -13,6 +13,24 @@ NULL
 #'
 #' @return ggplo2 path geom.
 #' @export
-add_path <- function(res_gda_quali, var, var_levels = NULL, exclude = NULL, axes = 1:2, linetype = "dashed", colour = "black", size = 1) {
-  geom_path(data = get_path_coord(res_gda_quali, var, var_levels, exclude), aes_string(paste0("Dim.",axes[1]), paste0("Dim.",axes[2])), linetype = linetype, colour = colour, size = size)
+add_path <- function(res_gda_quali,
+                     var,
+                     var_levels = NULL,
+                     exclude = NULL,
+                     axes = 1:2,
+                     linetype = "dashed",
+                     colour = "black",
+                     size = 1) {
+
+  geom_path(
+    data = get_path_coord(res_gda_quali, var, var_levels, exclude),
+    aes_string(
+      paste0("Dim.",axes[1]),
+      paste0("Dim.",axes[2])
+    ),
+    linetype = linetype,
+    colour = colour,
+    size = size
+  )
+
 }

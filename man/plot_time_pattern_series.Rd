@@ -5,7 +5,7 @@
 \title{Plot time pattern series data.}
 \usage{
 plot_time_pattern_series(data_tp, alpha = 0.3, palette = "Set1",
-  myriad = TRUE, title = "Time pattern profiles (kml3d results)",
+  open_sans = TRUE, title = "Time pattern profiles (kml3d results)",
   hour_limits = c(0, 24), hour_scale = c(0, 4, 8, 12, 16, 20, 24))
 }
 \arguments{
@@ -15,7 +15,7 @@ plot_time_pattern_series(data_tp, alpha = 0.3, palette = "Set1",
 
 \item{palette}{colour of average time pattern lines.}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{title}{plot title.}
 

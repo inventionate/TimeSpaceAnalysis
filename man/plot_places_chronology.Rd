@@ -4,15 +4,12 @@
 \alias{plot_places_chronology}
 \title{Plot single or multiple place chronologies in different scales.}
 \usage{
-plot_places_chronology(data, id = "all", weekday = "all", map = NULL,
-  size_range = c(3, 15), colour_path = "darkred", size_path = 2,
-  alpha_path = 0.75, linetype_path = "solid", force_repel = 3,
-  legend = TRUE, structure = TRUE, map_extent = "panel", title = NULL,
-  axis_label = TRUE, xlim = NULL, ylim = NULL, graph = TRUE, ncol = 3,
-  unique_places = TRUE, print_place_duration = TRUE,
-  activity_duration_overall = TRUE, facet_scales = "fixed",
-  point_padding = unit(1, "lines"), myriad = TRUE, exclude_sleep = TRUE,
-  shape = 0.2, labels = NULL)
+plot_places_chronology(data, id, weekday = "all", size_range = NULL,
+  colour_path = "black", size_path = 2, alpha_path = 0.25,
+  alpha_points = 0.5, linetype_path = "solid", force_repel = 3,
+  title = NULL, axis_label = FALSE, xlim = NULL, ylim = NULL,
+  xextra = 3, print_place_duration = TRUE, point_padding = unit(1,
+  "lines"), open_sans = TRUE, exclude_sleep = TRUE, facets = FALSE)
 }
 \arguments{
 \item{data}{a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).}
@@ -20,8 +17,6 @@ plot_places_chronology(data, id = "all", weekday = "all", map = NULL,
 \item{id}{vector, which contains questionnaire ids. Choosa "all" to compute all ids.}
 
 \item{weekday}{vector, which contains the weekday to plot.}
-
-\item{map}{a ggmap map object.}
 
 \item{size_range}{specify the size for visualizatipn of duration.}
 
@@ -31,15 +26,11 @@ plot_places_chronology(data, id = "all", weekday = "all", map = NULL,
 
 \item{alpha_path}{specify the path line alpha value [0:1].}
 
+\item{alpha_points}{specify the point alpha value [0:1].}
+
 \item{linetype_path}{specify the linetype of the path line.}
 
 \item{force_repel}{specify how heavy the repel algorithmn should be.}
-
-\item{legend}{show or hide legends (boolean).}
-
-\item{structure}{show or hide map background (boolean).}
-
-\item{map_extent}{how much of the plot should the map take up? "normal", "device", or "panel" (default).}
 
 \item{title}{title of the plot.}
 
@@ -49,27 +40,17 @@ plot_places_chronology(data, id = "all", weekday = "all", map = NULL,
 
 \item{ylim}{specify plot y limits.}
 
-\item{graph}{whether to plot or not to plot the praph (boolean).}
-
-\item{ncol}{number of cols, if there are multiple plots (facets).}
-
-\item{unique_places}{plot only unique places. Useful to visualize place related overall structure (boolean).}
+\item{xextra}{extra space for time plot (units in cm).}
 
 \item{print_place_duration}{print place overall duration (hours).}
 
-\item{activity_duration_overall}{wheter plot activities per week or for all weeks at once (boolean).}
-
-\item{facet_scales}{should Scales be fixed ("fixed", the default), free ("free"), or free in one dimension ("free_x", "free_y").}
-
 \item{point_padding}{Amount of padding around labeled point. Defaults to unit(0, "lines").}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{exclude_sleep}{exclude sleep duration (boolean).}
 
-\item{shape}{if not NULL the path will be curved.}
-
-\item{labels}{facet labels.}
+\item{facets}{plot facets (boolean).}
 }
 \value{
 ggplot2 visualization of place chronology data.

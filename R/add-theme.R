@@ -5,7 +5,7 @@
 #'
 #' @return ggplot2 geoms.
 #' @export
-add_theme <- function(plot, font_family = "Open Sans") {
+add_theme <- function(plot, font_family = "Fira Sans") {
   plot +
     coord_fixed() +
     theme_minimal() +
@@ -18,6 +18,11 @@ add_theme <- function(plot, font_family = "Open Sans") {
           panel.grid.minor=element_blank(),
           panel.grid.major=element_blank(),
           panel.background = element_blank(),
-          panel.border = element_rect(fill = "transparent", colour = "gray70", size = 1, linetype = "solid"),
+          panel.border = element_rect(
+            fill = "transparent",
+            colour = "gray70",
+            size = 1,
+            linetype = "solid"
+          ),
           legend.position = "none")
 }

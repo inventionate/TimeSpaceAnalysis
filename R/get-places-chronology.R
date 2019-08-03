@@ -100,12 +100,24 @@ get_places_chronology <- function(data,
     ungroup() %>%
     distinct(.keep_all = TRUE)
 
+  # Datensatz mit besuchten Orten erstellen pro Tag.
+  data_unique_places_overall_by_day <-
+    data_places_chronology %>%
+    ungroup() %>%
+    select(questionnaire_id, place, lon, lat, place_duration, day) %>%
+    distinct(.keep_all = TRUE) %>%
+    group_by(questionnaire_id, place, day) %>%
+    mutate(place_duration = sum(place_duration)) %>%
+    ungroup() %>%
+    distinct(.keep_all = TRUE)
+
   # Daten zurückgeben
   return(
     list(data_places_chronology = data_places_chronology,
          data_unique_places_count = data_unique_places_count,
          data_unique_places = data_unique_places,
          data_unique_places_overall = data_unique_places_overall,
+         data_unique_places_overall_by_day = data_unique_places_overall_by_day,
          data_unique_activities = data_unique_activities,
          title = title)
     )

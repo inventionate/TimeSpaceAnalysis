@@ -6,8 +6,9 @@
 \usage{
 fviz_mca_var_corr(res_gda, axes = c(1, 2), geom = c("point", "text"),
   labelsize = 4, pointsize = 2, invisible = NULL, labels = TRUE,
-  repel = TRUE, select = list(name = NULL, eta2 = NULL), myriad = TRUE,
-  plot_modif_rates = TRUE, title = "MCA - Variable Representation")
+  repel = TRUE, select = list(name = NULL, eta2 = NULL),
+  open_sans = TRUE, plot_modif_rates = TRUE,
+  title = "MCA - Variable Representation")
 }
 \arguments{
 \item{res_gda}{MCA result.}
@@ -27,6 +28,8 @@ fviz_mca_var_corr(res_gda, axes = c(1, 2), geom = c("point", "text"),
 \item{repel}{repel labels (boolean).}
 
 \item{select}{selection of variables (names) or eta2 values (all above value).}
+
+\item{open_sans}{use Open Sans font family (boolean).}
 
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 

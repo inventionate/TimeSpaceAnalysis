@@ -6,7 +6,7 @@
 \usage{
 plot_places_chronology_time_pattern(data, id = "all", weekday = "all",
   graph = TRUE, print_prop_duration = TRUE, legend = TRUE,
-  bar_width = 1, ncol = 3, myriad = TRUE, labels = NULL,
+  bar_width = 1, ncol = 3, open_sans = TRUE, labels = NULL,
   facet_label = TRUE)
 }
 \arguments{
@@ -26,7 +26,7 @@ plot_places_chronology_time_pattern(data, id = "all", weekday = "all",
 
 \item{ncol}{number of cols, if there are multiple plots (facets).}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{labels}{facet labels.}
 

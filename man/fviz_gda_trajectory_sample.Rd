@@ -4,9 +4,10 @@
 \alias{fviz_gda_trajectory_sample}
 \title{Visualization of the separated concentration ellipses of the sample.}
 \usage{
-fviz_gda_trajectory_sample(res_gda, time_point_names = NULL, myriad = TRUE,
-  axes = 1:2, ind_points = TRUE, concentration_ellipse = TRUE,
-  complete = TRUE, title = "Trajectory plot to compare samples",
+fviz_gda_trajectory_sample(res_gda, time_point_names = NULL,
+  open_sans = TRUE, axes = 1:2, ind_points = TRUE,
+  concentration_ellipse = TRUE, complete = TRUE,
+  title = "Trajectory plot to compare samples",
   plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse")
 }
 \arguments{
@@ -14,7 +15,7 @@ fviz_gda_trajectory_sample(res_gda, time_point_names = NULL, myriad = TRUE,
 
 \item{time_point_names}{vector containing the name of the time points.}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{axes}{the axes to plot.}
 

@@ -6,11 +6,12 @@
 \usage{
 fviz_gda_var(res_gda, contrib = "auto",
   title = "GDA plane high contribution modalities", axes = 1:2,
-  myriad = TRUE, group = NULL, group_names = NULL, group_style = "both",
-  textsize = 4, colour_palette = "Set1", individuals = FALSE,
-  individuals_size = "auto", individuals_alpha = 0.5,
-  individuals_names = FALSE, plot_modif_rates = TRUE,
-  axis_lab_name = "Achse", group_lab_name = "Themengruppen")
+  open_sans = TRUE, group = NULL, group_names = NULL,
+  group_style = "both", textsize = 4, colour_palette = "Set1",
+  individuals = FALSE, individuals_size = "auto",
+  individuals_alpha = 0.5, individuals_names = FALSE,
+  plot_modif_rates = TRUE, axis_lab_name = "Achse",
+  group_lab_name = "Themengruppen")
 }
 \arguments{
 \item{res_gda}{GDA result data frame.}
@@ -21,7 +22,7 @@ fviz_gda_var(res_gda, contrib = "auto",
 
 \item{axes}{the GDA dimensions to plot.}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{group}{vector containing group definition.}
 

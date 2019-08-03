@@ -4,11 +4,11 @@
 \alias{plot_barplot}
 \title{Visualize a barplot.}
 \usage{
-plot_barplot(dfname, xlab = "", ylab = "", title = "", sort = FALSE,
-  labels_inline = FALSE, amount = FALSE, rotate_x_axis_text = FALSE,
-  textsize = 20, titlesize = 25, labelsize = 8, include_na = TRUE,
-  digits = 0, ylim = NA, xlim = NA, myriad = TRUE, abs_freq = TRUE,
-  symbol = "\%")
+plot_barplot(dfname, xlab = "", ylab = "", title = "",
+  sort = FALSE, labels_inline = FALSE, amount = FALSE,
+  rotate_x_axis_text = FALSE, textsize = 20, titlesize = 25,
+  labelsize = 8, include_na = TRUE, digits = 0, ylim = NA,
+  xlim = NA, open_sans = TRUE, abs_freq = TRUE, symbol = "\%")
 }
 \arguments{
 \item{dfname}{categorical variable.}
@@ -41,7 +41,7 @@ plot_barplot(dfname, xlab = "", ylab = "", title = "", sort = FALSE,
 
 \item{xlim}{y-axis range.}
 
-\item{myriad}{use Myriad Pro font.}
+\item{open_sans}{use Open Sans font.}
 
 \item{abs_freq}{use absolute or relative freq (boolean).}
 

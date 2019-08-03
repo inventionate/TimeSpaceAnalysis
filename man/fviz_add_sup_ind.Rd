@@ -5,8 +5,9 @@
 \title{Add supplementary individuals.}
 \usage{
 fviz_add_sup_ind(res_gda, sup_ind = NULL, colour = "red",
-  ind_visible = FALSE, label = NULL, size = 10, myriad = TRUE,
-  group = NULL, group_names = NULL, group_style = "both", axes = 1:2)
+  ind_visible = FALSE, label = NULL, size = 10, open_sans = TRUE,
+  group = NULL, group_names = NULL, group_style = "both",
+  axes = 1:2)
 }
 \arguments{
 \item{res_gda}{MCA results.}
@@ -21,7 +22,7 @@ fviz_add_sup_ind(res_gda, sup_ind = NULL, colour = "red",
 
 \item{size}{label size.}
 
-\item{myriad}{use Myriad Pro font.}
+\item{open_sans}{use Open Sans font.}
 
 \item{group}{vector containing group definition.}
 

@@ -4,8 +4,8 @@
 \alias{plot_time_pattern_profile}
 \title{Plot average time pattern profiles.}
 \usage{
-plot_time_pattern_profile(data_tp, id = "all", ncol = 2, fluid = FALSE,
-  myriad = TRUE)
+plot_time_pattern_profile(data_tp, id = "all", ncol = 2,
+  fluid = FALSE, open_sans = TRUE)
 }
 \arguments{
 \item{data_tp}{data frame containing questionnaire_id, kml3d results and time pattern data.}
@@ -15,6 +15,8 @@ plot_time_pattern_profile(data_tp, id = "all", ncol = 2, fluid = FALSE,
 \item{ncol}{facet columns.}
 
 \item{fluid}{should be static bars or fluid lines visualized (boolean).}
+
+\item{open_sans}{use Open Sans font family (boolean).}
 }
 \value{
 ggplot2 avgerage time pattern profile plot.

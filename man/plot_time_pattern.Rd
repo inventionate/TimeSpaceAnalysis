@@ -5,7 +5,7 @@
 \title{Plot single or multiple time pattern.}
 \usage{
 plot_time_pattern(data, id = "all", ncol = 3, reshape_data = TRUE,
-  print_prop_duration = TRUE, fluid = FALSE, myriad = TRUE,
+  print_prop_duration = TRUE, fluid = FALSE, open_sans = TRUE,
   labels = NULL, legend = TRUE, facet = TRUE)
 }
 \arguments{
@@ -21,7 +21,7 @@ plot_time_pattern(data, id = "all", ncol = 3, reshape_data = TRUE,
 
 \item{fluid}{should be static bars or fluid lines visualized (boolean).}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{labels}{facet labels.}
 

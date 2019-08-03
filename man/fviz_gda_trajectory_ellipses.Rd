@@ -4,9 +4,10 @@
 \alias{fviz_gda_trajectory_ellipses}
 \title{Visualization of trajectory structuring factor ellipses.}
 \usage{
-fviz_gda_trajectory_ellipses(res_gda, df_var_quali, var_quali, axes = 1:2,
-  myriad = TRUE, impute = TRUE, time_point_names = NULL,
-  ind_points = TRUE, concentration_ellipse = TRUE,
+fviz_gda_trajectory_ellipses(res_gda, df_var_quali, var_quali,
+  axes = 1:2, open_sans = TRUE, impute = TRUE,
+  time_point_names = NULL, ind_points = TRUE,
+  concentration_ellipse = TRUE,
   title = "Trajectory individuals structuring factors ellipse plot",
   plot_modif_rates = TRUE, alpha = 0.15, select = NULL,
   axis_lab_name = "Achse")
@@ -20,7 +21,7 @@ fviz_gda_trajectory_ellipses(res_gda, df_var_quali, var_quali, axes = 1:2,
 
 \item{axes}{the axes to plot.}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{impute}{use imputation for missing data.}
 

@@ -6,9 +6,10 @@
 \usage{
 fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto",
   title = "GDA axis high contribution modalities", axes = 1:2,
-  group = NULL, group_names = NULL, group_style = "both", textsize = 4,
-  colour_palette = "Set1", individuals = FALSE, individuals_size = "auto",
-  individuals_alpha = 0.5, individuals_names = FALSE, myriad = TRUE,
+  group = NULL, group_names = NULL, group_style = "both",
+  textsize = 4, colour_palette = "Set1", individuals = FALSE,
+  individuals_size = "auto", individuals_alpha = 0.5,
+  individuals_names = FALSE, open_sans = TRUE,
   plot_modif_rates = TRUE, axis_lab_name = "Achse",
   group_lab_name = "Themengruppen")
 }
@@ -41,7 +42,7 @@ fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto",
 
 \item{individuals_names}{plot individual names (boolean).}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 

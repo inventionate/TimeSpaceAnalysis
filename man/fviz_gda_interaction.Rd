@@ -8,8 +8,9 @@ fviz_gda_interaction(res_gda, df_var_quali, var_quali,
   title = "MCA quali interaction effects", mean_alpha = 0.75,
   path_linetype = "solid", path_size = 1, path_colour = "black",
   scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
-  path_alpha = 1, myriad = TRUE, impute = TRUE, variable = "both",
-  plot_modif_rates = TRUE, axis_lab_name = "Achse")
+  path_alpha = 1, open_sans = TRUE, impute = TRUE,
+  variable = "both", plot_modif_rates = TRUE,
+  axis_lab_name = "Achse")
 }
 \arguments{
 \item{res_gda}{MCA result.}
@@ -36,7 +37,7 @@ fviz_gda_interaction(res_gda, df_var_quali, var_quali,
 
 \item{path_alpha}{opacity of the path.}
 
-\item{myriad}{use myriad font or not (boolean).}
+\item{open_sans}{use Open Sans font or not (boolean).}
 
 \item{impute}{use imputation to handle missing data.}
 

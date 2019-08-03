@@ -16,11 +16,13 @@ NULL
 #' @param ylim specify plot y limits.
 #' @param title title of the plot.
 #' @param axis_label show or hide axis labels (boolean).
-#' @param graph whether to plot or not to plot the praph (boolean).
 #' @param print_place_duration print place overall duration (hours).
 #' @param point_padding Amount of padding around labeled point. Defaults to unit(0, "lines").
 #' @param open_sans use Open Sans font (boolean).
 #' @param exclude_sleep exclude sleep duration (boolean).
+#' @param xextra extra space for time plot (units in cm).
+#' @param alpha_points specify the point alpha value [0:1].
+#' @param facets plot facets (boolean).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -31,17 +33,19 @@ plot_places_chronology <- function(data,
                                    colour_path = "black",
                                    size_path = 2,
                                    alpha_path = 0.25,
+                                   alpha_points = 0.5,
                                    linetype_path = "solid",
                                    force_repel = 3,
                                    title = NULL,
-                                   axis_label = TRUE,
+                                   axis_label = FALSE,
                                    xlim = NULL,
                                    ylim = NULL,
-                                   graph = TRUE,
+                                   xextra = 3,
                                    print_place_duration = TRUE,
                                    point_padding = unit(1, "lines"),
                                    open_sans = TRUE,
-                                   exclude_sleep = TRUE) {
+                                   exclude_sleep = TRUE,
+                                   facets = FALSE) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -62,6 +66,24 @@ plot_places_chronology <- function(data,
       print(n = nrow(.))
   }
 
+  # Adjust zoom box
+  if (is.null(xlim)) {
+    xlim = c(min(data_pc$data_places_chronology$lon) - 0.03,
+             max(data_pc$data_places_chronology$lon) + 0.03)
+  }
+
+  if (is.null(ylim)) {
+    ylim = c(min(data_pc$data_places_chronology$lat) - 0.03,
+             max(data_pc$data_places_chronology$lat) + 0.03)
+  }
+
+  # Select data to plot
+  if (facets) {
+    df_pc <- data_pc$data_unique_places_overall_by_day
+  } else {
+    df_pc <- data_pc$data_unique_places_overall
+  }
+
   # Geo plot
   plot_pc <-
     ggplot() +
@@ -74,13 +96,13 @@ plot_places_chronology <- function(data,
       linetype = linetype_path,
       colour = colour_path) +
     geom_point(
-      data = data_pc$data_unique_places_overall,
+      data = df_pc,
       aes(x = lon,
           y = lat,
           size = place_duration),
       show.legend = FALSE) +
     ggrepel::geom_label_repel(
-      data = data_pc$data_unique_places_overall,
+      data = df_pc,
       aes(
         lon,
         lat,
@@ -92,14 +114,23 @@ plot_places_chronology <- function(data,
       fontface = "bold",
       family = "Fira Sans",
       fill = "black",
+      alpha = alpha_points,
       show.legend = FALSE,
-      segment.colour = "black",label.padding = 0.4) +
-    coord_fixed(xlim = c(min(data_pc$data_places_chronology$lon)-0.03,
-                         max(data_pc$data_places_chronology$lon)+0.23),
-                ylim = c(min(data_pc$data_places_chronology$lat)-0.03,
-                         max(data_pc$data_places_chronology$lat)+0.03)) +
+      segment.colour = "black",label.padding = 0.4
+    ) +
+    coord_fixed(
+      xlim = xlim,
+      ylim = ylim
+    ) +
     theme_void() +
-    scale_x_continuous(expand = expand_scale(mult = c(0,0))) +
+    theme(
+      axis.title = element_text(size = 10, family = "Fira Sans"),
+      axis.text = element_text(size = 8, family = "Fira Sans"),
+      axis.ticks = element_line(size = 0.1, linetype = "solid"),
+      axis.line = element_line(size = 0.1, linetype = "solid"),
+      axis.ticks.length=unit(.15, "cm"),
+      plot.margin = unit(c(0, xextra, 0, 0),"cm")
+    ) +
     ggtitle(data_pc$title)
 
   if (!is.null(size_range)) {
@@ -122,14 +153,21 @@ plot_places_chronology <- function(data,
       )
   }
 
-  if(!is.null(xlim)) plot_pc <- plot_pc + scale_x_continuous(limits = xlim)
-
-  if(!is.null(ylim)) plot_pc <- plot_pc + scale_y_continuous(limits = ylim)
-
-  # @TODO Integrate time structure and make x and yklim dynamic.
+  if (facets) {
+    plot_pc <-
+      plot_pc +
+      facet_wrap(~day, ncol = 4, nrow = 2) +
+      theme(
+        plot.margin = unit(c(0, 0, 0, 0),"cm")
+      )
+  }
 
   # Time plot
   df_time <- get_places_chronology_time_pattern(data, id, weekday)
+
+  colours <- c("#f15b60", "#ce7058", "#faa75b", "#9e67ab", "#5a9bd4", "#7ac36a", "#737373")
+  # Die Farbe für "Lerngruppen" ändern, da es sich deutlich von "Zwischenzeit" unterscheiden sollte.
+  colours[2] <- "#d77fb4"
 
   plot_time <-
     ggplot(
@@ -147,21 +185,16 @@ plot_places_chronology <- function(data,
       colour = "white",
       size = 1
     ) +
-    scale_x_continuous(
-      breaks = c(1:7),
+    scale_x_discrete(
       labels = c("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"),
       name = "Wochentag",
       expand = expand_scale(mult = c(0,0))
-      ) +
+    ) +
     scale_y_continuous(
       breaks = c(0, 0.25, 0.5, 0.75, 1),
       labels = c("0%", "25%", "50%", "75%", "100%"),
       name = "Zeitanteil in Prozent",
       expand = expand_scale(mult = c(0,0))
-      ) +
-    scale_fill_manual(
-      name = "Tätigkeiten",
-      values = colours
     ) +
     theme_minimal() +
     theme(
@@ -184,20 +217,41 @@ plot_places_chronology <- function(data,
     ) +
     coord_fixed(ratio = 4, xlim = c(0.5,7.5), ylim = c(0,1))
 
+  if (facets) {
+    plot_time <-
+      plot_time +
+      scale_fill_manual(
+        name = "Tätigkeiten",
+        values = colours,
+        guide = guide_legend(nrow = 3, ncol = 3)
+      )
+  } else {
+    plot_time <-
+      plot_time +
+      scale_fill_manual(
+        name = "Tätigkeiten",
+        values = colours
+      )
+  }
+
   # COMBINE PLOTS -------------------------------------------------------------------------------
 
+  # Save time plot
   plot_time_path <- tempfile(fileext = ".png")
 
-  save_plot(plot_time_path, time, bg = "transparent")
+  save_plot(plot_time_path, plot_time, bg = "transparent")
 
-  # Insert xbp_grob inside the scatter plot
-  plot_pc_full <-
-    ggdraw(plot_pc + theme_void()) +
-    draw_image(plot_time_path, scale= 0.7, x = 0.35, y = 0.1)
+  # Combine places chronology and time plot
+  if (facets) {
+    plot_pc_full <-
+      ggdraw(plot_pc) +
+      draw_image(plot_time_path, scale= 0.4, x = 0.37, y = -0.21)
+  } else {
+    plot_pc_full <-
+      ggdraw(plot_pc) +
+      draw_image(plot_time_path, scale= 0.7, x = 0.35, y = 0.1)
+  }
 
-  # Plotten
-  if(graph) print(plot_pc_full)
-
-  return(plot_pc_full)
+  plot_pc_full
 
 }

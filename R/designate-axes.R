@@ -10,21 +10,64 @@
 #'
 #' @return ggplot2 annotations.
 #' @export
-designate_axes <- function (x = NULL, y = NULL, designation = c("left/bottom", "right/top"), rotate = FALSE, size = 5,
-                            fontface = "bold.italic", alpha = 1) {
+designate_axes <- function (x = NULL,
+                            y = NULL,
+                            designation = c("left/bottom", "right/top"),
+                            rotate = FALSE,
+                            size = 5,
+                            fontface = "bold.italic",
+                            alpha = 1) {
 
-  if(length(x) == 1) x <- c(-x[1], x[1])
-  if(length(y) == 1) y <- c(-y[1], y[1])
+  if (length(x) == 1) x <- c(-x[1], x[1])
+  if (length(y) == 1) y <- c(-y[1], y[1])
 
-  if(!rotate) {
+  if (!rotate) {
     list(
-      annotate("text", x = x[1], y = -y[1], label = designation[1], size = size, family = "Open Sans", fontface = fontface, alpha = alpha),
-      annotate("text", x = x[2], y = -y[1], label = designation[2], size = size, family = "Open Sans", fontface = fontface, alpha = alpha)
+      annotate(
+        "text",
+        x = x[1],
+        y = -y[1],
+        label = designation[1],
+        size = size,
+        family = "Fira Sans",
+        fontface = fontface,
+        alpha = alpha
+      ),
+      annotate(
+        "text",
+        x = x[2],
+        y = -y[1],
+        label = designation[2],
+        size = size,
+        family = "Fira Sans",
+        fontface = fontface,
+        alpha = alpha
+      )
     )
   } else {
     list(
-      annotate("text", x = -x[1], y = y[1], label = designation[1], size = size, family = "Open Sans", angle = 90, fontface = fontface, alpha = alpha),
-      annotate("text", x = -x[1], y = y[2], label = designation[2], size = size, family = "Open Sans", angle = 90, fontface = fontface, alpha = alpha)
+      annotate(
+        "text",
+        x = -x[1],
+        y = y[1],
+        label = designation[1],
+        size = size,
+        family = "Fira Sans",
+        angle = 90,
+        fontface = fontface,
+        alpha = alpha
+      ),
+      annotate(
+        "text",
+        x = -x[1],
+        y = y[2],
+        label = designation[2],
+        size = size,
+        family = "Fira Sans",
+        angle = 90,
+        fontface = fontface,
+        alpha = alpha
+      )
     )
   }
 }

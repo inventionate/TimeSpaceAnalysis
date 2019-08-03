@@ -4,10 +4,11 @@
 \alias{fviz_gda_trajectory}
 \title{Visualization of trajectories (connected active and passive individual points).}
 \usage{
-fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia = NULL,
-  case = NULL), title = "Trajectory individuals plot", axes = 1:2,
-  labels = FALSE, myriad = TRUE, time_point_names = NULL,
-  plot_modif_rates = TRUE, axis_lab_name = "Achse")
+fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
+  NULL, case = NULL), title = "Trajectory individuals plot",
+  axes = 1:2, labels = FALSE, open_sans = TRUE,
+  time_point_names = NULL, plot_modif_rates = TRUE,
+  axis_lab_name = "Achse")
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}
@@ -20,7 +21,7 @@ fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia = NULL,
 
 \item{labels}{plot individual labels (boolean).}
 
-\item{myriad}{use Myriad Pro font (boolean).}
+\item{open_sans}{use Open Sans font (boolean).}
 
 \item{time_point_names}{vector containing the name of the time points.}
 
