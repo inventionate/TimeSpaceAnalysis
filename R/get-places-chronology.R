@@ -112,13 +112,13 @@ get_places_chronology <- function(data,
     distinct(.keep_all = TRUE)
 
   # Daten zurückgeben
-  return(
-    list(data_places_chronology = data_places_chronology,
-         data_unique_places_count = data_unique_places_count,
-         data_unique_places = data_unique_places,
-         data_unique_places_overall = data_unique_places_overall,
-         data_unique_places_overall_by_day = data_unique_places_overall_by_day,
-         data_unique_activities = data_unique_activities,
-         title = title)
-    )
+  list(
+    data_places_chronology = data_places_chronology,
+    data_unique_places_count = data_unique_places_count,
+    data_unique_places = data_unique_places,
+    data_unique_places_overall = data_unique_places_overall,
+    data_unique_places_overall_by_day = data_unique_places_overall_by_day,
+    data_unique_activities = data_unique_activities,
+    title = title
+  )
 }

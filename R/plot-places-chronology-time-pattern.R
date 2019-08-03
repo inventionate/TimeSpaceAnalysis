@@ -138,5 +138,5 @@ plot_places_chronology_time_pattern <- function(data,
 
     if(graph) print(plot_pc_zm)
 
-  return(plot_pc_zm)
+  plot_pc_zm
 }

@@ -13,5 +13,6 @@ modified_rates <- function(mca_res) {
   pseudo <- (Q/(Q - 1) * (e - seuil))^2
   mrate <- round(pseudo/sum(pseudo) * 100, 2)
   cum_mrate <- cumsum(mrate)
+
   tibble(mod_rates = mrate, cum_mod_rates = cum_mrate)
 }

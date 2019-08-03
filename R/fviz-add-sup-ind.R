@@ -16,8 +16,16 @@ NULL
 #'
 #' @return ggplot2 visalization of supplementary individuals.
 #' @export
-fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visible = FALSE, label = NULL,
-                             size = 10, open_sans = TRUE, group = NULL, group_names = NULL, group_style = "both",
+fviz_add_sup_ind <- function(res_gda,
+                             sup_ind = NULL,
+                             colour = "red",
+                             ind_visible = FALSE,
+                             label = NULL,
+                             size = 10,
+                             open_sans = TRUE,
+                             group = NULL,
+                             group_names = NULL,
+                             group_style = "both",
                              axes = 1:2) {
 
   # Datensatz vorbereiten
@@ -25,8 +33,17 @@ fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visibl
   res_gda_added <- rbind(res_gda$call$X, sup_ind)
 
   # MFA mit passiven Individuen berechnen
-  res_sup_ind <- MCA(res_gda_added[-res_gda$call$ind.sup,], excl = res_gda$call$excl, ncp = res_gda$call$ncp,
-                     graph = FALSE, ind.sup = (nrow(res_gda_added[-res_gda$call$ind.sup,]) - nrow(sup_ind) + 1):nrow(res_gda_added[-res_gda$call$ind.sup,]))
+  res_sup_ind <-
+    MCA(
+      res_gda_added[-res_gda$call$ind.sup,],
+      excl = res_gda$call$excl,
+      ncp = res_gda$call$ncp,
+      graph = FALSE,
+      ind.sup =
+        # @TODO TEST IF LINEBREAK WORKS
+        (nrow(res_gda_added[-res_gda$call$ind.sup,]) - nrow(sup_ind) + 1):
+        nrow(res_gda_added[-res_gda$call$ind.sup,])
+    )
 
   # Koordinaten extrahieren
   res_sup_ind_coord <- data.frame(res_sup_ind$ind.sup$coord)
@@ -35,15 +52,52 @@ fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visibl
   # res_sup_ind_coord <- data.frame(res_sup_ind$ind.sup$cos2)
 
   # Label bezeichnen
-  if(is.null(label)) label_names = rownames(res_sup_ind_coord)
-  else label_names = label
+  if (is.null(label)) {
+    label_names <- rownames(res_sup_ind_coord)
+  } else {
+    label_names <- label
+  }
 
   # Plotten
-  p <- fviz_gda_var(res_gda, group = group, group_names = group_names,
-                    group_style = group_style, open_sans = open_sans, axes = axes)
-  if(ind_visible) p <- p + geom_point(data = data.frame(res_gda$ind$coord), aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), inherit.aes = FALSE, alpha = 0.2)
-  p <- p + geom_label(data = res_sup_ind_coord, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), inherit.aes = FALSE,
-               size = size, colour = "red", label = label_names, label.size = 1.5)
+  p <-
+    fviz_gda_var(
+      res_gda,
+      group = group,
+      group_names = group_names,
+      group_style = group_style,
+      open_sans = open_sans,
+      axes = axes
+    )
 
-  return(p)
+  if (ind_visible) {
+    p <-
+      p +
+      geom_point(
+        data = data.frame(res_gda$ind$coord),
+        aes_string(
+          paste0("Dim.", axes[1]),
+          paste0("Dim.", axes[2])
+        ),
+        inherit.aes = FALSE,
+        alpha = 0.2
+      )
+  }
+
+  p <-
+    p +
+    geom_label(
+      data = res_sup_ind_coord,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2])
+      ),
+      inherit.aes = FALSE,
+      size = size,
+      colour = "red",
+      label = label_names,
+      label.size = 1.5
+    )
+
+  p
+
 }

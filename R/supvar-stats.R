@@ -14,29 +14,39 @@
 #' \item{v.test}{data frame of categories test-values}
 #' \item{supvar}{vector of the supplementary variable categories}
 #' @export
-supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute_ncp = 2) {
+supvar_stats <- function(res_gda,
+                         var_quali_df,
+                         var_quali,
+                         impute = TRUE,
+                         impute_ncp = 2) {
 
   # Datensatz auslesen
-  var <- var_quali_df %>% select(var = !! var_quali) %>% mutate_all(funs(as.character(.)))
+  var <-
+    var_quali_df %>%
+    select(var = !! var_quali) %>%
+    mutate_all(~ as.character(.))
 
   # Check, ob es fehlende Werte gibt und ggf. imputieren
-  if( length(which(is.na(var))) != 0 & impute ) {
+  if (length(which(is.na(var))) != 0 & impute) {
 
     message("Info: Missing data will be imputed!")
 
     # Nur aktive Individuen verwenden
-    if(!is.null(res_gda$call$ind.sup)) X <- res_gda$call$X[-res_gda$call$ind.sup,]
-    else X <- res_gda$call$X
+    if (!is.null(res_gda$call$ind.sup)) {
+      X <- res_gda$call$X[-res_gda$call$ind.sup,]
+    } else {
+      X <- res_gda$call$X
+    }
 
     var <- var %>% mutate_all(funs(as.factor))
 
-    if(inherits(res_gda, c("MCA"))) {
+    if (inherits(res_gda, c("MCA"))) {
 
       var_impute <- missMDA::imputeMCA(data.frame(X, var$var), ncp = impute_ncp)
 
     }
 
-    if(inherits(res_gda, c("MFA"))) {
+    if (inherits(res_gda, c("MFA"))) {
 
       warning("MFA input. Variances, cos2 and v.test aren't calculated!")
 
@@ -60,7 +70,8 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   # Adaptiert von GDAtools.
   row_weight <- res_gda$call$row.w
   if(inherits(res_gda, c("MFA"))) row_weight <- res_gda$call$row.w.init
-  # Die Gewichte der Zeilen korrigieren, da die MFA diese ausgleicht, was zur Varianzberechnung nicht korrekt ist.
+  # Die Gewichte der Zeilen korrigieren, da die MFA diese ausgleicht, was zur Varianzberechnung
+  # nicht korrekt ist.
   #if(inherits(res_gda, c("MFA"))) row_weight <- res_gda$call$row.w.init
   n <- sum(row_weight)
   FK <- colSums(row_weight*(GDAtools::dichotom(as.data.frame(factor(var)),out='numeric')))/n
@@ -71,13 +82,17 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   coord <- aggregate(wt*ind,list(v),sum)[,-1]/n/FK
   vrc <- aggregate(wt*ind*ind,list(v),sum)[,-1]/n/FK-coord*coord
   #if(inherits(res_gda, c("MCA")))
-  for(i in 1:res_gda$call$ncp) coord[,i] <- coord[,i]/res_gda$svd$vs[i]
+  for (i in 1:res_gda$call$ncp) {
+    coord[,i] <- coord[,i]/res_gda$svd$vs[i]
+  }
   cos2 <- coord*coord/((1/FK)-1)
   weight=n*FK
   names(weight) <- levels(v)# v au lieu de var
   rownames(coord) <- levels(v)#[as.numeric(table(v))>0]
   rownames(cos2) <- levels(v)#[as.numeric(table(v))>0]
-  wi <- apply(vrc,2,weighted.mean,w=weight) # Die within variance entspricht dem gewichteten Mittelwert der Unterpunktwolken (vgl. Le Roux/Rouanet 2004: 103)
+  # Die within variance entspricht dem gewichteten Mittelwert der Unterpunktwolken
+  # (vgl. Le Roux/Rouanet 2004: 103)
+  wi <- apply(vrc,2,weighted.mean,w=weight)
   be <- res_gda$eig[[1]][1:res_gda$call$ncp]-wi
   eta2 <- be/res_gda$eig[[1]][1:res_gda$call$ncp]
   vrc <- rbind(vrc,wi,be,res_gda$eig[[1]][1:res_gda$call$ncp],eta2)
@@ -87,6 +102,20 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   v.test <- sqrt(cos2)*sqrt(length(v)-1)
   v.test <- (((abs(coord)+coord)/coord)-1)*v.test
   # Absolutes Gewicht bei der MFA wiederherstellen
-  if(inherits(res_gda, c("MFA"))) list(supvar=var,weight=round(weight,1),coord=coord)
-  else list(supvar=var,weight=round(weight,1),coord=coord,cos2=round(cos2,6),var=round(vrc,6),v.test=round(v.test,6))
+  if (inherits(res_gda, c("MFA"))) {
+    list(
+      supvar = var,
+      weight = round(weight,1),
+      coord = coord
+    )
+  } else {
+    list(
+      supvar = var,
+      weight = round(weight,1),
+      coord = coord,
+      cos2 = round(cos2,6),
+      var = round(vrc,6),
+      v.test = round(v.test,6)
+    )
+  }
 }

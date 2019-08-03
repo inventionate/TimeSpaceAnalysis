@@ -18,33 +18,80 @@ NULL
 #'
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
-fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dashed", density = FALSE, fill = "gray",
-                                  axes = 1:2, open_sans = TRUE, scale_size = 1, title = "GDA individuals plot", plot_modif_rates = TRUE,
+fviz_gda_conc_ellipse <- function(res_gda,
+                                  level = 0.8647,
+                                  alpha = 0.1,
+                                  colour = "black",
+                                  linetype = "dashed",
+                                  density = FALSE,
+                                  fill = "gray",
+                                  axes = 1:2,
+                                  open_sans = TRUE,
+                                  scale_size = 1,
+                                  title = "GDA individuals plot",
+                                  plot_modif_rates = TRUE,
                                   axis_lab_name = "Achse") {
 
   # Add Open Sans font family
-  if( open_sans ) .add_fonts()
+  if (open_sans) .add_fonts()
 
-  if(inherits(res_gda, c("MCA"))) p <- .create_plot()
-  else stop("Only MCA plots are currently supported!")
+  if (inherits(res_gda, c("MCA"))) {
+    p <- .create_plot()
+  } else {
+    stop("Only MCA plots are currently supported!")
+  }
 
-  p <- p + stat_ellipse(data = .count_distinct_ind(res_gda, axes), aes(x, y), geom ="polygon",
-                        level = level, type = "norm", alpha = alpha, colour = colour, fill = fill,
-                        linetype = linetype) +
-    geom_point(data = .count_distinct_ind(res_gda, axes) %>% distinct(),
-               aes(x, y, size = count), inherit.aes = FALSE) +
-    scale_size_continuous(range = c(scale_size, scale_size * max(.count_distinct_ind(res_gda)$count)))
+  p <-
+    p +
+    stat_ellipse(
+      data = .count_distinct_ind(res_gda, axes),
+      aes(x, y),
+      geom ="polygon",
+      level = level,
+      type = "norm",
+      alpha = alpha,
+      colour = colour,
+      fill = fill,
+      linetype = linetype
+    ) +
+    geom_point(
+      data = .count_distinct_ind(res_gda, axes) %>% distinct(),
+      aes(x, y, size = count),
+      inherit.aes = FALSE
+    ) +
+    scale_size_continuous(
+      range = c(
+        scale_size,
+        scale_size * max(.count_distinct_ind(res_gda)$count)
+      )
+    )
 
   # Theme adaptieren
   p <- add_theme(p)
 
   # 2D Density contours
-  if( density ) p <- p + geom_density_2d(data = res_gda$ind$coord %>% as_data_frame, inherit.aes = FALSE, aes(`Dim 1`, `Dim 2`), colour = "gray")
+  if (density) {
+    p <-
+      p +
+      geom_density_2d(
+        data = res_gda$ind$coord %>% as_data_frame,
+        inherit.aes = FALSE, aes(`Dim 1`, `Dim 2`),
+        colour = "gray"
+      )
+  }
 
   # Beschriftung anpassen
-  p <- .gda_plot_labels(res_gda, p, title, axes, plot_modif_rates, axis_lab_name = axis_lab_name)
+  p <- .gda_plot_labels(
+    res_gda,
+    p,
+    title,
+    axes,
+    plot_modif_rates,
+    axis_lab_name = axis_lab_name
+  )
 
   # Plotten
-  return(p)
+  p
+
 }
 

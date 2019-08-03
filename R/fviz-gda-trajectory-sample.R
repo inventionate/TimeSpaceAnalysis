@@ -18,51 +18,111 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, open_sans = TRUE, axes = 1:2,
-                                     ind_points = TRUE, concentration_ellipse = TRUE, complete = TRUE,
-                                     title = "Trajectory plot to compare samples", plot_modif_rates = TRUE,
-                                     alpha = 0.15, axis_lab_name = "Achse") {
+fviz_gda_trajectory_sample <- function(res_gda,
+                                       time_point_names = NULL,
+                                       open_sans = TRUE, axes = 1:2,
+                                       ind_points = TRUE,
+                                       concentration_ellipse = TRUE,
+                                       complete = TRUE,
+                                       title = "Trajectory plot to compare samples",
+                                       plot_modif_rates = TRUE,
+                                       alpha = 0.15,
+                                       axis_lab_name = "Achse") {
 
   # Add Open Sans font family
-  if(open_sans) .add_fonts()
+  if (open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
   coord_all <-  coord_trajectory$coord_all
   time_point_names <- coord_trajectory$time_point_names
 
-  if(complete) {
+  if (complete) {
     # Auswahl, falls nur komplette Fälle
-    selected_ind <- .select_trajectory(coord_all, select = list(case = "complete"), time_point_names, axes)
+    selected_ind <-
+      .select_trajectory(
+        coord_all,
+        select = list(case = "complete"),
+        time_point_names, axes
+      )
 
     # Filterung vornehmen
-    coord_all <-  coord_all %>% filter(id %in% selected_ind$id)
+    coord_all <-
+      coord_all %>%
+      filter(id %in% selected_ind$id)
 
   }
 
   # Mittelpunkte
-  coord_mean <- coord_all %>% select(-id) %>% group_by(time) %>% summarise_all(funs(mean))
+  coord_mean <-
+    coord_all %>%
+    select(-id) %>%
+    group_by(time) %>%
+    summarise_all(mean)
 
   # Massen der Individuenmittelpunkte
-  coord_mass <- coord_all %>% select(-id) %>% count(time) %>% rename(mass = n)
+  coord_mass <-
+    coord_all %>%
+    select(-id) %>%
+    count(time) %>%
+    rename(mass = n)
 
   # Mittelpunkte und Massen zusammenführen
   coord_mean_mass <- full_join(coord_mean, coord_mass, by = "time")
 
   # Masse hinzufügen
-  coord_all <- coord_all %>% select_(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), "time") %>%
-    group_by_(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), "time") %>% mutate(mass = n()) %>% ungroup()
+  # @TODO replace deprecated _ functions with new ones!
+  coord_all <-
+    coord_all %>%
+    select_(
+      paste0("Dim.", axes[1]),
+      paste0("Dim.", axes[2]),
+      "time"
+    ) %>%
+    group_by_(
+      paste0("Dim.", axes[1]),
+      paste0("Dim.", axes[2]),
+      "time"
+    ) %>%
+    mutate(mass = n()) %>%
+    ungroup()
 
   # Plot der Daten
-  if(inherits(res_gda, c("MCA"))) p <- .create_plot()
-  else stop("Only MCA plots are currently supported!")
+  if (inherits(res_gda, c("MCA"))) {
+    p <- .create_plot()
+  } else {
+    stop("Only MCA plots are currently supported!")
+  }
 
   # Concentartion ellipse
-  if(concentration_ellipse) {
+  if (concentration_ellipse) {
 
-    p <- p + stat_ellipse(data = .count_distinct_ind(res_gda), aes(x, y), geom ="polygon", level = 0.8647, type = "norm", alpha = 0.1, colour = "black", linetype = "dashed", fill = "transparent", segments = 500)
+    p <-
+      p +
+      stat_ellipse(
+        data = .count_distinct_ind(res_gda),
+        aes(x, y),
+        geom ="polygon",
+        level = 0.8647,
+        type = "norm",
+        alpha = 0.1,
+        colour = "black",
+        linetype = "dashed",
+        fill = "transparent",
+        segments = 500
+      )
 
-    if(ind_points) p <- p + geom_point(data = .count_distinct_ind(res_gda), aes(x, y, size = count), colour = "black", alpha = 0.1, show.legend = FALSE)
+    if (ind_points) {
+      p <-
+        p +
+        geom_point(
+          data = .count_distinct_ind(res_gda),
+          aes(x, y, size = count),
+          colour = "black",
+          alpha = 0.1,
+          show.legend = FALSE
+        )
+    }
 
   }
 
@@ -70,22 +130,51 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, open_sa
 
 
   ellipse_axes <- NULL
-  for(i in seq_along(time_point_names))
-  {
-    p_calc <- ggplot() + stat_ellipse(data = coord_all %>% filter(time == time_point_names[i]), aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), segments = 500, type = "norm", level = 0.86)
+
+  for (i in seq_along(time_point_names)) {
+
+    p_calc <-
+      ggplot() +
+      stat_ellipse(
+        data = coord_all %>%
+          filter(time == time_point_names[i]),
+        aes_string(
+          paste0("Dim.", axes[1]),
+          paste0("Dim.", axes[2])
+        ),
+        segments = 500,
+        type = "norm",
+        level = 0.86
+      )
 
     # Get ellipse coords from plot
-    pb = ggplot_build(p_calc)
-    el = pb$data[[1]][c("x","y")]
+    pb <- ggplot_build(p_calc)
+    el <- pb$data[[1]][c("x","y")]
 
     # Calculate centre of ellipse
-    ctr = coord_mean %>% filter(time == time_point_names[i]) %>% select(x = paste0("Dim.", axes[1]), y = paste0("Dim.", axes[2])) %>% as.matrix %>% as.vector
+    ctr <-
+      coord_mean %>%
+      filter(time == time_point_names[i]) %>%
+      select(
+        x = paste0("Dim.", axes[1]),
+        y = paste0("Dim.", axes[2])
+      ) %>%
+      as.matrix() %>%
+      as.vector()
 
     # Calculate distance to centre from each ellipse pts
     dist2center <- sqrt(rowSums(t(t(el)-ctr)^2))
 
     # Identify axes points
-    df <- bind_cols(el, dist2center = dist2center, time = rep(time_point_names[i], length(dist2center))) %>% arrange(dist2center) %>% slice(c(1, 2, n()-1, n())) %>% mutate(dist2center = round(dist2center, 2))
+    df <-
+      bind_cols(
+        el,
+        dist2center = dist2center,
+        time = rep(time_point_names[i], length(dist2center))
+      ) %>%
+      arrange(dist2center) %>%
+      slice(c(1, 2, n()-1, n())) %>%
+      mutate(dist2center = round(dist2center, 2))
 
     # Store results
     ellipse_axes <- bind_rows(ellipse_axes, df)
@@ -95,37 +184,122 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, open_sa
 
   even_indexes <- seq(2,nrow(ellipse_axes), 2)
 
-  start_points <- ellipse_axes %>% slice(odd_indexes)
+  start_points <-
+    ellipse_axes %>%
+    slice(odd_indexes)
 
-  end_points <- ellipse_axes %>% slice(even_indexes) %>% select(xend = x, yend = y, dist2center)
+  end_points <-
+    ellipse_axes %>%
+    slice(even_indexes) %>%
+    select(xend = x, yend = y, dist2center)
 
   ellipse_axes <- full_join(start_points, end_points, by = "dist2center")
 
   # Plot Ellipse
-  p <- p + stat_ellipse(data = coord_all, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), fill = "time", colour = "time"), geom ="polygon",  type = "norm",
-                        alpha = alpha, segments = 500, level = 0.8647, linetype = "solid")
+  p <-
+    p +
+    stat_ellipse(
+      data = coord_all,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2]),
+        fill = "time",
+        colour = "time"
+      ),
+      geom ="polygon",
+      type = "norm",
+      alpha = alpha,
+      segments = 500,
+      level = 0.8647,
+      linetype = "solid"
+    )
 
-  p <- p + geom_segment(data = ellipse_axes, aes(x = x, xend = xend, y = y, yend = yend, group = dist2center, colour = time), linetype = "dashed", inherit.aes = FALSE)
+  p <-
+    p +
+    geom_segment(
+      data = ellipse_axes,
+      aes(x = x, xend = xend, y = y, yend = yend, group = dist2center, colour = time),
+      linetype = "dashed",
+      inherit.aes = FALSE
+    )
 
-  if(ind_points) p <- p + geom_point(data = coord_all, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), colour = "time", size = "mass"), show.legend = FALSE)
+  if (ind_points) {
+    p <-
+      p +
+      geom_point(
+        data = coord_all,
+        aes_string(
+          paste0("Dim.", axes[1]),
+          paste0("Dim.", axes[2]),
+          colour = "time",
+          size = "mass"
+        ),
+        show.legend = FALSE)
+  }
 
-  p <- p + geom_point(data = coord_mean_mass, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = paste0("mass", "* 1.75")), colour = "black", shape = 18, show.legend = FALSE) +
-    geom_point(data = coord_mean_mass, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = "mass", colour = "time"), shape = 18, show.legend = FALSE) +
-    geom_path(data = coord_mean_mass, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), size = 1, arrow = arrow(length = unit(0.2, "cm"), type = "closed")) +
+  p <-
+    p +
+    geom_point(
+      data = coord_mean_mass,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2]),
+        size = paste0("mass", "* 1.75")
+      ),
+      colour = "black",
+      shape = 18,
+      show.legend = FALSE
+    ) +
+    geom_point(
+      data = coord_mean_mass,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2]),
+        size = "mass",
+        colour = "time"
+      ),
+      shape = 18,
+      show.legend = FALSE
+    ) +
+    geom_path(
+      data = coord_mean_mass,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2])
+      ),
+      size = 1,
+      arrow = arrow(length = unit(0.2, "cm"), type = "closed")
+    ) +
     ggtitle(title) +
-    xlab(paste0("Achse ", axes[1], "(", round(res_gda$eig$`percentage of variance`[axes[1]], 1), "%)")) +
-    ylab(paste0("Achse ", axes[2], "(", round(res_gda$eig$`percentage of variance`[axes[2]], 1), "%)"))
+    xlab(
+      paste0("Achse ", axes[1], "(", round(res_gda$eig$`percentage of variance`[axes[1]], 1), "%)")
+      ) +
+    ylab(
+      paste0("Achse ", axes[2], "(", round(res_gda$eig$`percentage of variance`[axes[2]], 1), "%)")
+      )
 
   # Theme adaptieren
   p <- add_theme(p)
 
   # Beschreibung der Punkte
-  p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+  p <-
+    p +
+    theme(
+      legend.position = "bottom",
+      legend.title = element_blank()
+    )
 
   # Beschriftung anpassen
-  p <- .gda_plot_labels(res_gda, p, title, axes, plot_modif_rates, axis_lab_name = axis_lab_name)
+  p <- .gda_plot_labels(
+    res_gda,
+    p,
+    title,
+    axes,
+    plot_modif_rates,
+    axis_lab_name = axis_lab_name
+  )
 
   # Plotten
-  return(p)
+  p
 
 }

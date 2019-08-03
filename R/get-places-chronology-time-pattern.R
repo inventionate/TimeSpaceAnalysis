@@ -90,5 +90,5 @@ get_places_chronology_time_pattern <- function(data,
     ) %>%
     arrange(questionnaire_id, day, activity)
 
-  return(data_pc_zm)
+  data_pc_zm
 }

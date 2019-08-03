@@ -128,5 +128,5 @@ plot_time_pattern_profile <- function(data_tp,
   # Mehrere Gafiken parallel erzeugen
   p <- p + facet_wrap(~zeitmuster, ncol = ncol)
 
-  return(p)
+  p
 }

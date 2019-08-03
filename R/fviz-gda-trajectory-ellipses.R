@@ -21,13 +21,23 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes = 1:2, open_sans = TRUE, impute = TRUE,
-                                         time_point_names = NULL, ind_points = TRUE, concentration_ellipse = TRUE,
+fviz_gda_trajectory_ellipses <- function(res_gda,
+                                         df_var_quali,
+                                         var_quali,
+                                         axes = 1:2,
+                                         open_sans = TRUE,
+                                         impute = TRUE,
+                                         time_point_names = NULL,
+                                         ind_points = TRUE,
+                                         concentration_ellipse = TRUE,
                                          title = "Trajectory individuals structuring factors ellipse plot",
-                                         plot_modif_rates = TRUE, alpha = 0.15, select = NULL, axis_lab_name = "Achse") {
+                                         plot_modif_rates = TRUE,
+                                         alpha = 0.15,
+                                         select = NULL,
+                                         axis_lab_name = "Achse") {
 
   # Add Open Sans font family
-  if(open_sans) .add_fonts()
+  if (open_sans) .add_fonts()
 
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
@@ -36,62 +46,154 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
   time_point_names <- coord_trajectory$time_point_names
 
   # Datensatz für zusätzliche Variable konstruieren
-  df_quali <- df_var_quali %>% data.frame %>% tibble::rownames_to_column(var = "id") %>% select_("id", var_quali = var_quali)
-  df_base <- res_gda$call$X %>% data.frame %>% tibble::rownames_to_column() %>% separate(rowname, c("id", "time"), sep = "_", fill = "right")
-  df_full <- full_join(df_base, df_quali, by = "id") %>% mutate_all(funs(as.factor)) %>% select(-id, -time) %>% data.frame
+  # @TODO replace deprecated _ functions!
+  df_quali <-
+    df_var_quali %>%
+    data.frame() %>%
+    tibble::rownames_to_column(var = "id") %>%
+    select_("id", var_quali = var_quali)
+  df_base <-
+    res_gda$call$X %>%
+    data.frame() %>%
+    tibble::rownames_to_column() %>%
+    separate(rowname, c("id", "time"), sep = "_", fill = "right")
+  df_full <-
+    full_join(df_base, df_quali, by = "id") %>%
+    mutate_all(as.factor) %>%
+    select(-id, -time) %>%
+    data.frame()
 
   # Imputation
-  if(impute) {
+  if (impute) {
     message("Info: Missing data will be imputed!")
     df_full <- imputeMCA(df_full)$completeObs
   }
 
   # Datensatz um qualitative Variable ergänzen, um Gruppierungen vorzunehmen.
-  coord_var_quali <- bind_cols(coord_all, tibble(var_quali = df_full$var_quali)) %>%
-    select(glue("Dim.{axes[1]}"), glue("Dim.{axes[2]}"), var_quali, time) %>%
-    group_by_all %>% mutate(mass = n()) %>% ungroup()
+  coord_var_quali <-
+    bind_cols(
+      coord_all,
+      tibble(var_quali = df_full$var_quali)
+    ) %>%
+    select(
+      str_glue("Dim.{axes[1]}"),
+      str_glue("Dim.{axes[2]}"),
+      var_quali,
+      time
+    ) %>%
+    group_by_all() %>%
+    mutate(mass = n()) %>%
+    ungroup()
 
   # Behandlung von fehlenden Werten
-  if(!impute) {
+  if (!impute) {
     message("Info: Missing data will be excluded!")
     coord_var_quali <- na.omit(coord_var_quali)
   }
 
   # Mittelwerte und Gruppengewicht berechnen
-  coord_mean_var_quali <- coord_var_quali %>% select(-mass) %>% group_by(time, var_quali) %>% summarise_all(funs(mean))
-  coord_mass_var_quali <- coord_var_quali %>% count(var_quali, time) %>% rename(mass = n)
-  coord_mean_mass_var_quali <- full_join(coord_mean_var_quali, coord_mass_var_quali, by = c("time", "var_quali"))
+  coord_mean_var_quali <-
+    coord_var_quali %>%
+    select(-mass) %>%
+    group_by(time, var_quali) %>%
+    summarise_all(mean)
+  coord_mass_var_quali <-
+    coord_var_quali %>%
+    count(var_quali, time) %>%
+    rename(mass = n)
+  coord_mean_mass_var_quali <-
+    full_join(coord_mean_var_quali, coord_mass_var_quali, by = c("time", "var_quali"))
 
   # Plot der Daten
-  if(inherits(res_gda, c("MCA"))) p <- .create_plot()
-  else stop("Only MCA plots are currently supported!")
+  if (inherits(res_gda, c("MCA"))) {
+    p <- .create_plot()
+  } else {
+    stop("Only MCA plots are currently supported!")
+  }
 
   # Concentartion ellipse
-  if(concentration_ellipse) p <- p + stat_ellipse(data = .count_distinct_ind(res_gda), aes(x, y), geom ="polygon", level = 0.8647, type = "norm", alpha = 0.1, colour = "black", linetype = "dashed",
-                                                  segments = 500, fill = "transparent")
+  if (concentration_ellipse) {
+    p <-
+      p +
+      stat_ellipse(
+        data = .count_distinct_ind(res_gda),
+        aes(x, y),
+        geom ="polygon",
+        level = 0.8647,
+        type = "norm",
+        alpha = 0.1,
+        colour = "black",
+        linetype = "dashed",
+        segments = 500,
+        fill = "transparent"
+      )
+  }
 
   # Quali ellipses
   ellipse_axes <- NULL
-  for( i in seq_along(coord_mean_mass_var_quali %>% .$time) )
-  {
-    p_calc <- ggplot() + stat_ellipse(data = coord_var_quali %>% filter(var_quali == coord_mean_mass_var_quali$var_quali[i] & time == coord_mean_mass_var_quali$time[i]), aes_string(glue("Dim.{axes[1]}"), glue("Dim.{axes[2]}")), segments = 500, type = "norm", level = 0.86)
+
+  for (i in seq_along(coord_mean_mass_var_quali %>% .$time)) {
+
+    p_calc <-
+      ggplot() +
+      stat_ellipse(
+        data = coord_var_quali %>%
+          filter(
+            var_quali == coord_mean_mass_var_quali$var_quali[i] &
+              time == coord_mean_mass_var_quali$time[i]
+          ),
+        aes_string(
+          str_glue("Dim.{axes[1]}"),
+          str_glue("Dim.{axes[2]}")
+        ),
+        segments = 500,
+        type = "norm",
+        level = 0.86
+      )
 
     # Get ellipse coords from plot
-    pb = ggplot_build(p_calc)
-    el = pb$data[[1]][c("x","y")]
+    pb <-  ggplot_build(p_calc)
+    el <- pb$data[[1]][c("x","y")]
 
     # Calculate centre of ellipse
-    ctr = coord_mean_mass_var_quali %>% ungroup %>% filter(var_quali == coord_mean_mass_var_quali$var_quali[i] & time == coord_mean_mass_var_quali$time[i]) %>%
-      select(glue("Dim.{axes[1]}"), glue("Dim.{axes[2]}")) %>% as.matrix() %>% as.vector()
+    ctr <-
+      coord_mean_mass_var_quali %>%
+      ungroup() %>%
+      filter(
+        var_quali == coord_mean_mass_var_quali$var_quali[i] &
+          time == coord_mean_mass_var_quali$time[i]
+      ) %>%
+      select(
+        str_glue("Dim.{axes[1]}"),
+        str_glue("Dim.{axes[2]}")
+      ) %>%
+      as.matrix() %>%
+      as.vector()
 
     # Calculate distance to centre from each ellipse pts
     dist2center <- sqrt(rowSums(t(t(el)-ctr)^2))
 
     # Identify axes points
-    df <- bind_cols(el, dist2center = dist2center, var_quali = rep(coord_mean_mass_var_quali$var_quali[i], length(dist2center)), time = rep(coord_mean_mass_var_quali$time[i], length(dist2center))) %>% arrange(dist2center) %>% slice(c(1, 2, n()-1, n())) %>% mutate(dist2center = round(dist2center, 2))
+    df <-
+      bind_cols(
+        el,
+        dist2center = dist2center,
+        var_quali = rep(
+          coord_mean_mass_var_quali$var_quali[i],
+          length(dist2center)
+        ),
+        time = rep(
+          coord_mean_mass_var_quali$time[i],
+          length(dist2center))
+      ) %>%
+      arrange(dist2center) %>%
+      slice(c(1, 2, n()-1, n())) %>%
+      mutate(dist2center = round(dist2center, 2))
 
     # Store results
-    ellipse_axes <- bind_rows(ellipse_axes, df) %>% mutate(group = paste(dist2center, var_quali))
+    ellipse_axes <-
+      bind_rows(ellipse_axes, df) %>%
+      mutate(group = paste(dist2center, var_quali))
 
   }
 
@@ -99,50 +201,137 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
 
   even_indexes <- seq(2,nrow(ellipse_axes), 2)
 
-  start_points <- ellipse_axes %>% slice(odd_indexes)
+  start_points <-
+    ellipse_axes %>%
+    slice(odd_indexes)
 
-  end_points <- ellipse_axes %>% slice(even_indexes) %>% select(xend = x, yend = y, group)
+  end_points <-
+    ellipse_axes %>%
+    slice(even_indexes) %>%
+    select(xend = x, yend = y, group)
 
   ellipse_axes <- full_join(start_points, end_points, by = "group")
 
   # if( !is.null(relevel) ) ellipse_axes <- ellipse_axes %>% mutate(var_quali = fct_relevel(var_quali, relevel))
 
   # Filter data
-  if ( !is.null(select) )
-  {
-    coord_var_quali %<>% filter(var_quali %in% select)
+  if (!is.null(select)) {
 
-    ellipse_axes %<>% filter(var_quali %in% select)
+    coord_var_quali <-
+      coord_var_quali %>%
+      filter(var_quali %in% select)
 
-    coord_mean_mass_var_quali %<>% filter(var_quali %in% select)
+    ellipse_axes <-
+      ellipse_axes %>%
+      filter(var_quali %in% select)
 
-    p <- p + stat_ellipse(data = coord_var_quali, aes_string(glue("Dim.{axes[1]}"), glue("Dim.{axes[2]}"), colour = "time"), geom ="polygon",  type = "norm",
-                          alpha = alpha, segments = 500, level = 0.8647, linetype = "solid")
+    coord_mean_mass_var_quali<-
+      coord_mean_mass_var_quali %>%
+      filter(var_quali %in% select)
+
+    p <-
+      p +
+      stat_ellipse(
+        data = coord_var_quali,
+        aes_string(
+          str_glue("Dim.{axes[1]}"),
+          str_glue("Dim.{axes[2]}"),
+          colour = "time"
+        ),
+        geom ="polygon",
+        type = "norm",
+        alpha = alpha,
+        segments = 500,
+        level = 0.8647,
+        linetype = "solid"
+      )
   } else {
 
-    p <- p + stat_ellipse(data = coord_var_quali, aes_string(glue("Dim.{axes[1]}"), glue("Dim.{axes[2]}"), fill = "time", colour = "time"), geom ="polygon",  type = "norm",
-                          alpha = alpha, segments = 500, level = 0.8647, linetype = "solid")
+    p <-
+      p +
+      stat_ellipse(
+        data = coord_var_quali,
+        aes_string(
+          str_glue("Dim.{axes[1]}"),
+          str_glue("Dim.{axes[2]}"),
+          fill = "time",
+          colour = "time"
+        ),
+        geom ="polygon",
+        type = "norm",
+        alpha = alpha,
+        segments = 500,
+        level = 0.8647,
+        linetype = "solid"
+      )
 
   }
 
-  p <- p + geom_segment(data = ellipse_axes, aes(x = x, xend = xend, y = y, yend = yend, group = group, colour = time), linetype = "dashed", inherit.aes = FALSE)
+  p <-
+    p +
+    geom_segment(
+      data = ellipse_axes,
+      aes(x = x, xend = xend, y = y, yend = yend, group = group, colour = time),
+      linetype = "dashed",
+      inherit.aes = FALSE
+    )
 
 
-  if(ind_points) p <- p + geom_point(data = coord_var_quali, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), colour = "time", size = "mass"), show.legend = FALSE)
+  if (ind_points) {
+    p <-
+      p +
+      geom_point(
+        data = coord_var_quali,
+        aes_string(
+          paste0("Dim.", axes[1]),
+          paste0("Dim.", axes[2]),
+          colour = "time",
+          size = "mass"
+        ),
+        show.legend = FALSE
+      )
+  }
 
-  p <- p + geom_point(data = coord_mean_mass_var_quali, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = paste0("mass", "* 1.75")), colour = "black", shape = 18, show.legend = FALSE) +
-    geom_point(data = coord_mean_mass_var_quali, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), size = "mass", colour = "time"), shape = 18, show.legend = FALSE) +
-    geom_path(data = coord_mean_mass_var_quali, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2])), size = 1,
-              arrow = arrow(length = unit(0.2, "cm"), type = "closed"))
+  p <-
+    p +
+    geom_point(
+      data = coord_mean_mass_var_quali,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2]),
+        size = paste0("mass", "* 1.75")
+      ),
+      colour = "black",
+      shape = 18,
+      show.legend = FALSE
+    ) +
+    geom_point(
+      data = coord_mean_mass_var_quali,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2]),
+        size = "mass",
+        colour = "time"
+      ),
+      shape = 18,
+      show.legend = FALSE
+    ) +
+    geom_path(
+      data = coord_mean_mass_var_quali,
+      aes_string(
+        paste0("Dim.", axes[1]),
+        paste0("Dim.", axes[2])
+      ),
+      size = 1,
+      arrow = arrow(length = unit(0.2, "cm"), type = "closed")
+    )
 
-  if ( is.null(select) )
-  {
+  if (is.null(select)) {
     p <- p + facet_wrap(~var_quali)
   }
 
-  if ( length(select) == 1 & title == "Trajectory individuals structuring factors ellipse plot")
-  {
-    title <- glue("{title} classification category {select}")
+  if ( length(select) == 1 & title == "Trajectory individuals structuring factors ellipse plot") {
+    title <- str_glue("{title} classification category {select}")
   }
 
   p <- p + ggtitle(title)
@@ -151,14 +340,26 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
   p <- add_theme(p)
 
   # Beschreibung der Punkte
-  if ( length(select) > 1 | is.null(select) )
-  {
-    p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+  if (length(select) > 1 | is.null(select)) {
+    p <-
+      p +
+      theme(
+        legend.position = "bottom",
+        legend.title = element_blank()
+      )
   }
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(res_gda, p, title, axes, plot_modif_rates, axis_lab_name = axis_lab_name)
 
-  # Plotten
-  p
+  # Beschriftung anpassen
+  p <- .gda_plot_labels(
+    res_gda,
+    p,
+    title,
+    axes,
+    plot_modif_rates,
+    axis_lab_name = axis_lab_name
+  )
+
+    # Plotten
+   p
 
 }

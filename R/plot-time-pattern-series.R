@@ -85,5 +85,5 @@ plot_time_pattern_series <-
       legend.title = element_blank()
     )
 
-  return(p)
+  p
 }

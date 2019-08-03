@@ -63,12 +63,10 @@ get_time_pattern_series <- function(data_tp) {
       prop = str_glue("({round(n / sum(n) * 100, 1)} %)")
     )
 
-  return(
-    list(
-      data_series = data_series,
-      data_series_average = data_series_average,
-      data_series_profile_prop_label = data_series_profile_prop
-      )
-    )
+  list(
+    data_series = data_series,
+    data_series_average = data_series_average,
+    data_series_profile_prop_label = data_series_profile_prop
+  )
 
 }

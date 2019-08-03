@@ -13,7 +13,11 @@ NULL
 #' \item{var}{double breakdown of variance.}
 #' \item{reg}{result of linear regressions.}
 #' @export
-supvar_crossing_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, axes = 1:2) {
+supvar_crossing_stats <- function(res_gda,
+                                  var_quali_df,
+                                  var_quali,
+                                  impute = TRUE,
+                                  axes = 1:2) {
 
   # Check GDA result
   if(!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
@@ -26,30 +30,88 @@ supvar_crossing_stats <- function(res_gda, var_quali_df, var_quali, impute = TRU
   # Extract statistical values.
   var_crossed_stats <- supvar_stats(res_gda, var_quali_df, var_quali, impute)
 
-  coord <- var_crossed_stats$coord %>% data.frame %>% tibble::rownames_to_column() %>% separate(rowname, c("var1", "var2"), sep = "_")
+  coord <-
+    var_crossed_stats$coord %>%
+    data.frame() %>%
+    tibble::rownames_to_column() %>%
+    separate(rowname, c("var1", "var2"), sep = "_")
 
-  weight <- var_crossed_stats$weight %>% data.frame(weight = .) %>% tibble::rownames_to_column() %>% separate(rowname, c("var1", "var2"), sep = "_")
+  weight <-
+    var_crossed_stats$weight %>%
+    data.frame(weight = .) %>%
+    tibble::rownames_to_column() %>%
+    separate(rowname, c("var1", "var2"), sep = "_")
 
   # Separate supplementary variables.
-  var_crossed <- var_crossed_stats$supvar %>% tibble(var_crossed = .) %>% separate(var_crossed, c("var1", "var2"), "_")
+  var_crossed <-
+    var_crossed_stats$supvar %>%
+    tibble(var_crossed = .) %>%
+    separate(var_crossed, c("var1", "var2"), "_")
   var1 <- var_crossed$var1
   var2 <- var_crossed$var2
 
   # Var1 between-variance.
-  var1_var <- supvar_stats(res_gda, data.frame(var1 = var1), "var1", impute)
-  between_var1_1 <- var1_var$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[1], "$"))) %>% .$dim
-  between_var1_2 <- var1_var$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[2], "$"))) %>% .$dim
+  var1_var <- supvar_stats(
+    res_gda,
+    data.frame(var1 = var1),
+    "var1",
+    impute)
+
+  between_var1_1 <-
+    var1_var$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[1], "$"))) %>%
+    .$dim
+
+  between_var1_2 <-
+    var1_var$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[2], "$"))) %>%
+    .$dim
+
   between_var1_tot <- between_var1_1 + between_var1_2
 
   # Var2 between-variance.
-  var2_var <- supvar_stats(res_gda, data.frame(var2 = var2), "var2", impute)
-  between_var2_1 <- var2_var$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[1], "$"))) %>% .$dim
-  between_var2_2 <- var2_var$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[2], "$"))) %>% .$dim
+  var2_var <- supvar_stats(
+    res_gda,
+    data.frame(var2 = var2),
+    "var2",
+    impute
+  )
+
+  between_var2_1 <-
+    var2_var$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[1], "$"))) %>%
+    .$dim
+
+  between_var2_2 <-
+    var2_var$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[2], "$"))) %>%
+    .$dim
+
   between_var2_tot <- between_var2_1 + between_var2_2
 
   # Between-variance var1 X var2
-  between_var1_var2_1 <- var_crossed_stats$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[1], "$"))) %>% .$dim
-  between_var1_var2_2 <- var_crossed_stats$var %>% tibble::rownames_to_column() %>% filter(rowname == "between") %>% select(dim = matches(paste0("Dim.", axes[2], "$"))) %>% .$dim
+  between_var1_var2_1 <-
+    var_crossed_stats$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[1], "$"))) %>%
+    .$dim
+
+  between_var1_var2_2 <-
+    var_crossed_stats$var %>%
+    tibble::rownames_to_column() %>%
+    filter(rowname == "between") %>%
+    select(dim = matches(paste0("Dim.", axes[2], "$"))) %>%
+    .$dim
+
   between_var1_var2_tot <- between_var1_var2_1 + between_var1_var2_2
 
   # Within variance 1.
@@ -69,16 +131,30 @@ supvar_crossing_stats <- function(res_gda, var_quali_df, var_quali, impute = TRU
   var1_within_var2_tot <- var1_within_var2_1 + var1_within_var2_2
 
   # Additive cloud calculations.
-  principle_variable <- data.frame(principle_1 = res_gda$ind$coord[, axes[1]], principle_2 = res_gda$ind$coord[, axes[2]])
-  indicator_variables <- FactoMineR::tab.disjonctif(data.frame(var1, var2))
-  crossed_base_data <- data.frame(principle_variable, indicator_variables)
+  principle_variable <- data.frame(
+    principle_1 = res_gda$ind$coord[, axes[1]],
+    principle_2 = res_gda$ind$coord[, axes[2]]
+  )
+  indicator_variables <- FactoMineR::tab.disjonctif(
+    data.frame(var1, var2)
+  )
+  crossed_base_data <- data.frame(
+    principle_variable,
+    indicator_variables
+  )
 
   # Lineare Regressionen berechnen
-  formula_1 <- paste("principle_1 ~ ", paste(names(crossed_base_data)[-c(1:3, ncol(crossed_base_data))], collapse = " + "))
+  formula_1 <- paste(
+    "principle_1 ~ ",
+    paste(names(crossed_base_data)[-c(1:3, ncol(crossed_base_data))], collapse = " + ")
+  )
   lm_axis_1 <- lm(as.formula(formula_1), data = crossed_base_data)
   lm_res_1 <- summary(lm_axis_1)
 
-  formula_2 <- paste("principle_2 ~ ", paste(names(crossed_base_data)[-c(1:3, ncol(crossed_base_data))], collapse = " + "))
+  formula_2 <- paste(
+    "principle_2 ~ ",
+    paste(names(crossed_base_data)[-c(1:3, ncol(crossed_base_data))], collapse = " + ")
+  )
   lm_axis_2 <- lm(as.formula(formula_2), data = crossed_base_data)
   lm_res_2 <- summary(lm_axis_2)
 
@@ -95,14 +171,53 @@ supvar_crossing_stats <- function(res_gda, var_quali_df, var_quali, impute = TRU
 
   # Double breakdown of variance df.
 
-  dim_1 <- c(between_var1_1, var1_within_var2_1, between_var2_1, var2_within_var1_1, additive_1, interaction_1, between_var1_var2_1)
-  dim_2 <- c(between_var1_2, var1_within_var2_2, between_var2_2, var2_within_var1_2, additive_2, interaction_2, between_var1_var2_2)
-  plane_1_2 <- c(between_var1_tot, var1_within_var2_tot, between_var2_tot, var2_within_var1_tot, additive_tot, interaction_tot, between_var1_var2_tot)
+  dim_1 <- c(
+    between_var1_1,
+    var1_within_var2_1,
+    between_var2_1,
+    var2_within_var1_1,
+    additive_1,
+    interaction_1,
+    between_var1_var2_1
+  )
+  dim_2 <- c(
+    between_var1_2,
+    var1_within_var2_2,
+    between_var2_2,
+    var2_within_var1_2,
+    additive_2,
+    interaction_2,
+    between_var1_var2_2
+  )
+  plane_1_2 <- c(
+    between_var1_tot,
+    var1_within_var2_tot,
+    between_var2_tot,
+    var2_within_var1_tot,
+    additive_tot,
+    interaction_tot,
+    between_var1_var2_tot
+  )
   db_var <- rbind(dim_1, dim_2, plane_1_2)
   # Names
-  colnames(db_var) <- c("beween var1", "var1 within var2", "beween var2", "var2 within var1", "additive", "interaction", "var1 X var2")
-  rownames(db_var) <- c(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), paste0("Plane.", axes[1], ".", axes[2]))
+  colnames(db_var) <- c(
+    "beween var1",
+    "var1 within var2",
+    "beween var2",
+    "var2 within var1",
+    "additive",
+    "interaction",
+    "var1 X var2"
+  )
+  rownames(db_var) <- c(
+    paste0("Dim.", axes[1]),
+    paste0("Dim.", axes[2]),
+    paste0("Plane.", axes[1], ".", axes[2])
+  )
 
   # Export
-  list(var = db_var, reg = list(Axis.1 = lm_res_1, Axis.2 = lm_res_2))
+  list(
+    var = db_var,
+    reg = list(Axis.1 = lm_res_1, Axis.2 = lm_res_2)
+  )
 }

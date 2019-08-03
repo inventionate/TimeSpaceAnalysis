@@ -214,5 +214,5 @@ plot_time_pattern <- function(data,
         )
     }
 
-    return(p)
+    p
 }

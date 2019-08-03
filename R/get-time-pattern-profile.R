@@ -75,5 +75,5 @@ get_time_pattern_profile <- function(data_tp, id = "all")
       sep = " "
     )
 
-  return(data_series_average_prop)
+  data_series_average_prop
 }

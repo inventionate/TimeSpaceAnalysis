@@ -7,7 +7,10 @@
 #'
 #' @return optimised data frame.
 #' @export
-gda_optimise_df <- function(df_name, mod_excl = NA, prop_na_excl = 0.2, rename_na = FALSE) {
+gda_optimise_df <- function(df_name,
+                            mod_excl = NA,
+                            prop_na_excl = 0.2,
+                            rename_na = FALSE) {
 
   # Identify cases (more than 5% NA over all variables)
   df_name_na_id <- df_name %>%
@@ -24,7 +27,18 @@ gda_optimise_df <- function(df_name, mod_excl = NA, prop_na_excl = 0.2, rename_n
     as_tibble()
 
   # FactoMineR compatibility (rename missing values)
-  if( rename_na ) for (j in 1:ncol(df_name)) df_name[,j] <- as.factor(replace(as.character(df_name[,j]),is.na(df_name[,j]),paste(attributes(df_name)$names[j],"Fehlender Wert",sep="_")))
+  if (rename_na) {
+    for (j in 1:ncol(df_name)) {
+      df_name[,j] <-
+        as.factor(
+          replace(
+            as.character(df_name[,j]),
+            is.na(df_name[,j]),
+            paste(attributes(df_name)$names[j], "Fehlender Wert", sep="_")
+          )
+        )
+    }
+  }
 
-  return(df_name)
+  df_name
 }
