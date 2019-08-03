@@ -39,6 +39,10 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
   coord_all = coord_trajectory$coord_all
@@ -51,7 +55,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     df_var_quali %>%
     data.frame() %>%
     tibble::rownames_to_column(var = "id") %>%
-    select_("id", var_quali = var_quali)
+    select(id, var_quali = !! var_quali)
   df_base <-
     res_gda$call$X %>%
     data.frame() %>%
@@ -142,9 +146,9 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
             var_quali == coord_mean_mass_var_quali$var_quali[i] &
               time == coord_mean_mass_var_quali$time[i]
           ),
-        aes_string(
-          str_glue("Dim.{axes[1]}"),
-          str_glue("Dim.{axes[2]}")
+        aes(
+          !! axis_1,
+          !! axis_2
         ),
         segments = 500,
         type = "norm",
@@ -233,10 +237,10 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       p +
       stat_ellipse(
         data = coord_var_quali,
-        aes_string(
-          str_glue("Dim.{axes[1]}"),
-          str_glue("Dim.{axes[2]}"),
-          colour = "time"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          colour = time
         ),
         geom ="polygon",
         type = "norm",
@@ -251,11 +255,11 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       p +
       stat_ellipse(
         data = coord_var_quali,
-        aes_string(
-          str_glue("Dim.{axes[1]}"),
-          str_glue("Dim.{axes[2]}"),
-          fill = "time",
-          colour = "time"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          fill = time,
+          colour = time
         ),
         geom ="polygon",
         type = "norm",
@@ -282,11 +286,11 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       p +
       geom_point(
         data = coord_var_quali,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          colour = "time",
-          size = "mass"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          colour = time,
+          size = mass
         ),
         show.legend = FALSE
       )
@@ -296,10 +300,11 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     p +
     geom_point(
       data = coord_mean_mass_var_quali,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        size = paste0("mass", "* 1.75")
+      # @CHECK is multiply works.
+      aes(
+        !! axis_1,
+        !! axis_2,
+        size = mass * 1.75
       ),
       colour = "black",
       shape = 18,
@@ -307,20 +312,20 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     ) +
     geom_point(
       data = coord_mean_mass_var_quali,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        size = "mass",
-        colour = "time"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        size = mass,
+        colour = time
       ),
       shape = 18,
       show.legend = FALSE
     ) +
     geom_path(
       data = coord_mean_mass_var_quali,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2])
+      aes(
+        !! axis_1,
+        !! axis_2
       ),
       size = 1,
       arrow = arrow(length = unit(0.2, "cm"), type = "closed")

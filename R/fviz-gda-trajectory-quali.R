@@ -35,6 +35,10 @@ fviz_gda_trajectory_quali <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
   coord_all = coord_trajectory$coord_all
@@ -45,7 +49,7 @@ fviz_gda_trajectory_quali <- function(res_gda,
     df_var_quali %>%
     data.frame() %>%
     tibble::rownames_to_column(var = "id") %>%
-    select_("id", var_quali = var_quali)
+    select(id, var_quali = !! var_quali)
   df_base <-
     res_gda$call$X %>%
     data.frame() %>%
@@ -92,28 +96,28 @@ fviz_gda_trajectory_quali <- function(res_gda,
     scale_colour_brewer(palette = "YlGnBu", direction = -1) +
     geom_point(
       data = coord_ind_timeseries,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2])
+      aes(
+        !! axis_1,
+        !! axis_2
       ),
       colour = "black",
       size = 4
     ) +
     geom_point(
       data = coord_ind_timeseries,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        colour = "time"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        colour = time
       ),
     size = 2.5
     ) +
     geom_path(
       data = coord_ind_timeseries,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        group = "id"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        group = id
       ),
       size = 1,
       arrow = arrow(length = unit(0.3, "cm"), type = "closed")
@@ -128,11 +132,11 @@ fviz_gda_trajectory_quali <- function(res_gda,
         data = coord_ind_timeseries %>%
           filter(time == time_point_names[1]),
         show.legend = FALSE,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          colour = "time",
-          label = "id"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          colour = time,
+          label = id
         )
       )
   }

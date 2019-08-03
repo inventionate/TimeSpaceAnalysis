@@ -38,6 +38,10 @@ fviz_gda_structure <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Berechnung der passiven Variable durchführen
   res_quali <- supvar_stats(res_gda, df_var_quali, var_quali, impute)
 
@@ -125,11 +129,11 @@ fviz_gda_structure <- function(res_gda,
     ) %>%
     tibble::rownames_to_column() %>%
     # @TODO replace deprecated SE versions of main verb select!
-    select_(
-      "rowname",
-      paste0("Dim.", axes[1]),
-      paste0("Dim.", axes[2]),
-      "weight"
+    select(
+      rowname,
+      !! axis_1,
+      !! axis_2,
+      weight
     ) %>%
     separate(
       rowname,
@@ -191,10 +195,10 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_real ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2]),
-            size = "weight"
+          aes(
+            !! axis_1,
+            !! axis_2,
+            size = weight
           ),
           shape = 18,
           inherit.aes = FALSE,
@@ -205,9 +209,9 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_real ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2])
+          aes(
+            !! axis_1,
+            !! axis_2
           ),
           size = 4,
           shape = 18,
@@ -221,20 +225,20 @@ fviz_gda_structure <- function(res_gda,
       p +
       geom_path(
         data = df_real,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_1"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_1
         ),
         alpha = 0.5)
     p <-
       p +
       geom_path(
         data = df_real,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_2"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_2
         ),
         alpha = 0.5
       )
@@ -246,10 +250,10 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_fitted ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2]),
-            size = "weight"
+          aes(
+            !! axis_1,
+            !! axis_2,
+            size = weight
           ),
           shape = 18,
           inherit.aes =
@@ -260,9 +264,9 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_fitted ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2])
+          aes(
+            !! axis_1,
+            !! axis_2
           ),
           size = 4,
           shape = 18,
@@ -276,10 +280,10 @@ fviz_gda_structure <- function(res_gda,
       p +
       geom_path(
         data = df_fitted,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_1"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_1
         ),
         alpha = 0.5,
         linetype = "dashed"
@@ -288,27 +292,27 @@ fviz_gda_structure <- function(res_gda,
       p +
       geom_path(
         data = df_fitted,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_2"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_2
         ),
         alpha = 0.5,
         linetype = "dashed"
       )
 
     # Punkte beschriften
-    # p <- p + ggrepel::geom_text_repel(data = df_ges, aes_string(paste0("Dim.", axes[1]), paste0("Dim.", axes[2]), label = "rowname"), size = 4, inherit.aes = FALSE, family = "Myriad Pro")
+    # p <- p + ggrepel::geom_text_repel(data = df_ges, aes(!! axis_1, !! axis_1, label = rowname), size = 4, inherit.aes = FALSE, family = "Myriad Pro")
 
     # Deviation vectors (Pfeilrichtung: von der fitted zu real)
     p <-
       p +
       geom_path(
         data = df_ges,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "rowname"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = rowname
         ),
         colour = "red",
         arrow = arrow(length = unit(0.3, "cm")),
@@ -322,10 +326,10 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_ges ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2]),
-            size = "weight"
+          aes(
+            !! axis_1,
+            !! axis_2,
+            size = weight
           ),
           shape = 18,
           inherit.aes = FALSE
@@ -335,9 +339,9 @@ fviz_gda_structure <- function(res_gda,
         p +
         geom_point(
           data = df_ges ,
-          aes_string(
-            paste0("Dim.", axes[1]),
-            paste0("Dim.", axes[2])
+          aes(
+            !! axis_1,
+            !! axis_2
           ),
           size = 4,
           shape = 18,
@@ -350,10 +354,10 @@ fviz_gda_structure <- function(res_gda,
       p +
       ggrepel::geom_text_repel(
         data = df_ges,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          label = "rowname"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          label = rowname
         ),
         size = 4,
         inherit.aes = FALSE,
@@ -363,19 +367,20 @@ fviz_gda_structure <- function(res_gda,
       p +
       geom_path(
         data = df_ges,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_1")
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_1
+        )
       )
     p <-
       p +
       geom_path(
         data = df_ges,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          group = "var_2"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          group = var_2
         ),
         linetype = "dashed"
       )

@@ -73,7 +73,8 @@ plot_barplot <- function(dfname,
   }
 
   p <-
-    ggplot(data_freq, aes_string("var", freq)) +
+    # @CHECK is freq works.
+    ggplot(data_freq, aes(var, !! freq)) +
     geom_bar(stat="identity") +
     xlab(xlab) +
     ylab(ylab) +

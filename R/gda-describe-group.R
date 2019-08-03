@@ -59,8 +59,8 @@ gda_describe_group <- function(res_gda,
 
   # Gruppe der Variable
   group_var <-
-    tibble(list(var = rownames(res_gda$var$eta2))) %>%
-    mutate_all(funs( sub("\\.", "_", .) )) %>%
+    tibble(var = rownames(res_gda$var$eta2)) %>%
+    mutate_all(~ sub("\\.", "_", .)) %>%
     add_column(group = rep(group_names, group)) %>%
     mutate_all(as.factor)
 

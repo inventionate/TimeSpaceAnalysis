@@ -32,6 +32,10 @@ fviz_gda_trajectory_sample <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Trajektoriedaten zusammenstellen
   coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
   coord_all <-  coord_trajectory$coord_all
@@ -74,15 +78,15 @@ fviz_gda_trajectory_sample <- function(res_gda,
   # @TODO replace deprecated _ functions with new ones!
   coord_all <-
     coord_all %>%
-    select_(
-      paste0("Dim.", axes[1]),
-      paste0("Dim.", axes[2]),
-      "time"
+    select(
+      !! axis_1,
+      !! axis_2,
+      time
     ) %>%
-    group_by_(
-      paste0("Dim.", axes[1]),
-      paste0("Dim.", axes[2]),
-      "time"
+    group_by(
+      !! axis_1,
+      !! axis_2,
+      time
     ) %>%
     mutate(mass = n()) %>%
     ungroup()
@@ -138,9 +142,9 @@ fviz_gda_trajectory_sample <- function(res_gda,
       stat_ellipse(
         data = coord_all %>%
           filter(time == time_point_names[i]),
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2])
+        aes(
+          !! axis_1,
+          !! axis_2
         ),
         segments = 500,
         type = "norm",
@@ -200,11 +204,11 @@ fviz_gda_trajectory_sample <- function(res_gda,
     p +
     stat_ellipse(
       data = coord_all,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        fill = "time",
-        colour = "time"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        fill = time,
+        colour = time
       ),
       geom ="polygon",
       type = "norm",
@@ -228,11 +232,11 @@ fviz_gda_trajectory_sample <- function(res_gda,
       p +
       geom_point(
         data = coord_all,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          colour = "time",
-          size = "mass"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          colour = time,
+          size = mass
         ),
         show.legend = FALSE)
   }
@@ -241,10 +245,11 @@ fviz_gda_trajectory_sample <- function(res_gda,
     p +
     geom_point(
       data = coord_mean_mass,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        size = paste0("mass", "* 1.75")
+      aes(
+        !! axis_1,
+        !! axis_2,
+        # @CHECK is mass multiply works.
+        size = mass * 1.75
       ),
       colour = "black",
       shape = 18,
@@ -252,20 +257,20 @@ fviz_gda_trajectory_sample <- function(res_gda,
     ) +
     geom_point(
       data = coord_mean_mass,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        size = "mass",
-        colour = "time"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        size = mass,
+        colour = time
       ),
       shape = 18,
       show.legend = FALSE
     ) +
     geom_path(
       data = coord_mean_mass,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2])
+      aes(
+        !! axis_1,
+        !! axis_2
       ),
       size = 1,
       arrow = arrow(length = unit(0.2, "cm"), type = "closed")

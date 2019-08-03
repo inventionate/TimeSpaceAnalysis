@@ -44,6 +44,10 @@ fviz_gda_var <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Eigenwerte extrahieren
   eigenvalues <- .get_eigenvalues(res_gda)
 
@@ -78,14 +82,13 @@ fviz_gda_var <- function(res_gda,
       data.frame()
   } else {
 
-    # @TODO replace funs call!
     modalities <-
       df %>%
       data.frame() %>%
       select(matches(str_glue("^Dim.{axes[1]}|{axes[2]}$"))) %>%
       tibble::rownames_to_column(var = "category") %>%
-      mutate_at(vars(matches("Dim")), funs(. * eigenvalues$.)) %>%
-      mutate(ctr = !!parse_quosure(str_glue("Dim.{axes[1]} + Dim.{axes[2]}"))) %>%
+      mutate_at(vars(matches("Dim")), function(x) {x * eigenvalues$.}) %>%
+      mutate(ctr = !!parse_quo(str_glue("Dim.{axes[1]} + Dim.{axes[2]}"))) %>%
       arrange(desc(ctr)) %>%
       slice(1:contrib) %>%
       select(category) %>%
@@ -178,9 +181,9 @@ fviz_gda_var <- function(res_gda,
           p +
           ggrepel::geom_label_repel(
             data = .count_distinct_ind(res_gda, axes),
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
+            aes(
+              !! axis_1,
+              !! axis_2,
               label = rownames(.count_distinct_ind(res_gda, axes))
             ),
             colour = "black",
@@ -194,12 +197,12 @@ fviz_gda_var <- function(res_gda,
           p +
           geom_point(
             data = modalities_coord,
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
-              colour = "group",
-              shape = "group",
-              size = "weight"
+            aes(
+              !! axis_1,
+              !! axis_2,
+              colour = group,
+              shape = group,
+              size = weight
             )
           )
       }
@@ -209,11 +212,11 @@ fviz_gda_var <- function(res_gda,
           p +
           geom_point(
             data = modalities_coord,
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
-              colour = "group",
-              size = "weight"
+            aes(
+              !! axis_1,
+              !! axis_2,
+              colour = group,
+              size = weight
             ),
             shape = 17
           )
@@ -224,11 +227,11 @@ fviz_gda_var <- function(res_gda,
           p +
           geom_point(
             data = modalities_coord,
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
-              shape = "group",
-              size = "weight"
+            aes(
+              !! axis_1,
+              !! axis_2,
+              shape = group,
+              size = weight
             ),
           colour = "black"
         )
@@ -239,10 +242,10 @@ fviz_gda_var <- function(res_gda,
           p +
           ggrepel::geom_text_repel(
             data = modalities_coord,
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
-              colour = "group",
+            aes(
+              !! axis_1,
+              !! axis_2,
+              colour = group,
               label = factor(modalities_coord$rowname)
             ),
             size = textsize,
@@ -255,9 +258,9 @@ fviz_gda_var <- function(res_gda,
           p +
           ggrepel::geom_text_repel(
             data = modalities_coord,
-            aes_string(
-              paste0("Dim.", axes[1]),
-              paste0("Dim.", axes[2]),
+            aes(
+              !! axis_1,
+              !! axis_2,
               label = factor(modalities_coord$rowname)
             ),
             size = textsize,

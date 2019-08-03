@@ -46,6 +46,10 @@ fviz_gda_interaction <- function(res_gda,
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # Berechnung passive Variable durchführen
   res_quali <- supvar_stats(res_gda, df_var_quali, var_quali, impute)
 
@@ -98,10 +102,10 @@ fviz_gda_interaction <- function(res_gda,
       p +
       geom_point(
         data = df_coord ,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2]),
-          size = "weight"
+        aes(
+          !! axis_1,
+          !! axis_2,
+          size = weight
         ),
         shape = 18,
         alpha = mean_alpha,
@@ -112,9 +116,9 @@ fviz_gda_interaction <- function(res_gda,
       p +
       geom_point(
         data = df_coord ,
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2])
+        aes(
+          !! axis_1,
+          !! axis_2
         ),
         size = 4,
         shape = 18,
@@ -128,10 +132,10 @@ fviz_gda_interaction <- function(res_gda,
     p +
     ggrepel::geom_text_repel(
       data = df_coord,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        label = "rowname"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        label = rowname
       ),
       size = 4,
       alpha = mean_alpha,
@@ -144,10 +148,10 @@ fviz_gda_interaction <- function(res_gda,
     p +
     geom_path(
       data = df_coord,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2]),
-        group = "category"
+      aes(
+        !! axis_1,
+        !! axis_2,
+        group = category
       ),
       arrow = arrow(length = unit(0.3, "cm")),
       linetype = path_linetype,

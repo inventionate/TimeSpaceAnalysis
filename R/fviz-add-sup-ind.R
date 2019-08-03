@@ -32,6 +32,10 @@ fviz_add_sup_ind <- function(res_gda,
   colnames(sup_ind) <- colnames(res_gda$call$X)
   res_gda_added <- rbind(res_gda$call$X, sup_ind)
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   # MFA mit passiven Individuen berechnen
   res_sup_ind <-
     MCA(
@@ -74,9 +78,9 @@ fviz_add_sup_ind <- function(res_gda,
       p +
       geom_point(
         data = data.frame(res_gda$ind$coord),
-        aes_string(
-          paste0("Dim.", axes[1]),
-          paste0("Dim.", axes[2])
+        aes(
+          !! axis_1,
+          !! axis_2
         ),
         inherit.aes = FALSE,
         alpha = 0.2
@@ -87,9 +91,9 @@ fviz_add_sup_ind <- function(res_gda,
     p +
     geom_label(
       data = res_sup_ind_coord,
-      aes_string(
-        paste0("Dim.", axes[1]),
-        paste0("Dim.", axes[2])
+      aes(
+        !! axis_1,
+        !! axis_2
       ),
       inherit.aes = FALSE,
       size = size,

@@ -66,7 +66,9 @@
 # Calculate crossed within variance
 .crossed_within_variance <- function(var, weight, coord) {#, eigenvalues) {
   # Varianzen berechnen
-  variances <- join(weight, coord, by = c("var1", "var2")) %>% group_by_(`var`) %>%
+  variances <-
+    join(weight, coord, by = c("var1", "var2")) %>%
+    group_by(!! var) %>%
     mutate(total_weight = sum(weight),
            relative_weight = weight/total_weight) %>%
     mutate_at(vars(matches("Dim")), funs(weighted.mean(., weight) - .)) %>%
@@ -74,7 +76,10 @@
     #mutate_each(funs(. * eigenvalues$.), matches("Dim"))
 
   # Gesamte Anzahl an Personen
-  weight_total <- weight %>% group_by_(`var`) %>% summarise(weight_total = sum(weight))
+  weight_total <-
+    weight %>%
+    group_by(!! var) %>%
+    summarise(weight_total = sum(weight))
 
   # Age within gender variance
   within_variance <-

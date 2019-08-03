@@ -22,11 +22,15 @@ add_path <- function(res_gda_quali,
                      colour = "black",
                      size = 1) {
 
+  # Evaluate axes
+  axis_1 <- sym(paste0("Dim.", axes[1]))
+  axis_2 <- sym(paste0("Dim.", axes[2]))
+
   geom_path(
     data = get_path_coord(res_gda_quali, var, var_levels, exclude),
-    aes_string(
-      paste0("Dim.",axes[1]),
-      paste0("Dim.",axes[2])
+    aes(
+      !! axis_1,
+      !! axis_2
     ),
     linetype = linetype,
     colour = colour,
