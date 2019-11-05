@@ -15,6 +15,7 @@ NULL
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param alpha ellipse fill alpha.
 #' @param axis_lab_name name of axis label.
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -27,7 +28,8 @@ fviz_gda_trajectory_sample <- function(res_gda,
                                        title = "Trajectory plot to compare samples",
                                        plot_modif_rates = TRUE,
                                        alpha = 0.15,
-                                       axis_lab_name = "Achse") {
+                                       axis_lab_name = "Achse",
+                                       labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -97,6 +99,8 @@ fviz_gda_trajectory_sample <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, labels)
 
   # Concentartion ellipse
   if (concentration_ellipse) {

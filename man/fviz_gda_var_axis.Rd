@@ -11,7 +11,7 @@ fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto",
   individuals_size = "auto", individuals_alpha = 0.5,
   individuals_names = FALSE, open_sans = TRUE,
   plot_modif_rates = TRUE, axis_lab_name = "Achse",
-  group_lab_name = "Themengruppen")
+  group_lab_name = "Themengruppen", labels = NULL)
 }
 \arguments{
 \item{res_gda}{GDA result data frame.}
@@ -49,6 +49,8 @@ fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto",
 \item{axis_lab_name}{name of axis label.}
 
 \item{group_lab_name}{name of variable groups.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 ggplot2 visualization containing selected modalities.

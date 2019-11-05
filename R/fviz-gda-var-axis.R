@@ -22,6 +22,7 @@ NULL
 #' @param individuals_names plot individual names (boolean).
 #' @param axis_lab_name name of axis label.
 #' @param group_lab_name name of variable groups.
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
@@ -42,7 +43,8 @@ fviz_gda_var_axis <- function(res_gda,
                               open_sans = TRUE,
                               plot_modif_rates = TRUE,
                               axis_lab_name = "Achse",
-                              group_lab_name = "Themengruppen") {
+                              group_lab_name = "Themengruppen",
+                              labels = NULL) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -138,6 +140,8 @@ fviz_gda_var_axis <- function(res_gda,
           colour = "gray70",
           linetype = "solid"
         )
+
+      p <- .annotate_axes(p, labels)
 
       # Evaluate axes
       axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -275,6 +279,8 @@ fviz_gda_var_axis <- function(res_gda,
           colour = "gray70",
           linetype = "solid"
         )
+
+      p <- .annotate_axes(p, labels)
     }
   }
 

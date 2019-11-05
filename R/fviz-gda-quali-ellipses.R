@@ -26,9 +26,12 @@ NULL
 #' @param alpha_ellipses concentration ellipses fill alpha.
 #' @param plot_eta2 plot eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
-#' @param show_prop show prop label as mean point (boolean).
+#' @param label_mean_points show labels (boolean).
+#' @param highlight show facets with highlighted group (boolean).
+#' @param profiles optional add specific profiles (tibble).
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
-#' @return ggplo2 visualization with concentration and quali var ellipses.
+#' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
 fviz_gda_quali_ellipses <- function(res_gda,
                                     df_var_quali,
@@ -54,7 +57,10 @@ fviz_gda_quali_ellipses <- function(res_gda,
                                     alpha_ellipses = 0.15,
                                     plot_eta2 = TRUE,
                                     axis_lab_name = "Achse",
-                                    show_prop = FALSE) {
+                                    label_mean_points = TRUE,
+                                    highlight = FALSE,
+                                    profiles = NULL,
+                                    labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -200,6 +206,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, labels)
 
   # ALlgemeine Konzentrationsellipse hinzufügen (level = 86,47% nach Le Roux/Rouanet 2010: 69, da es sich um eine 2-dimesnionale Konzentrationsellipse handelt)
   p <-
@@ -355,6 +363,16 @@ fviz_gda_quali_ellipses <- function(res_gda,
     }
   }
 
+  if (!facet & label_mean_points) {
+    p <-
+      p +
+      ggforce::geom_mark_circle(
+        data = coord_mean_quali,
+        aes(x, y, fill = colour, size = size, label = prop),
+        expand = unit(0.1, "mm")
+      )
+  }
+
   if (scale_mean_points) {
     p <-
       p +
@@ -365,6 +383,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
         shape = 23,
         inherit.aes = FALSE
       )
+
   } else {
     p <-
       p +
@@ -378,17 +397,6 @@ fviz_gda_quali_ellipses <- function(res_gda,
       )
   }
 
-  if (show_prop) {
-    p <-
-      p +
-      geom_label(
-        data = coord_mean_quali,
-        aes(x = x, y = y, fill = colour, size = size, label = prop),
-        colour = "black",
-        inherit.aes = FALSE
-      )
-  }
-
   if (palette != FALSE) {
     p <-
       p +
@@ -396,10 +404,35 @@ fviz_gda_quali_ellipses <- function(res_gda,
       scale_fill_brewer(palette = palette)
   }
 
-  if (facet) {
+  if (!is_null(profiles)) {
+    profiles <-
+      profiles %>% rename(var_quali = cluster)
+
     p <-
       p +
-      facet_wrap(~var_quali, ncol = ncol)
+      geom_label_repel(data = profiles,
+                       inherit.aes = FALSE,
+                       aes(x = Dim.1, y = Dim.2, label = name, colour = var_quali),
+                       family = "Fira Sans",
+                       size = 5,
+                       alpha = 1,
+                       segment.colour = "black",
+                       segment.size = 1.5)
+  }
+
+  if (facet) {
+
+    group_labels <-
+      coord_mean_quali %>%
+      select(var_quali, prop) %>%
+      deframe()
+
+    p <-
+      p +
+      facet_wrap(~var_quali,
+                 ncol = ncol,
+                 labeller = as_labeller(group_labels)
+                 )
   }
 
   p <- add_theme(p) + ggtitle(title)
@@ -414,6 +447,12 @@ fviz_gda_quali_ellipses <- function(res_gda,
     supvar_eta2,
     axis_lab_name = axis_lab_name
   )
+
+  if (facet & highlight) {
+    p <-
+      p +
+      gghighlight(use_direct_label = FALSE)
+  }
 
   # Plotten
   p

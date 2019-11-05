@@ -14,6 +14,7 @@ NULL
 #' @param time_point_names vector containing the name of the time points.
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param axes_labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return trajectory ggplot2 visualization.
 #' @export
@@ -25,7 +26,8 @@ fviz_gda_trajectory <- function(res_gda,
                                 open_sans = TRUE,
                                 time_point_names = NULL,
                                 plot_modif_rates = TRUE,
-                                axis_lab_name = "Achse") {
+                                axis_lab_name = "Achse",
+                                axes_labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -53,6 +55,8 @@ fviz_gda_trajectory <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, axeslabels)
 
   p <-
     p +

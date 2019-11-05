@@ -8,7 +8,7 @@ fviz_gda_conc_ellipse(res_gda, level = 0.8647, alpha = 0.1,
   colour = "black", linetype = "dashed", density = FALSE,
   fill = "gray", axes = 1:2, open_sans = TRUE, scale_size = 1,
   title = "GDA individuals plot", plot_modif_rates = TRUE,
-  axis_lab_name = "Achse")
+  axis_lab_name = "Achse", labels = NULL)
 }
 \arguments{
 \item{res_gda}{GDA result.}
@@ -36,6 +36,8 @@ fviz_gda_conc_ellipse(res_gda, level = 0.8647, alpha = 0.1,
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 ggplot2 GDA visualisation with concentration ellipse.

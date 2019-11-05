@@ -10,7 +10,7 @@ fviz_gda_interaction(res_gda, df_var_quali, var_quali,
   scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
   path_alpha = 1, open_sans = TRUE, impute = TRUE,
   variable = "both", plot_modif_rates = TRUE,
-  axis_lab_name = "Achse")
+  axis_lab_name = "Achse", labels = NULL)
 }
 \arguments{
 \item{res_gda}{MCA result.}
@@ -46,6 +46,8 @@ fviz_gda_interaction(res_gda, df_var_quali, var_quali,
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 ggplot2 interaction cloud visualizsation.

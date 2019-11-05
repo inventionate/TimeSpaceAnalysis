@@ -1,8 +1,8 @@
 Package: TimeSpaceAnalysis
 Type: Package
 Title: Statistical tools for time-space analysis
-Version: 1.2.0
-Date: 2019-08-03
+Version: 1.3.0
+Date: 2019-11-04
 Author: Fabian Mundt
 Maintainer: Fabian Mundt <f.mundt@inventionate.de>
 Encoding: UTF-8
@@ -20,6 +20,7 @@ Depends:
     Hmisc,
     ggrepel,
     ggforce,
+    gghighlight,
     cowplot,
     ggthemes,
     ggmap,
@@ -47,9 +48,6 @@ Collate:
     'get-path-coord.R'
     'add-path.R'
     'add-theme.R'
-    'db-load.R'
-    'db-save.R'
-    'designate-axes.R'
     'get-index-mod.R'
     'excl-mfa-group.R'
     'extract-legend.R'

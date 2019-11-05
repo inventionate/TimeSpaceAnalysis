@@ -6,12 +6,14 @@
 #' @return ggplot2 geoms.
 #' @export
 add_theme <- function(plot, font_family = "Fira Sans") {
+  sysfonts::font_add("Fira Sans", "FiraSans-Regular.otf")
+
   plot +
     coord_fixed() +
     theme_minimal() +
     theme(text = element_text(family = font_family),
           title = element_text(size = 14),
-          strip.text = element_text(size = 13),
+          strip.text = element_text(size = 13, face = "bold"),
           axis.text = element_text(size = 9),
           axis.title = element_text(size = 12),
           axis.ticks = element_line(size = 0.5, colour = "gray70"),

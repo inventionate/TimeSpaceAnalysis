@@ -16,6 +16,7 @@ NULL
 #' @param open_sans use Open Sans font (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization of additive cloud.
 #' @export
@@ -30,7 +31,8 @@ fviz_gda_structure <- function(res_gda,
                                open_sans = TRUE,
                                cloud = "both",
                                plot_modif_rates = TRUE,
-                               axis_lab_name = "Achse") {
+                               axis_lab_name = "Achse",
+                               labels = NULL) {
 
   # Check GDA result
   if (!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
@@ -181,6 +183,8 @@ fviz_gda_structure <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, labels)
 
   # Skalierungsdimension festlegen
   p <- p + scale_size_continuous(range = c(1, 7))

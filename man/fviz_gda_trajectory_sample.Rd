@@ -8,7 +8,8 @@ fviz_gda_trajectory_sample(res_gda, time_point_names = NULL,
   open_sans = TRUE, axes = 1:2, ind_points = TRUE,
   concentration_ellipse = TRUE, complete = TRUE,
   title = "Trajectory plot to compare samples",
-  plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse")
+  plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse",
+  labels = NULL)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}
@@ -32,6 +33,8 @@ fviz_gda_trajectory_sample(res_gda, time_point_names = NULL,
 \item{alpha}{ellipse fill alpha.}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 ggplot2 visualization.

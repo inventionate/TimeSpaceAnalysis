@@ -7,7 +7,8 @@
 fviz_gda_structure(res_gda, df_var_quali, var_quali,
   title = "MCA quali structure effects", scale_mean_points = TRUE,
   axes = 1:2, palette = "Set1", impute = TRUE, open_sans = TRUE,
-  cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse")
+  cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse",
+  labels = NULL)
 }
 \arguments{
 \item{res_gda}{MCA result.}
@@ -33,6 +34,8 @@ fviz_gda_structure(res_gda, df_var_quali, var_quali,
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 ggplot2 visualization of additive cloud.

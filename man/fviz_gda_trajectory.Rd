@@ -8,7 +8,7 @@ fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
   NULL, case = NULL), title = "Trajectory individuals plot",
   axes = 1:2, labels = FALSE, open_sans = TRUE,
   time_point_names = NULL, plot_modif_rates = TRUE,
-  axis_lab_name = "Achse")
+  axis_lab_name = "Achse", axes_labels = NULL)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}
@@ -28,6 +28,8 @@ fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{axes_labels}{label axes (vector of length 4; left, right, top, bottom).}
 
 \item{labels}{plot labels (boolean).}
 }

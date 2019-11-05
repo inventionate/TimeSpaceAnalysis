@@ -12,7 +12,9 @@ fviz_gda_quali_ellipses(res_gda, df_var_quali, var_quali,
   confidence_ellipses = FALSE, conf_colour = FALSE,
   plot_modif_rates = TRUE, ncol = 3, individuals = TRUE,
   impute_ncp = 2, relevel = NULL, alpha_ellipses = 0.15,
-  plot_eta2 = TRUE, axis_lab_name = "Achse", show_prop = FALSE)
+  plot_eta2 = TRUE, axis_lab_name = "Achse",
+  label_mean_points = TRUE, highlight = FALSE, profiles = NULL,
+  labels = NULL)
 }
 \arguments{
 \item{res_gda}{GDA (MCA, MFA) result (rownames have to be individual questionnaire IDs).}
@@ -63,10 +65,16 @@ fviz_gda_quali_ellipses(res_gda, df_var_quali, var_quali,
 
 \item{axis_lab_name}{name of axis label.}
 
-\item{show_prop}{show prop label as mean point (boolean).}
+\item{label_mean_points}{show labels (boolean).}
+
+\item{highlight}{show facets with highlighted group (boolean).}
+
+\item{profiles}{optional add specific profiles (tibble).}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
-ggplo2 visualization with concentration and quali var ellipses.
+ggplot2 visualization with concentration and quali var ellipses.
 }
 \description{
 Title

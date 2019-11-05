@@ -15,6 +15,7 @@ NULL
 #' @param density show density contours (boolean).
 #' @param fill ellipse fill colour.
 #' @param axis_lab_name name of axis label.
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
@@ -30,7 +31,8 @@ fviz_gda_conc_ellipse <- function(res_gda,
                                   scale_size = 1,
                                   title = "GDA individuals plot",
                                   plot_modif_rates = TRUE,
-                                  axis_lab_name = "Achse") {
+                                  axis_lab_name = "Achse",
+                                  labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -40,6 +42,8 @@ fviz_gda_conc_ellipse <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, labels)
 
   p <-
     p +

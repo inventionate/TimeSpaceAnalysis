@@ -16,6 +16,7 @@ NULL
 #' @param impute use imputation for missing data.
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param axes_labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -30,7 +31,8 @@ fviz_gda_trajectory_quali <- function(res_gda,
                                       select = list(name = NULL, within_inertia = NULL, case = NULL),
                                       impute = TRUE,
                                       plot_modif_rates = TRUE,
-                                      axis_lab_name = "Achse") {
+                                      axis_lab_name = "Achse",
+                                      axes_labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -90,6 +92,8 @@ fviz_gda_trajectory_quali <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, axes_labels)
 
   p <-
     p +

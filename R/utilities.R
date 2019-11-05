@@ -300,3 +300,81 @@
 
   p <- ggplot_gda + labs(title = title, x = xlab, y = ylab)
 }
+# Achsen beschriften
+.annotate_axes <- function(plot, labels = NULL) {
+
+  if (is_null(labels)) return(plot)
+
+    if (labels[1] != "") {
+      plot <-
+        plot +
+        annotate("label",
+                 x = -Inf,
+                 y = 0,
+                 hjust = 0,
+                 size = 5,
+                 label.padding = unit(0.4, "lines"),
+                 label.r = unit(0, "lines"),
+                 label.size = 0,
+                 colour = "white",
+                 fill = "gray70",
+                 label = labels[1],
+                 family = "Fira Sans",
+                 fontface = "bold")
+    }
+    if (labels[2] != "") {
+      plot <-
+        plot +
+        annotate("label",
+                 x = Inf,
+                 y = 0,
+                 hjust = 1,
+                 size = 5,
+                 label.padding = unit(0.4, "lines"),
+                 label.r = unit(0, "lines"),
+                 label.size = 0,
+                 colour = "white",
+                 fill = "gray70",
+                 label = labels[2],
+                 family = "Fira Sans",
+                 fontface = "bold")
+    }
+    if (labels[3] != "") {
+      plot <-
+        plot +
+        annotate("label",
+                 x = 0,
+                 y = Inf,
+                 size = 5,
+                 hjust = 0.5,
+                 vjust = 1,
+                 label.padding = unit(0.4, "lines"),
+                 label.r = unit(0, "lines"),
+                 label.size = 0,
+                 colour = "white",
+                 fill = "gray70",
+                 label = labels[3],
+                 family = "Fira Sans",
+                 fontface = "bold")
+    }
+      if (labels[4] != "") {
+        plot <-
+          plot +
+          annotate("label",
+                   x = 0,
+                   y = -Inf,
+                   size = 5,
+                   hjust = 0.5,
+                   vjust = 0,
+                   label.padding = unit(0.4, "lines"),
+                   label.r = unit(0, "lines"),
+                   label.size = 0,
+                   colour = "white",
+                   fill = "gray70",
+                   label = labels[4],
+                   family = "Fira Sans",
+                   fontface = "bold")
+      }
+
+  plot
+}

@@ -22,6 +22,7 @@ NULL
 #' @param relevel character vector containing new level order.
 #' @param plot_eta2 plot eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization of supplementary variables.
 #' @export
@@ -43,7 +44,8 @@ fviz_gda_quali_supvar <- function(res_gda,
                                   impute_ncp = 2,
                                   relevel = NULL,
                                   plot_eta2 = TRUE,
-                                  axis_lab_name = "Achse") {
+                                  axis_lab_name = "Achse",
+                                  labels = NULL) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -89,7 +91,6 @@ fviz_gda_quali_supvar <- function(res_gda,
     supvar_eta2 <- NULL
   }
 
-
   # Spaltennamen anpassen
   colnames(supvar) <- c("rowname", "weight", "Dim.1", "Dim.2")
 
@@ -113,6 +114,8 @@ fviz_gda_quali_supvar <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+  p <- .annotate_axes(p, labels)
 
   # Skalierungsgrenzen festlegen
   p <- p + scale_size_continuous(range = c(1, 7))
