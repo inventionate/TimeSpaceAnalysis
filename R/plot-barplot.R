@@ -85,7 +85,7 @@ plot_barplot <- function(df_origin,
     ) +
     geom_text(
       aes(
-        label = paste0("(", round(rel * 100, 1), " %)")
+        label = paste0(round(rel * 100, 1), " %")
       ),
       position = "stack",
       vjust = -0.6,
