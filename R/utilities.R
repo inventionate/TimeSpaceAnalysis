@@ -290,7 +290,7 @@
 
   if (!is.null(eta2)) {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} %{bquote(mod_rates )}) – η² = {eta2[axes[1]]}")
+    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} % – η² = {eta2[axes[1]]})")
 
     ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2} % – η² = {eta2[axes[2]]})")
 
