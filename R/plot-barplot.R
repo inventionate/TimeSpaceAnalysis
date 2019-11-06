@@ -2,205 +2,94 @@
 NULL
 #' Visualize a barplot.
 #'
-#' @param dfname categorical variable.
-#' @param xlab x-axis label.
-#' @param ylab y-axis label.
 #' @param sort sort bars (boolean).
-#' @param labels_inline inline labels (boolean).
-#' @param amount include total amount of observations (boolean).
-#' @param rotate_x_axis_text rotate bars (boolean).
-#' @param title plot title.
-#' @param textsize sife of axes texts.
-#' @param titlesize title text size.
-#' @param labelsize label text size.
 #' @param digits amount of label value digits.
-#' @param ylim y-axis range.
-#' @param xlim y-axis range.
-#' @param include_na show NAs or not (boolean).
+#' @param df_origin source data farme (tibble).
+#' @param df_var categorical variable name.
+#' @param bar_abs_size size of absolute values in plot.
+#' @param bar_rel_size size of relative values in plot.
+#' @param axis_label_size size of y axis labels.
+#' @param axis_cat_size size of x axis labels.
+#' @param show_missing include missing values in plot or not (boolean).
 #' @param open_sans use Open Sans font.
-#' @param abs_freq use absolute or relative freq (boolean).
-#' @param symbol relative freq symbol.
 #'
 #' @return ggplot2 barplot.
 #' @export
-plot_barplot <- function(dfname,
-                         xlab = "",
-                         ylab = "",
-                         title = "",
+plot_barplot <- function(df_origin,
+                         df_var,
                          sort = FALSE,
-                         labels_inline = FALSE,
-                         amount = FALSE,
-                         rotate_x_axis_text = FALSE,
-                         textsize = 20,
-                         titlesize = 25,
-                         labelsize = 8,
-                         include_na = TRUE,
-                         digits = 0,
-                         ylim = NA,
-                         xlim = NA,
-                         open_sans = TRUE,
-                         abs_freq = TRUE,
-                         symbol = "%"){
+                         bar_abs_size = 5.5,
+                         bar_rel_size = 4.5,
+                         axis_label_size = 12,
+                         axis_cat_size = 16,
+                         show_missing = TRUE,
+                         digits = 1,
+                         open_sans = TRUE){
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
-  if (include_na) {
-    absolute_freq <- table(dfname, useNA = "always")
-  } else {
-    absolute_freq <- table(dfname)
+  df_cat <-
+    df_origin %>%
+    select(var = !!sym(df_var)) %>%
+    mutate_all( fct_explicit_na, na_level = "fehlend" ) %>%
+    count(var, name = "abs", sort = sort) %>%
+    mutate(rel = abs / sum(abs) )
+
+  if (!show_missing) {
+    df_cat <-
+      df_cat %>%
+      filter(var != "fehlend")
   }
 
-  if (sort) absolute_freq <- as.table(sort(absolute_freq))
-
-  relative_freq <- as.data.frame(round(prop.table(absolute_freq) * 100, digits = digits))
-
-  data_freq <- data.frame(as.data.frame(absolute_freq), relative_freq[,2])
-
-  colnames(data_freq) <- c("var", "absolute", "relative")
-
-  # Choose absolute or relative.
-  if (abs_freq) {
-
-    freq <-  "absolute"
-    n <- nrow(data.frame(na.omit(dfname)))
-
-  } else {
-
-    freq <-  "relative"
-    n <- 100
-
-  }
+  df_cat_sum <-
+    df_cat %>%
+    summarise_at(2:3, sum) %>%
+    add_column(var = df_var, .before = 1)
 
   p <-
-    # @CHECK is freq works.
-    ggplot(data_freq, aes(var, !! freq)) +
-    geom_bar(stat="identity") +
-    xlab(xlab) +
-    ylab(ylab) +
-    ylim(0, n) +
-    ggtitle(title)
-
-  # @TODO replace add_theme here, This function must only be used by GDA functions.
-  p <-
-    add_theme(p) +
-    coord_cartesian() +
+    ggplot(df_cat, aes(var, abs)) +
+    geom_bar(stat = "identity") +
+    geom_text(
+      aes(label = abs),
+      vjust = -1,
+      nudge_y = 18,
+      family = "Fira Sans",
+      size = bar_abs_size
+    ) +
+    geom_text(
+      aes(
+        label = paste0("(", round(rel * 100, 1), " %)")
+      ),
+      vjust = -1,
+      family = "Fira Sans",
+      size = bar_rel_size
+    ) +
+    theme_void() +
     theme(
-      panel.border = element_blank(),
-      axis.text = element_text(size = 12),
-      axis.line = element_line(colour = "gray70", size = 0.75)
-    )
-
-  if (!is.na(xlim[1])) p <- p + xlim(xlim)
-
-  if (!is.na(ylim[1])) p <- p + ylim(ylim)
-
-  if (labels_inline) {
-
-    if (abs_freq) {
-
-      p <-
-        p +
-        geom_text(
-          aes(label = absolute),
-          family = "Fira Sans",
-          vjust = 1.5,
-          size = labelsize,
-          colour = "white",
-          position = "stack"
-        ) +
-        geom_text(
-          aes(label = str_glue("({relative}{symbol})")),
-          family = "Fira Sans",
-          vjust = 4,
-          size = labelsize/1.5,
-          colour = "white",
-          position = "stack"
-        )
-
-    } else {
-
-      p <-
-        p +
-        geom_text(
-          aes(label = str_glue("{relative}{symbol}")),
-          family = "Fira Sans",
-          vjust = 1.5,
-          size = labelsize,
-          colour = "white",
-          position = "stack"
-        ) +
-        geom_text(
-          aes(label = str_glue("({absolute})")),
-          family = "Fira Sans",
-          vjust = 4,
-          size = labelsize/1.5,
-          colour = "white",
-          position = "stack"
-        )
-
-    }
-
-  } else {
-
-    if (abs_freq) {
-
-      p <-
-        p +
-        geom_text(
-          aes(label = absolute),
-          family = "Fira Sans",
-          vjust = -1.5,
-          size = labelsize,
-          colour = "black",
-          position = "stack"
-        ) +
-        geom_text(
-          aes(label = str_glue("({relative}{symbol})")),
-          family = "Fira Sans",
-          vjust = -0.5,
-          size = labelsize/1.5,
-          colour = "black",
-          position = "stack"
-        )
-
-    } else {
-
-      p <-
-        p +
-        geom_text(
-          aes(label = str_glue("{relative}{symbol}")),
-          family = "Fira Sans",
-          vjust = -1.5,
-          size = labelsize,
-          colour = "black",
-          position = "stack"
-        ) +
-        geom_text(
-          aes(label = str_glue("({absolute})")),
-          family = "Fira Sans",
-          vjust = -0.5,
-          size = labelsize/1.5,
-          colour = "black",
-          position = "stack"
-        )
-
-    }
-
-  }
-
-  if (rotate_x_axis_text) {
-    p <-
-      p +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  }
-
-  if (amount) {
-    p <-
-      p +
-      xlab(str_glue("{xlab} (n = {nrow(data.frame(dfname))})")) +
-      theme(axis.title.x = element_text(vjust = -0.3))
-  }
+      text = element_text(family = "Fira Sans"),
+      axis.text.x = element_text(size = axis_cat_size),
+      axis.text.y = element_text(size = axis_label_size),
+      axis.ticks = element_blank(),
+      plot.caption = element_text(size = 10),
+      legend.position = "none"
+    ) +
+    xlab("") +
+    ylab("")
+  # Add Tufte like marks
+  tickmarks <-
+    ggplot_build(p)$layout$panel_params[[1]]$y.labels[
+      2:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels)-1)
+      ] %>%
+    as.numeric()
+  p <-
+    p +
+    scale_y_continuous(
+      limits = c(0, df_cat %>% pull(abs) %>% max() + 40),
+      breaks = tickmarks,
+    ) +
+    scale_x_discrete(expand = expand_scale(add = 0.5)) +
+    geom_hline(yintercept = tickmarks, col= "white", lwd = 1)
 
   p
 }

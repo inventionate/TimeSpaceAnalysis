@@ -4,48 +4,30 @@
 \alias{plot_barplot}
 \title{Visualize a barplot.}
 \usage{
-plot_barplot(dfname, xlab = "", ylab = "", title = "",
-  sort = FALSE, labels_inline = FALSE, amount = FALSE,
-  rotate_x_axis_text = FALSE, textsize = 20, titlesize = 25,
-  labelsize = 8, include_na = TRUE, digits = 0, ylim = NA,
-  xlim = NA, open_sans = TRUE, abs_freq = TRUE, symbol = "\%")
+plot_barplot(df_origin, df_var, sort = FALSE, bar_abs_size = 5.5,
+  bar_rel_size = 4.5, axis_label_size = 12, axis_cat_size = 16,
+  show_missing = TRUE, digits = 1, open_sans = TRUE)
 }
 \arguments{
-\item{dfname}{categorical variable.}
+\item{df_origin}{source data farme (tibble).}
 
-\item{xlab}{x-axis label.}
-
-\item{ylab}{y-axis label.}
-
-\item{title}{plot title.}
+\item{df_var}{categorical variable name.}
 
 \item{sort}{sort bars (boolean).}
 
-\item{labels_inline}{inline labels (boolean).}
+\item{bar_abs_size}{size of absolute values in plot.}
 
-\item{amount}{include total amount of observations (boolean).}
+\item{bar_rel_size}{size of relative values in plot.}
 
-\item{rotate_x_axis_text}{rotate bars (boolean).}
+\item{axis_label_size}{size of y axis labels.}
 
-\item{textsize}{sife of axes texts.}
+\item{axis_cat_size}{size of x axis labels.}
 
-\item{titlesize}{title text size.}
-
-\item{labelsize}{label text size.}
-
-\item{include_na}{show NAs or not (boolean).}
+\item{show_missing}{include missing values in plot or not (boolean).}
 
 \item{digits}{amount of label value digits.}
 
-\item{ylim}{y-axis range.}
-
-\item{xlim}{y-axis range.}
-
 \item{open_sans}{use Open Sans font.}
-
-\item{abs_freq}{use absolute or relative freq (boolean).}
-
-\item{symbol}{relative freq symbol.}
 }
 \value{
 ggplot2 barplot.
