@@ -21,7 +21,7 @@ plot_barplot <- function(df_origin,
                          bar_abs_size = 5.5,
                          bar_rel_size = 4.5,
                          axis_label_size = 12,
-                         axis_cat_size = 16,
+                         axis_cat_size = 15,
                          show_missing = TRUE,
                          digits = 1,
                          open_sans = TRUE){
@@ -50,21 +50,6 @@ plot_barplot <- function(df_origin,
   p <-
     ggplot(df_cat, aes(var, abs)) +
     geom_bar(stat = "identity") +
-    geom_text(
-      aes(label = abs),
-      vjust = -1,
-      nudge_y = 18,
-      family = "Fira Sans",
-      size = bar_abs_size
-    ) +
-    geom_text(
-      aes(
-        label = paste0("(", round(rel * 100, 1), " %)")
-      ),
-      vjust = -1,
-      family = "Fira Sans",
-      size = bar_rel_size
-    ) +
     theme_void() +
     theme(
       text = element_text(family = "Fira Sans"),
@@ -82,6 +67,7 @@ plot_barplot <- function(df_origin,
       2:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels)-1)
       ] %>%
     as.numeric()
+
   p <-
     p +
     scale_y_continuous(
@@ -89,7 +75,23 @@ plot_barplot <- function(df_origin,
       breaks = tickmarks,
     ) +
     scale_x_discrete(expand = expand_scale(add = 0.5)) +
-    geom_hline(yintercept = tickmarks, col= "white", lwd = 1)
+    geom_hline(yintercept = tickmarks, col= "white", lwd = 1) +
+    geom_text(
+      aes(label = abs),
+      position = "stack",
+      vjust = -1.7,
+      family = "Fira Sans",
+      size = 5.5
+    ) +
+    geom_text(
+      aes(
+        label = paste0("(", round(rel * 100, 1), " %)")
+      ),
+      position = "stack",
+      vjust = -0.6,
+      family = "Fira Sans",
+      size = 4.5
+    )
 
   p
 }
