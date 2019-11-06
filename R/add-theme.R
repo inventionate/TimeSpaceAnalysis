@@ -26,5 +26,6 @@ add_theme <- function(plot, font_family = "Fira Sans") {
             size = 1,
             linetype = "solid"
           ),
+          plot.caption = element_text(size = 10),
           legend.position = "none")
 }

@@ -274,6 +274,8 @@
 
     rate_2 <- modif_rates[axes[2], 1]
 
+    caption = "Reskalierte Eigenwerte nach Benzécri"
+
   } else {
 
     eig <- factoextra::get_eigenvalue(res_gda)[,2]
@@ -282,23 +284,25 @@
 
     rate_2 <- round(eig[axes[2]], 1)
 
+    caption = waiver()
+
   }
 
   if (!is.null(eta2)) {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1}%) – η² = {eta2[axes[1]]}")
+    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} %{bquote(mod_rates )}) – η² = {eta2[axes[1]]}")
 
-    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2}% – η² = {eta2[axes[2]]})")
+    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2} % – η² = {eta2[axes[2]]})")
 
   } else {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1}%)")
+    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} %)")
 
-    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2}%)")
+    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2} %)")
 
   }
 
-  p <- ggplot_gda + labs(title = title, x = xlab, y = ylab)
+  p <- ggplot_gda + labs(title = title, x = xlab, y = ylab, caption = caption)
 }
 # Achsen beschriften
 .annotate_axes <- function(plot, labels = NULL) {
