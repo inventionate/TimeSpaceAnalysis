@@ -200,8 +200,8 @@ fviz_gda_structure <- function(res_gda,
         geom_point(
           data = df_real ,
           aes(
-            !! axis_1,
-            !! axis_2,
+            !!axis_1,
+            !!axis_2,
             size = weight
           ),
           shape = 18,
@@ -214,8 +214,8 @@ fviz_gda_structure <- function(res_gda,
         geom_point(
           data = df_real ,
           aes(
-            !! axis_1,
-            !! axis_2
+            !!axis_1,
+            !!axis_2
           ),
           size = 4,
           shape = 18,
@@ -230,8 +230,8 @@ fviz_gda_structure <- function(res_gda,
       geom_path(
         data = df_real,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           group = var_1
         ),
         alpha = 0.5)
@@ -240,8 +240,8 @@ fviz_gda_structure <- function(res_gda,
       geom_path(
         data = df_real,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           group = var_2
         ),
         alpha = 0.5
@@ -255,8 +255,8 @@ fviz_gda_structure <- function(res_gda,
         geom_point(
           data = df_fitted ,
           aes(
-            !! axis_1,
-            !! axis_2,
+            !!axis_1,
+            !!axis_2,
             size = weight
           ),
           shape = 18,
@@ -269,8 +269,8 @@ fviz_gda_structure <- function(res_gda,
         geom_point(
           data = df_fitted ,
           aes(
-            !! axis_1,
-            !! axis_2
+            !!axis_1,
+            !!axis_2
           ),
           size = 4,
           shape = 18,
@@ -285,8 +285,8 @@ fviz_gda_structure <- function(res_gda,
       geom_path(
         data = df_fitted,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           group = var_1
         ),
         alpha = 0.5,
@@ -297,8 +297,8 @@ fviz_gda_structure <- function(res_gda,
       geom_path(
         data = df_fitted,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           group = var_2
         ),
         alpha = 0.5,
@@ -314,8 +314,8 @@ fviz_gda_structure <- function(res_gda,
       geom_path(
         data = df_ges,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           group = rowname
         ),
         colour = "red",
@@ -344,8 +344,8 @@ fviz_gda_structure <- function(res_gda,
         geom_point(
           data = df_ges ,
           aes(
-            !! axis_1,
-            !! axis_2
+            !!axis_1,
+            !!axis_2
           ),
           size = 4,
           shape = 18,
@@ -359,8 +359,8 @@ fviz_gda_structure <- function(res_gda,
       ggrepel::geom_text_repel(
         data = df_ges,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           label = rowname
         ),
         size = 4,

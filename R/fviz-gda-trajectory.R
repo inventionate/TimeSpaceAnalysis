@@ -56,7 +56,7 @@ fviz_gda_trajectory <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, axeslabels)
+  p <- .annotate_axes(p, axes_labels)
 
   p <-
     p +
