@@ -4,9 +4,9 @@
 \alias{plot_barplot}
 \title{Visualize a barplot.}
 \usage{
-plot_barplot(df_origin, df_var, sort = FALSE, bar_abs_size = 5.5,
-  bar_rel_size = 4.5, axis_label_size = 12, axis_cat_size = 16,
-  show_missing = TRUE, digits = 1, open_sans = TRUE)
+plot_barplot(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5,
+  bar_rel_size = 3, axes_rel_small = 0.6, show_missing = TRUE,
+  digits = 1, open_sans = TRUE)
 }
 \arguments{
 \item{df_origin}{source data farme (tibble).}
@@ -19,9 +19,7 @@ plot_barplot(df_origin, df_var, sort = FALSE, bar_abs_size = 5.5,
 
 \item{bar_rel_size}{size of relative values in plot.}
 
-\item{axis_label_size}{size of y axis labels.}
-
-\item{axis_cat_size}{size of x axis labels.}
+\item{axes_rel_small}{relative value for small axes text (labels, titles …).}
 
 \item{show_missing}{include missing values in plot or not (boolean).}
 

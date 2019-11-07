@@ -8,20 +8,18 @@ NULL
 #' @param df_var categorical variable name.
 #' @param bar_abs_size size of absolute values in plot.
 #' @param bar_rel_size size of relative values in plot.
-#' @param axis_label_size size of y axis labels.
-#' @param axis_cat_size size of x axis labels.
 #' @param show_missing include missing values in plot or not (boolean).
 #' @param open_sans use Open Sans font.
+#' @param axes_rel_small relative value for small axes text (labels, titles …).
 #'
 #' @return ggplot2 barplot.
 #' @export
 plot_barplot <- function(df_origin,
                          df_var,
                          sort = FALSE,
-                         bar_abs_size = 5.5,
-                         bar_rel_size = 4.5,
-                         axis_label_size = 12,
-                         axis_cat_size = 15,
+                         bar_abs_size = 3.5,
+                         bar_rel_size = 3,
+                         axes_rel_small = 0.6,
                          show_missing = TRUE,
                          digits = 1,
                          open_sans = TRUE){
@@ -49,38 +47,20 @@ plot_barplot <- function(df_origin,
 
   p <-
     ggplot(df_cat, aes(var, abs)) +
-    geom_bar(stat = "identity") +
-    theme_void() +
-    theme(
-      text = element_text(family = "Fira Sans"),
-      axis.text.x = element_text(size = axis_cat_size),
-      axis.text.y = element_text(size = axis_label_size),
-      plot.caption = element_text(size = 10),
-      legend.position = "none"
+    geom_bar(
+      stat = "identity",
+      width = .7
     ) +
     xlab("") +
-    ylab("")
-  # Add Tufte like marks
-  tickmarks <-
-    ggplot_build(p)$layout$panel_params[[1]]$y.labels[
-      2:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels) - 1)
-      ] %>%
-    as.numeric()
-
-  p <-
-    p +
-    scale_y_continuous(
-      limits = c(0, df_cat %>% pull(abs) %>% max() + 40),
-      breaks = tickmarks,
-    ) +
-    scale_x_discrete(expand = expand_scale(add = 0.5)) +
-    geom_hline(yintercept = tickmarks, col = "white", lwd = 1) +
+    ylab("") +
     geom_text(
-      aes(label = abs),
+      aes(
+        label = abs
+      ),
       position = "stack",
-      vjust = -1.7,
+      vjust = -2,
       family = "Fira Sans",
-      size = 5.5
+      size = bar_abs_size
     ) +
     geom_text(
       aes(
@@ -89,8 +69,22 @@ plot_barplot <- function(df_origin,
       position = "stack",
       vjust = -0.6,
       family = "Fira Sans",
-      size = 4.5
+      size = bar_rel_size
     )
+
+  tickmarks <-
+    ggplot_build(p)$layout$panel_params[[1]]$y.labels[
+      1:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels))
+      ] %>%
+    as.numeric()
+
+  p <-
+    p +
+    scale_y_continuous(
+      limits = c(0, df_cat %>% pull(abs) %>% pretty() %>% max() * 1.1),
+      breaks = tickmarks,
+      expand = expand_scale(mult = c(0, 0.05))) +
+    theme_minimal_hgrid(rel_small = 0.6)
 
   p
 }
