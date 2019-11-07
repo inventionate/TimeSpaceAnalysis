@@ -55,7 +55,6 @@ plot_barplot <- function(df_origin,
       text = element_text(family = "Fira Sans"),
       axis.text.x = element_text(size = axis_cat_size),
       axis.text.y = element_text(size = axis_label_size),
-      axis.ticks = element_blank(),
       plot.caption = element_text(size = 10),
       legend.position = "none"
     ) +
@@ -64,7 +63,7 @@ plot_barplot <- function(df_origin,
   # Add Tufte like marks
   tickmarks <-
     ggplot_build(p)$layout$panel_params[[1]]$y.labels[
-      2:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels)-1)
+      2:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels) - 1)
       ] %>%
     as.numeric()
 
@@ -75,7 +74,7 @@ plot_barplot <- function(df_origin,
       breaks = tickmarks,
     ) +
     scale_x_discrete(expand = expand_scale(add = 0.5)) +
-    geom_hline(yintercept = tickmarks, col= "white", lwd = 1) +
+    geom_hline(yintercept = tickmarks, col = "white", lwd = 1) +
     geom_text(
       aes(label = abs),
       position = "stack",
