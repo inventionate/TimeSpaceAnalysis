@@ -87,8 +87,9 @@ plot_barplot <- function(df_origin,
     theme_minimal_hgrid(
       rel_small = 0.6,
       font_size = 12,
-      font_family = "Fira Sans"
-    )
+      font_family = "Fira Sans",
+    ) +
+    theme(aspect.ratio = 1)
 
   p
 }
