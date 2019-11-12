@@ -397,9 +397,9 @@ fviz_gda_quali_ellipses <- function(res_gda,
         radius = unit(5, "mm"),
         label.family = "Fira Sans",
         label.fontsize = c(12, 10),
-        label.buffer = unit(8, "mm"),
-        con.size = 0.5,
-        label.fill = "gray90"
+        label.buffer = unit(10, "mm"),
+        label.fill = "gray90",
+        con.size = 0.5
       )
   }
 
