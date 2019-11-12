@@ -125,7 +125,7 @@ fviz_gda_trajectory <- function(res_gda,
     p +
     theme(
       plot.title = element_blank(),
-      legend.position = c(legend_x, legend_y),
+      legend.position = "bottom",
       legend.box.background = element_rect(
         linetype = "solid",
         colour = "gray17",
@@ -133,7 +133,8 @@ fviz_gda_trajectory <- function(res_gda,
       ),
       legend.text = element_text(size = 10),
       legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
-      legend.title = element_blank()
+      legend.title = element_blank(),
+      legend.direction = "horizontal"
     ) +
     guides(
       colour = guide_legend(
