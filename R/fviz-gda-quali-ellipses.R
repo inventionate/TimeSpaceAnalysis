@@ -30,13 +30,15 @@ NULL
 #' @param highlight show facets with highlighted group (boolean).
 #' @param profiles optional add specific profiles (tibble).
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param facet_label_y adjust facet labels y position.
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
 fviz_gda_quali_ellipses <- function(res_gda,
                                     df_var_quali,
                                     var_quali,
-                                    title = "MCA quali var ellipses",
+                                    title = NULL,
                                     facet = TRUE,
                                     alpha_point = 0.75,
                                     conc_linetype = "solid",
@@ -60,7 +62,9 @@ fviz_gda_quali_ellipses <- function(res_gda,
                                     label_mean_points = TRUE,
                                     highlight = FALSE,
                                     profiles = NULL,
-                                    labels = NULL) {
+                                    labels = NULL,
+                                    axes_annotate_alpha = 0.3,
+                                    facet_label_y = 0.77) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -68,15 +72,15 @@ fviz_gda_quali_ellipses <- function(res_gda,
   # Datensatz auslesen
   var <-
     df_var_quali %>%
-    select(!! var_quali) %>%
+    select(!!var_quali) %>%
     mutate_all(funs(as.character))
 
   var_levels <-
     df_var_quali %>%
-    select(!! var_quali) %>%
+    select(!!var_quali) %>%
     mutate_all(funs(as.factor)) %>%
-    magrittr::extract2(var_quali) %>%
-    levels
+    pull(var_quali) %>%
+    levels()
 
   # Reihenfolge der Levels festlegen
   if (!is.null(relevel)) {
@@ -116,7 +120,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
 
   if (length(exclude_na) != 0) {
 
-    if(impute) {
+    if (impute) {
       message("Info: Missing data will be imputed!")
 
       var <- var %>% mutate_all(funs(as.factor))
@@ -157,7 +161,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
   }
 
   # Spalte in Vektor umwandeln
-  var <- var %>% magrittr::extract2(var_quali)
+  var_n <- var %>% count(!!sym(var_quali), name = "n")
+  var <- var %>% pull(!!sym(var_quali))
 
   # Datensatz zusammenstellen (Koordinaten mit passiver Variable zusammenführen)
   df_source <-
@@ -196,7 +201,9 @@ fviz_gda_quali_ellipses <- function(res_gda,
   coord_mean_quali <-
     bind_cols(coord_mean_quali, size = size_mean_quali) %>%
     mutate(
-      prop = str_glue("{var_quali}: {round(size/sum(size) * 100, 1)}%"),
+      # @Info: Hier Einstellungen für die Beschriftung der Gruppen.
+      prop = str_glue("{var_quali}"),
+      prop_desc = str_glue("{round(size/sum(size) * 100, 1)} %, n = {size}"),
       colour = as.character(as.numeric(var_quali))
     )
 
@@ -207,15 +214,13 @@ fviz_gda_quali_ellipses <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, labels)
-
   # ALlgemeine Konzentrationsellipse hinzufügen (level = 86,47% nach Le Roux/Rouanet 2010: 69, da es sich um eine 2-dimesnionale Konzentrationsellipse handelt)
   p <-
     p +
     stat_ellipse(
       data = .count_distinct_ind(res_gda),
       aes(x = x, y = y),
-      geom ="polygon",
+      geom = "polygon",
       level = 0.8647,
       type = "norm",
       alpha = 0.1,
@@ -273,7 +278,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
         as.vector()
 
       # Calculate distance to centre from each ellipse pts
-      dist2center <- sqrt(rowSums(t(t(el)-ctr)^2))
+      dist2center <- sqrt(rowSums(t(t(el) - ctr)^2))
 
       # Identify axes points
       df <-
@@ -283,7 +288,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
           var_quali = rep(var_levels[i], length(dist2center))
         ) %>%
         arrange(dist2center) %>%
-        slice(c(1, 2, n()-1, n())) %>%
+        slice(c(1, 2, n() - 1, n())) %>%
         mutate(dist2center = round(dist2center, 2))
 
       # Store results
@@ -317,7 +322,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       stat_ellipse(
         data = coord_ind_quali,
         aes(x = x, y = y, fill = colour, colour = colour),
-        geom ="polygon",
+        geom = "polygon",
         type = "norm",
         alpha = alpha_ellipses,
         linetype = conc_linetype,
@@ -364,12 +369,37 @@ fviz_gda_quali_ellipses <- function(res_gda,
   }
 
   if (!facet & label_mean_points) {
+
+    df_labels <-
+      left_join(ellipse_axes, coord_mean_quali, by = "colour") %>%
+      select(
+        x = x.x,
+        y = y.x,
+        colour,
+        prop,
+        prop_desc
+      ) %>%
+      as_tibble()
+
     p <-
       p +
-      ggforce::geom_mark_circle(
-        data = coord_mean_quali,
-        aes(x, y, fill = colour, size = size, label = prop),
-        expand = unit(0.1, "mm")
+      ggforce::geom_mark_ellipse(
+        data = df_labels,
+        aes(
+          x,
+          y,
+          group = colour,
+          label = prop,
+          description = prop_desc
+        ),
+        color = "transparent",
+        expand = unit(-1, "mm"),
+        radius = unit(5, "mm"),
+        label.family = "Fira Sans",
+        label.fontsize = c(12, 10),
+        label.buffer = unit(8, "mm"),
+        con.size = 0.3,
+        label.fill = "gray90"
       )
   }
 
@@ -381,7 +411,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
         aes(x = x, y = y, fill = colour, size = size),
         colour = "black",
         shape = 23,
-        inherit.aes = FALSE
+        inherit.aes = FALSE,
+        show.legend = FALSE
       )
 
   } else {
@@ -422,37 +453,77 @@ fviz_gda_quali_ellipses <- function(res_gda,
 
   if (facet) {
 
-    group_labels <-
-      coord_mean_quali %>%
-      select(var_quali, prop) %>%
-      deframe()
+    if (highlight) {
+      p <-
+        p +
+        gghighlight(use_direct_label = FALSE)
+    }
+
+    p <- .finalize_plot(
+      p,
+      res_gda,
+      axes,
+      labels,
+      axis_label_y_vjust = 0.99,
+      axis_label_x_hjust = 0.99
+    )
+
+    p <- .annotate_axes(p, labels)
 
     p <-
       p +
-      facet_wrap(~var_quali,
-                 ncol = ncol,
-                 labeller = as_labeller(group_labels)
-                 )
+      facet_wrap(
+        ~var_quali,
+        ncol = ncol
+      ) +
+      theme(
+        panel.border = element_rect(
+          size = 1,
+          fill = NA,
+          colour = "gray17"
+        ),
+        panel.spacing = unit(0.5, "cm"),
+        strip.text = element_blank()
+      )
+
+    i <- 1
+    j <- 1
+    k <- 1
+    titles <- list()
+    while (i < (nrow(coord_mean_quali) * 2)) {
+      titles[[i]] <-
+        draw_label(
+          coord_mean_quali$prop[[j]],
+          k/(length(coord_mean_quali$prop) * 2),
+          facet_label_y + 0.05,
+          fontfamily = "Fira Sans",
+          fontface = "bold")
+
+      i <- i + 1
+
+      titles[[i]] <- draw_label(
+          coord_mean_quali$prop_desc[[j]],
+          k/(length(coord_mean_quali$prop) * 2),
+          facet_label_y,
+          fontfamily = "Fira Sans",
+          size = 10)
+
+        i <- i + 1
+        j <- j + 1
+        k <- k + 2
+    }
+
+    p <- ggdraw(p) + titles
+
+  } else {
+
+    p <- .finalize_plot(p, res_gda, axes, labels)
+
+    p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
+
   }
 
-  p <- add_theme(p) + ggtitle(title)
-
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    supvar_eta2,
-    axis_lab_name = axis_lab_name
-  )
-
-  if (facet & highlight) {
-    p <-
-      p +
-      gghighlight(use_direct_label = FALSE)
-  }
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Plotten
   p

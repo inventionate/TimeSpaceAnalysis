@@ -25,7 +25,7 @@ fviz_gda_conc_ellipse <- function(res_gda,
                                   colour = "black",
                                   linetype = "dashed",
                                   density = FALSE,
-                                  fill = "gray",
+                                  fill = "transparent",
                                   axes = 1:2,
                                   open_sans = TRUE,
                                   scale_size = 1,
@@ -34,23 +34,21 @@ fviz_gda_conc_ellipse <- function(res_gda,
                                   axis_lab_name = "Achse",
                                   labels = NULL) {
 
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
-
-  if (inherits(res_gda, c("MCA"))) {
-    p <- .create_plot()
-  } else {
+  if (!inherits(res_gda, c("MCA"))) {
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, labels)
+  # Add Open Sans font family
+  if (open_sans) .add_fonts()
+
+  p <- .create_plot()
 
   p <-
     p +
     stat_ellipse(
       data = .count_distinct_ind(res_gda, axes),
       aes(x, y),
-      geom ="polygon",
+      geom = "polygon",
       level = level,
       type = "norm",
       alpha = alpha,
@@ -70,9 +68,6 @@ fviz_gda_conc_ellipse <- function(res_gda,
       )
     )
 
-  # Theme adaptieren
-  p <- add_theme(p)
-
   # 2D Density contours
   if (density) {
     p <-
@@ -84,18 +79,12 @@ fviz_gda_conc_ellipse <- function(res_gda,
       )
   }
 
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
+  # Plot aufbereiten und finalisieren
+  p <- .finalize_plot(p, res_gda, axes, labels)
+
+  p <- .annotate_axes(p, labels)
 
   # Plotten
   p
-
 }
 

@@ -10,24 +10,30 @@ NULL
 #' @param open_sans use Open Sans font (boolean).
 #' @param labels plot individual labels (boolean).
 #' @param title the plot title
-#' @param labels plot labels (boolean).
+#' @param ind_labels plot labels (boolean).
 #' @param time_point_names vector containing the name of the time points.
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
-#' @param axes_labels label axes (vector of length 4; left, right, top, bottom).
+#' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param legend_x x position of legend.
+#' @param legend_y y position of legend.
 #'
 #' @return trajectory ggplot2 visualization.
 #' @export
 fviz_gda_trajectory <- function(res_gda,
                                 select = list(name = NULL, within_inertia = NULL, case = NULL),
-                                title = "Trajectory individuals plot",
+                                title = NULL,
                                 axes = 1:2,
-                                labels = FALSE,
+                                ind_labels = FALSE,
                                 open_sans = TRUE,
                                 time_point_names = NULL,
                                 plot_modif_rates = TRUE,
                                 axis_lab_name = "Achse",
-                                axes_labels = NULL) {
+                                labels = NULL,
+                                legend_x = 0.12,
+                                legend_y = 0.9,
+                                axes_annotate_alpha = 0.3) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -56,16 +62,14 @@ fviz_gda_trajectory <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, axes_labels)
-
   p <-
     p +
     scale_colour_brewer(palette = "YlGnBu", direction = -1) +
     geom_point(
       data = coord_ind_timeseries,
       aes(
-        !! axis_1,
-        !! axis_2
+        !!axis_1,
+        !!axis_2
       ),
       colour = "black",
       size = 4
@@ -73,8 +77,8 @@ fviz_gda_trajectory <- function(res_gda,
     geom_point(
       data = coord_ind_timeseries,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         colour = time
       ),
       size = 2.5
@@ -82,58 +86,59 @@ fviz_gda_trajectory <- function(res_gda,
     geom_path(
       data = coord_ind_timeseries,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         group = id
       ),
       size = 1,
-      arrow = arrow(length = unit(0.3, "cm"),
-                    type = "closed")
-    ) +
-    ggtitle(title) +
-    xlab(
-      paste0("Achse ", axes[1], "(", round(res_gda$eig$`percentage of variance`[axes[1]], 1), "%)")
-    ) +
-    ylab(
-      paste0("Achse ", axes[2], "(", round(res_gda$eig$`percentage of variance`[axes[2]], 1), "%)")
+      arrow = arrow(
+        length = unit(0.3, "cm"),
+        type = "closed"
+      )
     )
 
   # Labeln
-  if (labels) {
+  if (ind_labels) {
     p <-
       p +
       ggrepel::geom_label_repel(
         data = coord_ind_timeseries %>%
           filter(time == time_point_names[1]),
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           colour = time,
           label = id
         )
       )
   }
 
-  # Theme adaptieren
-  p <- add_theme(p)
+  # Beschriftung anpassen
+  p <- .finalize_plot(p, res_gda, axes, labels)
+
+  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
+
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Beschreibung der Punkte
   p <-
     p +
     theme(
-      legend.position = "bottom",
+      plot.title = element_blank(),
+      legend.position = c(legend_x, legend_y),
+      legend.box.background = element_rect(
+        linetype = "solid",
+        colour = "gray17",
+        fill = "white"
+      ),
+      legend.text = element_text(size = 10),
+      legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
       legend.title = element_blank()
+    ) +
+    guides(
+      colour = guide_legend(
+        override.aes = list(size = 4))
     )
-
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
 
   # Plotten
   p

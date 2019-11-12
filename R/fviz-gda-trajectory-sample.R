@@ -16,6 +16,9 @@ NULL
 #' @param alpha ellipse fill alpha.
 #' @param axis_lab_name name of axis label.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param legend_x x position of legend.
+#' @param legend_y y position of legend.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -25,11 +28,14 @@ fviz_gda_trajectory_sample <- function(res_gda,
                                        ind_points = TRUE,
                                        concentration_ellipse = TRUE,
                                        complete = TRUE,
-                                       title = "Trajectory plot to compare samples",
+                                       title = NULL,
                                        plot_modif_rates = TRUE,
                                        alpha = 0.15,
                                        axis_lab_name = "Achse",
-                                       labels = NULL) {
+                                       axes_annotate_alpha = 0.3,
+                                       labels = NULL,
+                                       legend_x = 0.12,
+                                       legend_y = 0.9) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -81,13 +87,13 @@ fviz_gda_trajectory_sample <- function(res_gda,
   coord_all <-
     coord_all %>%
     select(
-      !! axis_1,
-      !! axis_2,
+      !!axis_1,
+      !!axis_2,
       time
     ) %>%
     group_by(
-      !! axis_1,
-      !! axis_2,
+      !!axis_1,
+      !!axis_2,
       time
     ) %>%
     mutate(mass = n()) %>%
@@ -99,8 +105,6 @@ fviz_gda_trajectory_sample <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
-
-  p <- .annotate_axes(p, labels)
 
   # Concentartion ellipse
   if (concentration_ellipse) {
@@ -136,7 +140,6 @@ fviz_gda_trajectory_sample <- function(res_gda,
 
   # Calculate sample ellipse
 
-
   ellipse_axes <- NULL
 
   for (i in seq_along(time_point_names)) {
@@ -147,12 +150,13 @@ fviz_gda_trajectory_sample <- function(res_gda,
         data = coord_all %>%
           filter(time == time_point_names[i]),
         aes(
-          !! axis_1,
-          !! axis_2
+          !!axis_1,
+          !!axis_2
         ),
         segments = 500,
         type = "norm",
-        level = 0.86
+        level = 0.86,
+        show.legend = FALSE
       )
 
     # Get ellipse coords from plot
@@ -171,7 +175,7 @@ fviz_gda_trajectory_sample <- function(res_gda,
       as.vector()
 
     # Calculate distance to centre from each ellipse pts
-    dist2center <- sqrt(rowSums(t(t(el)-ctr)^2))
+    dist2center <- sqrt(rowSums(t(t(el) - ctr)^2))
 
     # Identify axes points
     df <-
@@ -181,7 +185,7 @@ fviz_gda_trajectory_sample <- function(res_gda,
         time = rep(time_point_names[i], length(dist2center))
       ) %>%
       arrange(dist2center) %>%
-      slice(c(1, 2, n()-1, n())) %>%
+      slice(c(1, 2, n() - 1, n())) %>%
       mutate(dist2center = round(dist2center, 2))
 
     # Store results
@@ -209,17 +213,18 @@ fviz_gda_trajectory_sample <- function(res_gda,
     stat_ellipse(
       data = coord_all,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         fill = time,
         colour = time
       ),
-      geom ="polygon",
+      geom = "polygon",
       type = "norm",
       alpha = alpha,
       segments = 500,
       level = 0.8647,
-      linetype = "solid"
+      linetype = "solid",
+      show.legend = FALSE
     )
 
   p <-
@@ -228,7 +233,8 @@ fviz_gda_trajectory_sample <- function(res_gda,
       data = ellipse_axes,
       aes(x = x, xend = xend, y = y, yend = yend, group = dist2center, colour = time),
       linetype = "dashed",
-      inherit.aes = FALSE
+      inherit.aes = FALSE,
+      show.legend = FALSE
     )
 
   if (ind_points) {
@@ -250,8 +256,8 @@ fviz_gda_trajectory_sample <- function(res_gda,
     geom_point(
       data = coord_mean_mass,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         # @CHECK is mass multiply works.
         size = mass * 1.75
       ),
@@ -262,51 +268,52 @@ fviz_gda_trajectory_sample <- function(res_gda,
     geom_point(
       data = coord_mean_mass,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         size = mass,
         colour = time
       ),
       shape = 18,
-      show.legend = FALSE
+      show.legend = TRUE
     ) +
     geom_path(
       data = coord_mean_mass,
       aes(
-        !! axis_1,
-        !! axis_2
+        !!axis_1,
+        !!axis_2
       ),
       size = 1,
-      arrow = arrow(length = unit(0.2, "cm"), type = "closed")
+      arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+      show.legend = FALSE
     ) +
-    ggtitle(title) +
-    xlab(
-      paste0("Achse ", axes[1], "(", round(res_gda$eig$`percentage of variance`[axes[1]], 1), "%)")
-      ) +
-    ylab(
-      paste0("Achse ", axes[2], "(", round(res_gda$eig$`percentage of variance`[axes[2]], 1), "%)")
-      )
+    scale_size_continuous(guide = FALSE)
 
-  # Theme adaptieren
-  p <- add_theme(p)
+  # Beschriftung anpassen
+  p <- .finalize_plot(p, res_gda, axes, labels)
+
+  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
+
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Beschreibung der Punkte
   p <-
     p +
     theme(
-      legend.position = "bottom",
+      plot.title = element_blank(),
+      legend.position = c(legend_x, legend_y),
+      legend.box.background = element_rect(
+        linetype = "solid",
+        colour = "gray17",
+        fill = "white"
+      ),
+      legend.text = element_text(size = 10),
+      legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
       legend.title = element_blank()
+    ) +
+    guides(
+      colour = guide_legend(
+        override.aes = list(size = 4))
     )
-
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
 
   # Plotten
   p

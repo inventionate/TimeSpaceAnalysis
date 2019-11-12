@@ -4,8 +4,7 @@
 \alias{fviz_gda_var}
 \title{Visualize specific contributing modalities in a plane.}
 \usage{
-fviz_gda_var(res_gda, contrib = "auto",
-  title = "GDA plane high contribution modalities", axes = 1:2,
+fviz_gda_var(res_gda, contrib = "auto", title = NULL, axes = 1:2,
   open_sans = TRUE, group = NULL, group_names = NULL,
   group_style = "both", textsize = 4, colour_palette = "Set1",
   individuals = FALSE, individuals_size = "auto",

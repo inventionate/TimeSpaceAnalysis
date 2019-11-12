@@ -6,9 +6,9 @@
 \usage{
 fviz_gda_conc_ellipse(res_gda, level = 0.8647, alpha = 0.1,
   colour = "black", linetype = "dashed", density = FALSE,
-  fill = "gray", axes = 1:2, open_sans = TRUE, scale_size = 1,
-  title = "GDA individuals plot", plot_modif_rates = TRUE,
-  axis_lab_name = "Achse", labels = NULL)
+  fill = "transparent", axes = 1:2, open_sans = TRUE,
+  scale_size = 1, title = "GDA individuals plot",
+  plot_modif_rates = TRUE, axis_lab_name = "Achse", labels = NULL)
 }
 \arguments{
 \item{res_gda}{GDA result.}

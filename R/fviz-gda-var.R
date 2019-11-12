@@ -27,7 +27,7 @@ NULL
 #' @export
 fviz_gda_var <- function(res_gda,
                          contrib = "auto",
-                         title = "GDA plane high contribution modalities",
+                         title = NULL,
                          axes = 1:2,
                          open_sans = TRUE,
                          group = NULL,
@@ -43,6 +43,13 @@ fviz_gda_var <- function(res_gda,
                          axis_lab_name = "Achse",
                          group_lab_name = "Themengruppen",
                          labels = NULL ) {
+  # Check GDA algorithm
+  if (inherits(res_gda, c("MCA"))) {
+    df <- res_gda$var$contrib
+  } else {
+    stop("Only MCA plots are currently supported!")
+  }
+
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -58,13 +65,6 @@ fviz_gda_var <- function(res_gda,
     criterion <- 100/(length(GDAtools::getindexcat(res_gda$call$X)))
   } else {
     criterion <- 100/(length(GDAtools::getindexcat(res_gda$call$X)[-res_gda$call$excl]))
-  }
-
-  # Check GDA algorithm
-  if (inherits(res_gda, c("MCA"))) {
-    df <- res_gda$var$contrib
-  } else {
-    stop("Only MCA plots are currently supported!")
   }
 
   # Auswahl festlegen
@@ -145,16 +145,14 @@ fviz_gda_var <- function(res_gda,
         ) +
         geom_hline(
           yintercept = 0,
-          colour = "gray70",
+          colour = "gray17",
           linetype = "solid"
         ) +
         geom_vline(
           xintercept = 0,
-          colour = "gray70",
+          colour = "gray17",
           linetype = "solid"
         )
-
-      p <- .annotate_axes(p, labels)
 
       if (individuals) {
         if (individuals_size == "auto") {
@@ -186,8 +184,8 @@ fviz_gda_var <- function(res_gda,
           ggrepel::geom_label_repel(
             data = .count_distinct_ind(res_gda, axes),
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               label = rownames(.count_distinct_ind(res_gda, axes))
             ),
             colour = "black",
@@ -202,8 +200,8 @@ fviz_gda_var <- function(res_gda,
           geom_point(
             data = modalities_coord,
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               colour = group,
               shape = group,
               size = weight
@@ -217,8 +215,8 @@ fviz_gda_var <- function(res_gda,
           geom_point(
             data = modalities_coord,
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               colour = group,
               size = weight
             ),
@@ -232,8 +230,8 @@ fviz_gda_var <- function(res_gda,
           geom_point(
             data = modalities_coord,
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               shape = group,
               size = weight
             ),
@@ -247,8 +245,8 @@ fviz_gda_var <- function(res_gda,
           ggrepel::geom_text_repel(
             data = modalities_coord,
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               colour = group,
               label = factor(modalities_coord$rowname)
             ),
@@ -257,14 +255,14 @@ fviz_gda_var <- function(res_gda,
           )
       }
 
-      if(group_style == "shape") {
+      if (group_style == "shape") {
         p <-
           p +
           ggrepel::geom_text_repel(
             data = modalities_coord,
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               label = factor(modalities_coord$rowname)
             ),
             size = textsize,
@@ -285,24 +283,23 @@ fviz_gda_var <- function(res_gda,
         ) +
         geom_hline(
           yintercept = 0,
-          colour = "gray70",
-          linetype = "solid"
+          colour = "gray17",
         ) +
         geom_vline(
           xintercept = 0,
-          colour = "gray70",
-          linetype = "solid"
-        ) +
+          colour = "gray17",
+        )
 
-        p <- .annotate_axes(p, labels)
     }
 
   }
 
-  p <- add_theme(p) + ggtitle(title)
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Legende für Größen ausblenden
   p <- p + scale_size(guide = FALSE)
+
+  p <- .finalize_plot(p, res_gda, axes, labels)
 
   if (!is.null(group_style) & !is.null(group)) {
 
@@ -329,21 +326,34 @@ fviz_gda_var <- function(res_gda,
             distinct(),
           solid = TRUE
         )
-      }
-    p <- p + theme(legend.position = "bottom")
+    }
+
+    p <-
+      p +
+      theme(
+        plot.title = element_blank(),
+        # @TODO: Make position adjustable
+        legend.position = c(0.12, 0.1),
+        legend.box.background = element_rect(
+          linetype = "solid",
+          colour = "gray17",
+          fill = "white"
+        ),
+        legend.text = element_text(size = 10),
+        legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
+        legend.title = element_blank()
+      ) +
+      guides(
+        colour = guide_legend(
+          override.aes = list(size = 2.5)
+        )
+      )
   }
 
   #if(individuals_size == "auto") p <- p + scale_size_continuous(range = c(3, 3 * max(.count_distinct_ind(res_gda)$count)), guide = FALSE)
 
   # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
+  p <- .annotate_axes(p, labels)
 
   # Plotten
   p

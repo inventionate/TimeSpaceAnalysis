@@ -17,8 +17,8 @@ NULL
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param alpha ellipse fill alpha.
 #' @param select choose time point.
-#' @param axis_lab_name name of axis label.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param axes_annotate_alpha alpha value of axes annotations.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -31,12 +31,12 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
                                          time_point_names = NULL,
                                          ind_points = TRUE,
                                          concentration_ellipse = TRUE,
-                                         title = "Trajectory individuals structuring factors ellipse plot",
+                                         title = NULL,
                                          plot_modif_rates = TRUE,
                                          alpha = 0.15,
                                          select = NULL,
-                                         axis_lab_name = "Achse",
-                                         labels = NULL) {
+                                         labels = NULL,
+                                         axes_annotate_alpha = 0.3) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -55,19 +55,19 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   # @TODO replace deprecated _ functions!
   df_quali <-
     df_var_quali %>%
-    data.frame() %>%
+    as.data.frame() %>%
     tibble::rownames_to_column(var = "id") %>%
-    select(id, var_quali = !! var_quali)
+    select(id, var_quali = !!var_quali)
   df_base <-
     res_gda$call$X %>%
-    data.frame() %>%
+    as.data.frame() %>%
     tibble::rownames_to_column() %>%
     separate(rowname, c("id", "time"), sep = "_", fill = "right")
   df_full <-
     full_join(df_base, df_quali, by = "id") %>%
     mutate_all(as.factor) %>%
     select(-id, -time) %>%
-    data.frame()
+    as.data.frame()
 
   # Imputation
   if (impute) {
@@ -117,8 +117,6 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, labels)
-
   # Concentartion ellipse
   if (concentration_ellipse) {
     p <-
@@ -126,14 +124,15 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       stat_ellipse(
         data = .count_distinct_ind(res_gda),
         aes(x, y),
-        geom ="polygon",
+        geom = "polygon",
         level = 0.8647,
         type = "norm",
         alpha = 0.1,
         colour = "black",
         linetype = "dashed",
         segments = 500,
-        fill = "transparent"
+        fill = "transparent",
+        show.legend = FALSE
       )
   }
 
@@ -151,8 +150,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
               time == coord_mean_mass_var_quali$time[i]
           ),
         aes(
-          !! axis_1,
-          !! axis_2
+          !!axis_1,
+          !!axis_2
         ),
         segments = 500,
         type = "norm",
@@ -160,7 +159,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       )
 
     # Get ellipse coords from plot
-    pb <-  ggplot_build(p_calc)
+    pb <- ggplot_build(p_calc)
     el <- pb$data[[1]][c("x","y")]
 
     # Calculate centre of ellipse
@@ -179,7 +178,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       as.vector()
 
     # Calculate distance to centre from each ellipse pts
-    dist2center <- sqrt(rowSums(t(t(el)-ctr)^2))
+    dist2center <- sqrt(rowSums(t(t(el) - ctr)^2))
 
     # Identify axes points
     df <-
@@ -195,7 +194,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
           length(dist2center))
       ) %>%
       arrange(dist2center) %>%
-      slice(c(1, 2, n()-1, n())) %>%
+      slice(c(1, 2, n() - 1, n())) %>%
       mutate(dist2center = round(dist2center, 2))
 
     # Store results
@@ -233,7 +232,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       ellipse_axes %>%
       filter(var_quali %in% select)
 
-    coord_mean_mass_var_quali<-
+    coord_mean_mass_var_quali <-
       coord_mean_mass_var_quali %>%
       filter(var_quali %in% select)
 
@@ -242,16 +241,17 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       stat_ellipse(
         data = coord_var_quali,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           colour = time
         ),
-        geom ="polygon",
+        geom = "polygon",
         type = "norm",
         alpha = alpha,
         segments = 500,
         level = 0.8647,
-        linetype = "solid"
+        linetype = "solid",
+        show.legend = FALSE
       )
   } else {
 
@@ -260,17 +260,18 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       stat_ellipse(
         data = coord_var_quali,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           fill = time,
           colour = time
         ),
-        geom ="polygon",
+        geom = "polygon",
         type = "norm",
         alpha = alpha,
         segments = 500,
         level = 0.8647,
-        linetype = "solid"
+        linetype = "solid",
+        show.legend = FALSE
       )
 
   }
@@ -281,9 +282,9 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       data = ellipse_axes,
       aes(x = x, xend = xend, y = y, yend = yend, group = group, colour = time),
       linetype = "dashed",
-      inherit.aes = FALSE
+      inherit.aes = FALSE,
+      show.legend = FALSE
     )
-
 
   if (ind_points) {
     p <-
@@ -291,8 +292,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       geom_point(
         data = coord_var_quali,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           colour = time,
           size = mass
         ),
@@ -306,8 +307,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       data = coord_mean_mass_var_quali,
       # @CHECK is multiply works.
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         size = mass * 1.75
       ),
       colour = "black",
@@ -317,39 +318,44 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     geom_point(
       data = coord_mean_mass_var_quali,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         size = mass,
         colour = time
       ),
       shape = 18,
-      show.legend = FALSE
+      show.legend = TRUE
     ) +
     geom_path(
       data = coord_mean_mass_var_quali,
       aes(
-        !! axis_1,
-        !! axis_2
+        !!axis_1,
+        !!axis_2
       ),
       size = 1,
-      arrow = arrow(length = unit(0.2, "cm"), type = "closed")
+      arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+      show.legend = FALSE
+    ) +
+    scale_size_continuous(guide = FALSE) +
+    guides(
+      colour = guide_legend(
+        override.aes = list(size = 4))
     )
 
-  if (is.null(select)) {
-    p <- p + facet_wrap(~var_quali)
-  }
+  # Beschriftung anpassen
+  p <- .finalize_plot(
+    p,
+    res_gda,
+    axes,
+    labels,
+    axis_label_y_vjust = 0.99,
+    axis_label_x_hjust = 0.99
+  )
 
-  if ( length(select) == 1 & title == "Trajectory individuals structuring factors ellipse plot") {
-    title <- str_glue("{title} classification category {select}")
-  }
-
-  p <- p + ggtitle(title)
-
-  # Theme adaptieren
-  p <- add_theme(p)
+  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
 
   # Beschreibung der Punkte
-  if (length(select) > 1 | is.null(select)) {
+  if (length(select) > 1 | is_null(select)) {
     p <-
       p +
       theme(
@@ -358,15 +364,35 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       )
   }
 
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
+  if (is_null(select)) {
+    p <-
+      p +
+      facet_wrap(~var_quali) +
+      theme(
+        panel.border = element_rect(
+          size = 1,
+          fill = NA,
+          colour = "gray17"
+        ),
+        panel.spacing = unit(0.5, "cm"),
+        strip.text.x = element_text(
+          face = "bold",
+          family = "Fira Sans",
+          vjust = 0.5,
+          hjust = 0.5,
+          size = 12,
+          margin = margin(0, 0, 3, 0, "mm")
+        )
+      )
+
+  }
+
+  # if ( length(select) == 1 & title == "Trajectory individuals structuring factors ellipse plot") {
+  #   title <- str_glue("{title} classification category {select}")
+  # }
+  # @TODO: Improve titel display.
+
+  if (!is_null(title)) p <- p + ggtitle(title)
 
     # Plotten
    p

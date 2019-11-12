@@ -4,13 +4,13 @@
 \alias{fviz_gda_quali_supvar}
 \title{Visualize supplementary variables.}
 \usage{
-fviz_gda_quali_supvar(res_gda, df_var_quali, var_quali,
-  title = "MCA quali var structure", path = FALSE,
-  linetype = "solid", axes = 1:2, scale_point = TRUE,
+fviz_gda_quali_supvar(res_gda, df_var_quali, var_quali, title = NULL,
+  path = FALSE, linetype = "solid", axes = 1:2, scale_point = TRUE,
   size_point = 3, scale_text = FALSE, size_text = 3,
   palette = "Set1", open_sans = TRUE, impute = TRUE,
   plot_modif_rates = TRUE, impute_ncp = 2, relevel = NULL,
-  plot_eta2 = TRUE, axis_lab_name = "Achse", labels = NULL)
+  plot_eta2 = TRUE, axis_lab_name = "Achse",
+  axes_annotate_alpha = 0.3, labels = NULL)
 }
 \arguments{
 \item{res_gda}{GDA result.}
@@ -50,6 +50,8 @@ fviz_gda_quali_supvar(res_gda, df_var_quali, var_quali,
 \item{plot_eta2}{plot eta2 value per axis (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
+
+\item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }

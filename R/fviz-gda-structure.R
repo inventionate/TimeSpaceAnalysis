@@ -16,6 +16,7 @@ NULL
 #' @param open_sans use Open Sans font (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization of additive cloud.
@@ -23,7 +24,7 @@ NULL
 fviz_gda_structure <- function(res_gda,
                                df_var_quali,
                                var_quali,
-                               title = "MCA quali structure effects",
+                               title = NULL,
                                scale_mean_points = TRUE,
                                axes = 1:2,
                                palette = "Set1",
@@ -32,7 +33,8 @@ fviz_gda_structure <- function(res_gda,
                                cloud = "both",
                                plot_modif_rates = TRUE,
                                axis_lab_name = "Achse",
-                               labels = NULL) {
+                               labels = NULL,
+                               axes_annotate_alpha = 0.3) {
 
   # Check GDA result
   if (!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
@@ -184,13 +186,11 @@ fviz_gda_structure <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  p <- .annotate_axes(p, labels)
-
   # Skalierungsdimension festlegen
   p <- p + scale_size_continuous(range = c(1, 7))
 
   # Pfad plotten
-  if(cloud == "deviation") {
+  if (cloud == "deviation") {
 
     # Real cloud (solid)
     # Punkte
@@ -393,17 +393,11 @@ fviz_gda_structure <- function(res_gda,
   if (cloud == "both") p <- p + facet_wrap(~variable)
 
   # Designanpassungen
-  p <- add_theme(p) + ggtitle(title)
+  p <- .finalize_plot(p, res_gda, axes, labels)
 
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
+  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
+
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Plotten
   p

@@ -1,10 +1,183 @@
 # Create plot
 .create_plot <- function() {
+  ggplot() +
+    geom_hline(yintercept = 0, colour = "gray17") +
+    geom_vline(xintercept = 0, colour = "gray17")
+}
 
-   ggplot() +
-    geom_hline(yintercept = 0, colour = "gray70", linetype = "solid") +
-    geom_vline(xintercept = 0, colour = "gray70", linetype = "solid")
+.finalize_plot <- function(plot,
+                           res_gda,
+                           axes = 1:2,
+                           labels,
+                           axis_label_y_vjust = 1,
+                           axis_label_x_hjust = 1) {
 
+  # Werte brechnen
+  tickmarks_y <-
+    ggplot_build(plot)$layout$panel_params[[1]]$y.labels %>%
+    as.numeric() %>%
+    as_tibble() %>%
+    filter(value != 0 & value %in% c(min(value), max(value))) %>%
+    pull(value)
+
+  tickmarks_x <-
+    ggplot_build(plot)$layout$panel_params[[1]]$x.labels %>%
+    as.numeric() %>%
+    as_tibble() %>%
+    filter(value != 0 & value %in% c(min(value), max(value))) %>%
+    pull(value)
+
+  label_margin = 1.1
+
+  if (!is_null(labels) && labels[2] != "") {
+    label_margin = 2
+  }
+
+  # Plot aufbauen
+  p <-
+  plot +
+  theme_void(
+    base_size = 10,
+    base_family = "Fira Sans"
+  ) +
+  theme(
+    axis.title = element_text(
+      face = "italic",
+      colour = "gray17"
+    ),
+    axis.title.x = element_text(
+      hjust = 1
+    ),
+    axis.title.y = element_text(
+      hjust = 0
+    ),
+    legend.position = "none"
+  )
+
+  # Beschriftung ausführen!
+  p <- .gda_plot_labels(
+    res_gda = res_gda,
+    ggplot_gda = p,
+    axes = axes,
+    mod_rates_message = FALSE
+  )
+
+  # Achsen und beschriftung neu ausrichten
+  p <-
+    p +
+    scale_x_continuous(
+      breaks = tickmarks_x,
+      sec.axis = dup_axis()
+    ) +
+    scale_y_continuous(
+      breaks = tickmarks_y,
+      sec.axis = dup_axis()
+    ) +
+    theme(
+      axis.text.x.top = element_blank(),
+      axis.text.y.right = element_blank(),
+      axis.title.x.top = element_text(
+        margin = margin(0, 0, label_margin, 0, "cm"),
+        hjust = axis_label_x_hjust
+      ),
+      axis.title.y.right = element_text(
+        margin = margin(0, 0, 0, 1.65, "cm"),
+        angle = 0,
+        vjust = axis_label_y_vjust
+      ),
+      axis.text = element_text(
+        size = 9,
+        colour = "gray17"
+      ),
+      axis.ticks.length = unit(0.15, "cm"),
+      axis.ticks = element_line(colour = "gray17")
+    )
+
+  g <- ggplotGrob(p)
+
+  ax_b <- g[["grobs"]][g$layout$name == "axis-b"][[1]]
+
+  ax_t <- g[["grobs"]][g$layout$name == "axis-t"][[1]]
+
+  xlab_t <- g[["grobs"]][g$layout$name == "xlab-t"][[1]]
+
+  ay_l <- g[["grobs"]][g$layout$name == "axis-l"][[1]]
+
+  ay_r <- g[["grobs"]][g$layout$name == "axis-r"][[1]]
+
+  ylab_r <- g[["grobs"]][g$layout$name == "ylab-r"][[1]]
+
+  p <-
+    p +
+    annotation_custom(
+      grid::grobTree(
+        ax_b,
+        vp = grid::viewport(
+          y = 1,
+          height = sum(ax_b$height)
+        )
+      ),
+      ymax = 0,
+      ymin = 0) +
+    annotation_custom(
+      grid::grobTree(
+        ax_t,
+        vp = grid::viewport(
+          y = 1,
+          height = sum(ax_t$height)
+        )
+      ),
+      ymax = 0,
+      ymin = 0) +
+    annotation_custom(
+      grid::grobTree(
+        ay_l,
+        vp = grid::viewport(
+          x = 1,
+          width = sum(ay_l$height)
+        )
+      ),
+      xmax = 0,
+      xmin = 0) +
+    annotation_custom(
+      grid::grobTree(
+        ay_r,
+        vp = grid::viewport(
+          x = 1,
+          width = sum(ay_r$height)
+        )
+      ),
+      xmax = 0,
+      xmin = 0) +
+    annotation_custom(
+      grid::grobTree(
+        xlab_t,
+        vp = grid::viewport(
+          y = 1,
+          height = sum(xlab_t$height)
+        )
+      ),
+      ymax = 0,
+      ymin = 0
+    ) +
+    annotation_custom(
+      grid::grobTree(
+        ylab_r,
+        vp = grid::viewport(
+          x = 1,
+          height = sum(ylab_r$height)
+        )
+      ),
+      xmax = 0,
+      xmin = 0) +
+    theme(
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title = element_blank()
+    ) +
+    coord_fixed()
+
+  p
 }
 
 # Eine Sammlung hilfreicher Funktionen
@@ -56,7 +229,13 @@
 # Add Open Sans font
 .add_fonts <- function() {
   showtext::showtext_auto()
-  sysfonts::font_add("Fira Sans", "FiraSans-Regular.otf")
+  sysfonts::font_add(
+    "Fira Sans",
+    regular = "FiraSans-Regular.otf",
+    italic = "FiraSans-Italic.otf",
+    bold = "FiraSans-Bold.otf",
+    bolditalic = "FiraSans-BoldItalic.otf"
+  )
 }
 
 # Calculate crossed within variance
@@ -256,11 +435,14 @@
 # Beschriftung eines Plots anpassen
 .gda_plot_labels <- function(res_gda,
                              ggplot_gda,
-                             title,
-                             axes,
+                             title = waiver(),
+                             axes = 1:2,
                              plot_modif_rates = TRUE,
                              eta2 = NULL,
-                             axis_lab_name = "Achse") {
+                             axis_lab_name = "Achse",
+                             mod_rates_message = TRUE) {
+
+  caption = waiver()
 
   if (plot_modif_rates) {
 
@@ -270,7 +452,12 @@
 
     rate_2 <- modif_rates[axes[2], 1]
 
-    caption = "Reskalierte Eigenwerte nach Benzécri"
+    if (mod_rates_message) {
+
+      caption = "Reskalierte Eigenwerte nach Benzécri"
+
+    }
+
 
   } else {
 
@@ -280,100 +467,111 @@
 
     rate_2 <- round(eig[axes[2]], 1)
 
-    caption = waiver()
-
   }
 
   if (!is.null(eta2)) {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} % – η² = {eta2[axes[1]]})")
+    xlab = str_glue("{axis_lab_name} {axes[1]}\n({rate_1} %; η² = {eta2[axes[1]]})")
 
-    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2} % – η² = {eta2[axes[2]]})")
+    ylab = str_glue("{axis_lab_name} {axes[2]}\n({rate_2} %; η² = {eta2[axes[2]]})")
 
   } else {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]} ({rate_1} %)")
+    xlab = str_glue("{axis_lab_name} {axes[1]}\n({rate_1} %)")
 
-    ylab = str_glue("{axis_lab_name} {axes[2]} ({rate_2} %)")
+    ylab = str_glue("{axis_lab_name} {axes[2]}\n({rate_2} %)")
 
   }
 
   p <- ggplot_gda + labs(title = title, x = xlab, y = ylab, caption = caption)
+
+  p
 }
+
 # Achsen beschriften
-.annotate_axes <- function(plot, labels = NULL) {
+.annotate_axes <- function(plot, labels = NULL, alpha = 0.7) {
 
   if (is_null(labels)) return(plot)
 
     if (labels[1] != "") {
       plot <-
         plot +
-        annotate("label",
-                 x = -Inf,
-                 y = 0,
-                 hjust = 0,
-                 size = 5,
-                 label.padding = unit(0.4, "lines"),
-                 label.r = unit(0, "lines"),
-                 label.size = 0,
-                 colour = "white",
-                 fill = "gray70",
-                 label = labels[1],
-                 family = "Fira Sans",
-                 fontface = "bold")
+        annotate(
+          "label",
+          x = -Inf,
+          y = 0.008,
+          size = 4,
+          hjust = 0,
+          vjust = 0,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = "gray80",
+          alpha = alpha,
+          label = toupper(labels[1]),
+          family = "Fira Sans",
+          fontface = "bold"
+        )
     }
     if (labels[2] != "") {
       plot <-
         plot +
-        annotate("label",
-                 x = Inf,
-                 y = 0,
-                 hjust = 1,
-                 size = 5,
-                 label.padding = unit(0.4, "lines"),
-                 label.r = unit(0, "lines"),
-                 label.size = 0,
-                 colour = "white",
-                 fill = "gray70",
-                 label = labels[2],
-                 family = "Fira Sans",
-                 fontface = "bold")
+        annotate(
+          "label",
+          x = Inf,
+          y = 0.008,
+          size = 4,
+          hjust = 1,
+          vjust = 0,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = "gray80",
+          alpha = alpha,
+          label = toupper(labels[2]),
+          family = "Fira Sans",
+          fontface = "bold"
+        )
     }
     if (labels[3] != "") {
       plot <-
         plot +
-        annotate("label",
-                 x = 0,
-                 y = Inf,
-                 size = 5,
-                 hjust = 0.5,
-                 vjust = 1,
-                 label.padding = unit(0.4, "lines"),
-                 label.r = unit(0, "lines"),
-                 label.size = 0,
-                 colour = "white",
-                 fill = "gray70",
-                 label = labels[3],
-                 family = "Fira Sans",
-                 fontface = "bold")
+        annotate(
+          "label",
+          x = -0.008,
+          y = Inf,
+          size = 4,
+          hjust = 1,
+          vjust = 1,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = "gray80",
+          alpha = alpha,
+          label = toupper(labels[3]),
+          family = "Fira Sans",
+          fontface = "bold"
+        )
     }
       if (labels[4] != "") {
         plot <-
           plot +
-          annotate("label",
-                   x = 0,
-                   y = -Inf,
-                   size = 5,
-                   hjust = 0.5,
-                   vjust = 0,
-                   label.padding = unit(0.4, "lines"),
-                   label.r = unit(0, "lines"),
-                   label.size = 0,
-                   colour = "white",
-                   fill = "gray70",
-                   label = labels[4],
-                   family = "Fira Sans",
-                   fontface = "bold")
+          annotate(
+            "label",
+            x = -0.008,
+            y = -Inf,
+            size = 4,
+            hjust = 1,
+            vjust = 0,
+            label.padding = unit(0.2, "lines"),
+            label.r = unit(0, "lines"),
+            label.size = 0,
+            fill = "gray80",
+            alpha = alpha,
+            label = toupper(labels[4]),
+            family = "Fira Sans",
+            fontface = "bold"
+          )
       }
 
   plot

@@ -23,13 +23,15 @@ NULL
 #' @param axis_lab_name name of axis label.
 #' @param group_lab_name name of variable groups.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param legend_x x position of legend.
+#' @param legend_y y position of legend.
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
 fviz_gda_var_axis <- function(res_gda,
                               axis = 1,
                               contrib = "auto",
-                              title = "GDA axis high contribution modalities",
+                              title = NULL,
                               axes = 1:2,
                               group = NULL,
                               group_names = NULL,
@@ -44,7 +46,16 @@ fviz_gda_var_axis <- function(res_gda,
                               plot_modif_rates = TRUE,
                               axis_lab_name = "Achse",
                               group_lab_name = "Themengruppen",
-                              labels = NULL) {
+                              labels = NULL,
+                              legend_x = 0.12,
+                              legend_y = 0.1) {
+  # Check GDA algorithm
+  if (inherits(res_gda, c("MCA"))) {
+    df <- res_gda$var$contrib
+  } else {
+    stop("Only MCA plots are currently supported!")
+  }
+
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -54,13 +65,6 @@ fviz_gda_var_axis <- function(res_gda,
   }
   else {
     criterion <- 100/(length(GDAtools::getindexcat(res_gda$call$X)[-res_gda$call$excl]))
-  }
-
-  # Check GDA algorithm
-  if (inherits(res_gda, c("MCA"))) {
-    df <- res_gda$var$contrib
-  } else {
-    stop("Only MCA plots are currently supported!")
   }
 
   # Auswahl festlegen
@@ -128,20 +132,16 @@ fviz_gda_var_axis <- function(res_gda,
           select.var = list(name = modalities$rowname),
           axes.linetype = "blank",
           axes = axes,
-          pointsize = 0
+          pointsize = 0,
         ) +
         geom_hline(
           yintercept = 0,
-          colour = "gray70",
-          linetype = "solid"
+          colour = "gray17",
         ) +
         geom_vline(
           xintercept = 0,
-          colour = "gray70",
-          linetype = "solid"
+          colour = "gray17",
         )
-
-      p <- .annotate_axes(p, labels)
 
       # Evaluate axes
       axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -177,8 +177,8 @@ fviz_gda_var_axis <- function(res_gda,
           ggrepel::geom_label_repel(
             data = .count_distinct_ind(res_gda, axes),
             aes(
-              !! axis_1,
-              !! axis_2,
+              !!axis_1,
+              !!axis_2,
               # @CHECK if label works
               label = rownames(.count_distinct_ind(res_gda, axes))
             ),
@@ -280,14 +280,16 @@ fviz_gda_var_axis <- function(res_gda,
           linetype = "solid"
         )
 
-      p <- .annotate_axes(p, labels)
     }
   }
 
-  p <- add_theme(p) + ggtitle(title)
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Legende für Größen ausblenden
   p <- p + scale_size(guide = FALSE)
+
+  # Plot aufbereiten und finalisieren
+  p <- .finalize_plot(p, res_gda, axes, labels)
 
   if (!is.null(group_style) & !is.null(group)) {
     if (group_style %in% c("colour", "both")) {
@@ -313,18 +315,29 @@ fviz_gda_var_axis <- function(res_gda,
           solid = TRUE
         )
     }
-    p <- p + theme(legend.position = "bottom")
+
+    p <-
+      p +
+      theme(
+        plot.title = element_blank(),
+        legend.position = c(legend_x, legend_y),
+        legend.box.background = element_rect(
+          linetype = "solid",
+          colour = "gray17",
+          fill = "white"
+        ),
+        legend.text = element_text(size = 10),
+        legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
+        legend.title = element_blank()
+      ) +
+      guides(
+        colour = guide_legend(
+          override.aes = list(size = 2.5))
+        )
+
   }
 
-  # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    axis_lab_name = axis_lab_name
-  )
+  p <- .annotate_axes(p, labels)
 
   # Plotten
   p

@@ -4,11 +4,11 @@
 \alias{fviz_gda_structure}
 \title{Visualize additive cloud.}
 \usage{
-fviz_gda_structure(res_gda, df_var_quali, var_quali,
-  title = "MCA quali structure effects", scale_mean_points = TRUE,
-  axes = 1:2, palette = "Set1", impute = TRUE, open_sans = TRUE,
-  cloud = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse",
-  labels = NULL)
+fviz_gda_structure(res_gda, df_var_quali, var_quali, title = NULL,
+  scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
+  impute = TRUE, open_sans = TRUE, cloud = "both",
+  plot_modif_rates = TRUE, axis_lab_name = "Achse", labels = NULL,
+  axes_annotate_alpha = 0.3)
 }
 \arguments{
 \item{res_gda}{MCA result.}
@@ -36,6 +36,8 @@ fviz_gda_structure(res_gda, df_var_quali, var_quali,
 \item{axis_lab_name}{name of axis label.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{axes_annotate_alpha}{alpha value of axes annotations.}
 }
 \value{
 ggplot2 visualization of additive cloud.

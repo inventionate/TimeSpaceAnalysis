@@ -5,10 +5,10 @@
 \title{Visualization of trajectories (connected active and passive individual points).}
 \usage{
 fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
-  NULL, case = NULL), title = "Trajectory individuals plot",
-  axes = 1:2, labels = FALSE, open_sans = TRUE,
-  time_point_names = NULL, plot_modif_rates = TRUE,
-  axis_lab_name = "Achse", axes_labels = NULL)
+  NULL, case = NULL), title = NULL, axes = 1:2, ind_labels = FALSE,
+  open_sans = TRUE, time_point_names = NULL, plot_modif_rates = TRUE,
+  axis_lab_name = "Achse", labels = NULL, legend_x = 0.12,
+  legend_y = 0.9, axes_annotate_alpha = 0.3)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}
@@ -19,7 +19,7 @@ fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
 
 \item{axes}{axes to plot.}
 
-\item{labels}{plot individual labels (boolean).}
+\item{ind_labels}{plot labels (boolean).}
 
 \item{open_sans}{use Open Sans font (boolean).}
 
@@ -29,9 +29,15 @@ fviz_gda_trajectory(res_gda, select = list(name = NULL, within_inertia =
 
 \item{axis_lab_name}{name of axis label.}
 
-\item{axes_labels}{label axes (vector of length 4; left, right, top, bottom).}
+\item{labels}{plot individual labels (boolean).}
 
-\item{labels}{plot labels (boolean).}
+\item{legend_x}{x position of legend.}
+
+\item{legend_y}{y position of legend.}
+
+\item{axes_annotate_alpha}{alpha value of axes annotations.}
+
+\item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 }
 \value{
 trajectory ggplot2 visualization.

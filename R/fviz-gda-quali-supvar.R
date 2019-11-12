@@ -22,6 +22,7 @@ NULL
 #' @param relevel character vector containing new level order.
 #' @param plot_eta2 plot eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
+#' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #'
 #' @return ggplot2 visualization of supplementary variables.
@@ -29,7 +30,7 @@ NULL
 fviz_gda_quali_supvar <- function(res_gda,
                                   df_var_quali,
                                   var_quali,
-                                  title = "MCA quali var structure",
+                                  title = NULL,
                                   path = FALSE,
                                   linetype = "solid",
                                   axes = 1:2,
@@ -45,6 +46,7 @@ fviz_gda_quali_supvar <- function(res_gda,
                                   relevel = NULL,
                                   plot_eta2 = TRUE,
                                   axis_lab_name = "Achse",
+                                  axes_annotate_alpha = 0.3,
                                   labels = NULL) {
 
   # Add Open Sans font family
@@ -52,9 +54,9 @@ fviz_gda_quali_supvar <- function(res_gda,
 
   var <-
     df_var_quali %>%
-    select(!! var_quali) %>%
-    data.frame() %>%
-    mutate_all(funs(as.character))
+    select(!!var_quali) %>%
+    as.data.frame() %>%
+    mutate_all(as.character)
 
   # Berechnungen der passiven Variable durchführen
   supvar_stats <- supvar_stats(
@@ -98,7 +100,7 @@ fviz_gda_quali_supvar <- function(res_gda,
   order_levels <-
     df_var_quali %>%
     select(matches(var_quali)) %>%
-    data.frame()
+    as.data.frame()
 
   order_levels <- levels(factor(order_levels[,1]))
 
@@ -114,8 +116,6 @@ fviz_gda_quali_supvar <- function(res_gda,
   } else {
     stop("Only MCA plots are currently supported!")
   }
-
-  p <- .annotate_axes(p, labels)
 
   # Skalierungsgrenzen festlegen
   p <- p + scale_size_continuous(range = c(1, 7))
@@ -182,18 +182,12 @@ fviz_gda_quali_supvar <- function(res_gda,
   }
 
   # Standardthema hinzufügen
-  p <- add_theme(p) + ggtitle(title)
+  if (!is_null(title)) p <- p + ggtitle(title)
 
   # Beschriftung anpassen
-  p <- .gda_plot_labels(
-    res_gda,
-    p,
-    title,
-    axes,
-    plot_modif_rates,
-    supvar_eta2,
-    axis_lab_name = axis_lab_name
-  )
+  p <- .finalize_plot(p, res_gda, axes, labels)
+
+  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
 
   # Plotten
   p
