@@ -34,7 +34,8 @@ fviz_gda_quali_ellipses(
   profiles = NULL,
   labels = NULL,
   axes_annotate_alpha = 0.3,
-  facet_label_y = 0.77
+  facet_label_y = 0.75,
+  facet_label_sep = 0.03
 )
 }
 \arguments{
@@ -97,6 +98,8 @@ fviz_gda_quali_ellipses(
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{facet_label_y}{adjust facet labels y position.}
+
+\item{facet_label_sep}{adjust facet sublabel seperation distance.}
 }
 \value{
 ggplot2 visualization with concentration and quali var ellipses.

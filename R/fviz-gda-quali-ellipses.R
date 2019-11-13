@@ -32,6 +32,7 @@ NULL
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param facet_label_y adjust facet labels y position.
+#' @param facet_label_sep adjust facet sublabel seperation distance.
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -64,7 +65,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
                                     profiles = NULL,
                                     labels = NULL,
                                     axes_annotate_alpha = 0.3,
-                                    facet_label_y = 0.77) {
+                                    facet_label_y = 0.75,
+                                    facet_label_sep = 0.03) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -495,7 +497,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
         draw_label(
           coord_mean_quali$prop[[j]],
           k/(length(coord_mean_quali$prop) * 2),
-          facet_label_y + 0.05,
+          facet_label_y + facet_label_sep,
           fontfamily = "Fira Sans",
           fontface = "bold")
 
