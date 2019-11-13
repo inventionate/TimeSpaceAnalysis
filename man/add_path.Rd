@@ -4,8 +4,16 @@
 \alias{add_path}
 \title{Concat the categories of a variable}
 \usage{
-add_path(res_gda_quali, var, var_levels = NULL, exclude = NULL,
-  axes = 1:2, linetype = "dashed", colour = "black", size = 1)
+add_path(
+  res_gda_quali,
+  var,
+  var_levels = NULL,
+  exclude = NULL,
+  axes = 1:2,
+  linetype = "dashed",
+  colour = "black",
+  size = 1
+)
 }
 \arguments{
 \item{res_gda_quali}{GDA result.}

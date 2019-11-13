@@ -4,8 +4,13 @@
 \alias{supvar_crossing_stats}
 \title{Calculate crossed variables double breakdown of variance.}
 \usage{
-supvar_crossing_stats(res_gda, var_quali_df, var_quali, impute = TRUE,
-  axes = 1:2)
+supvar_crossing_stats(
+  res_gda,
+  var_quali_df,
+  var_quali,
+  impute = TRUE,
+  axes = 1:2
+)
 }
 \arguments{
 \item{res_gda}{MCA result.}

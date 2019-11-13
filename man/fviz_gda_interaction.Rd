@@ -4,13 +4,26 @@
 \alias{fviz_gda_interaction}
 \title{Visualize interaction cloud.}
 \usage{
-fviz_gda_interaction(res_gda, df_var_quali, var_quali,
-  title = "MCA quali interaction effects", mean_alpha = 0.75,
-  path_linetype = "solid", path_size = 1, path_colour = "black",
-  scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
-  path_alpha = 1, open_sans = TRUE, impute = TRUE,
-  variable = "both", plot_modif_rates = TRUE,
-  axis_lab_name = "Achse", labels = NULL)
+fviz_gda_interaction(
+  res_gda,
+  df_var_quali,
+  var_quali,
+  title = "MCA quali interaction effects",
+  mean_alpha = 0.75,
+  path_linetype = "solid",
+  path_size = 1,
+  path_colour = "black",
+  scale_mean_points = TRUE,
+  axes = 1:2,
+  palette = "Set1",
+  path_alpha = 1,
+  open_sans = TRUE,
+  impute = TRUE,
+  variable = "both",
+  plot_modif_rates = TRUE,
+  axis_lab_name = "Achse",
+  labels = NULL
+)
 }
 \arguments{
 \item{res_gda}{MCA result.}

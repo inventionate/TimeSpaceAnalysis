@@ -4,12 +4,28 @@
 \alias{plot_places_chronology}
 \title{Plot single or multiple place chronologies in different scales.}
 \usage{
-plot_places_chronology(data, id, weekday = "all", size_range = NULL,
-  colour_path = "black", size_path = 2, alpha_path = 0.25,
-  alpha_points = 0.5, linetype_path = "solid", force_repel = 3,
-  title = NULL, axis_label = FALSE, xlim = NULL, ylim = NULL,
-  xextra = 3, print_place_duration = TRUE, point_padding = unit(1,
-  "lines"), open_sans = TRUE, exclude_sleep = TRUE, facets = FALSE)
+plot_places_chronology(
+  data,
+  id,
+  weekday = "all",
+  size_range = NULL,
+  colour_path = "black",
+  size_path = 2,
+  alpha_path = 0.25,
+  alpha_points = 0.5,
+  linetype_path = "solid",
+  force_repel = 3,
+  title = NULL,
+  axis_label = FALSE,
+  xlim = NULL,
+  ylim = NULL,
+  xextra = 3,
+  print_place_duration = TRUE,
+  point_padding = unit(1, "lines"),
+  open_sans = TRUE,
+  exclude_sleep = TRUE,
+  facets = FALSE
+)
 }
 \arguments{
 \item{data}{a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).}

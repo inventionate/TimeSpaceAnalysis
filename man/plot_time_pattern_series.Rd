@@ -4,9 +4,15 @@
 \alias{plot_time_pattern_series}
 \title{Plot time pattern series data.}
 \usage{
-plot_time_pattern_series(data_tp, alpha = 0.3, palette = "Set1",
-  open_sans = TRUE, title = "Time pattern profiles (kml3d results)",
-  hour_limits = c(0, 24), hour_scale = c(0, 4, 8, 12, 16, 20, 24))
+plot_time_pattern_series(
+  data_tp,
+  alpha = 0.3,
+  palette = "Set1",
+  open_sans = TRUE,
+  title = "Time pattern profiles (kml3d results)",
+  hour_limits = c(0, 24),
+  hour_scale = c(0, 4, 8, 12, 16, 20, 24)
+)
 }
 \arguments{
 \item{data_tp}{data frame including questionnaire_id, kml3d results and time pattern data.}

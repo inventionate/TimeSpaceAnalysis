@@ -4,9 +4,17 @@
 \alias{plot_barplot}
 \title{Visualize a barplot.}
 \usage{
-plot_barplot(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5,
-  bar_rel_size = 3, axes_rel_small = 0.6, show_missing = TRUE,
-  digits = 1, open_sans = TRUE)
+plot_barplot(
+  df_origin,
+  df_var,
+  sort = FALSE,
+  bar_abs_size = 3.5,
+  bar_rel_size = 3,
+  axes_rel_small = 0.6,
+  show_missing = TRUE,
+  digits = 1,
+  open_sans = TRUE
+)
 }
 \arguments{
 \item{df_origin}{source data farme (tibble).}

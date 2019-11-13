@@ -4,11 +4,20 @@
 \alias{fviz_mca_var_corr}
 \title{Visualize MCA variable representation square.}
 \usage{
-fviz_mca_var_corr(res_gda, axes = c(1, 2), geom = c("point", "text"),
-  labelsize = 4, pointsize = 2, invisible = NULL, labels = TRUE,
-  repel = TRUE, select = list(name = NULL, eta2 = NULL),
-  open_sans = TRUE, plot_modif_rates = TRUE,
-  title = "MCA - Variable Representation")
+fviz_mca_var_corr(
+  res_gda,
+  axes = c(1, 2),
+  geom = c("point", "text"),
+  labelsize = 4,
+  pointsize = 2,
+  invisible = NULL,
+  labels = TRUE,
+  repel = TRUE,
+  select = list(name = NULL, eta2 = NULL),
+  open_sans = TRUE,
+  plot_modif_rates = TRUE,
+  title = "MCA - Variable Representation"
+)
 }
 \arguments{
 \item{res_gda}{MCA result.}

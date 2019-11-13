@@ -4,11 +4,21 @@
 \alias{fviz_gda_trajectory_quali}
 \title{Visualize trajectories and structuring factors.}
 \usage{
-fviz_gda_trajectory_quali(res_gda, df_var_quali, var_quali, axes = 1:2,
-  open_sans = TRUE, ind_labels = FALSE, title = NULL,
-  time_point_names = NULL, select = list(name = NULL, within_inertia =
-  NULL, case = NULL), impute = TRUE, plot_modif_rates = TRUE,
-  labels = NULL, axes_annotate_alpha = 0.3)
+fviz_gda_trajectory_quali(
+  res_gda,
+  df_var_quali,
+  var_quali,
+  axes = 1:2,
+  open_sans = TRUE,
+  ind_labels = FALSE,
+  title = NULL,
+  time_point_names = NULL,
+  select = list(name = NULL, within_inertia = NULL, case = NULL),
+  impute = TRUE,
+  plot_modif_rates = TRUE,
+  labels = NULL,
+  axes_annotate_alpha = 0.3
+)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}

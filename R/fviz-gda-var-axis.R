@@ -23,8 +23,6 @@ NULL
 #' @param axis_lab_name name of axis label.
 #' @param group_lab_name name of variable groups.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
-#' @param legend_x x position of legend.
-#' @param legend_y y position of legend.
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
@@ -46,9 +44,7 @@ fviz_gda_var_axis <- function(res_gda,
                               plot_modif_rates = TRUE,
                               axis_lab_name = "Achse",
                               group_lab_name = "Themengruppen",
-                              labels = NULL,
-                              legend_x = 0.12,
-                              legend_y = 0.1) {
+                              labels = NULL) {
   # Check GDA algorithm
   if (inherits(res_gda, c("MCA"))) {
     df <- res_gda$var$contrib
@@ -320,7 +316,8 @@ fviz_gda_var_axis <- function(res_gda,
       p +
       theme(
         plot.title = element_blank(),
-        legend.position = c(legend_x, legend_y),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
         legend.box.background = element_rect(
           linetype = "solid",
           colour = "gray17",

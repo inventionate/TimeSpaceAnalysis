@@ -4,16 +4,38 @@
 \alias{fviz_gda_quali_ellipses}
 \title{Title}
 \usage{
-fviz_gda_quali_ellipses(res_gda, df_var_quali, var_quali, title = NULL,
-  facet = TRUE, alpha_point = 0.75, conc_linetype = "solid",
-  conf_linetype = "solid", scale_mean_points = TRUE, axes = 1:2,
-  palette = "Set1", open_sans = TRUE, impute = TRUE,
-  concentration_ellipses = TRUE, confidence_ellipses = FALSE,
-  conf_colour = FALSE, plot_modif_rates = TRUE, ncol = 3,
-  individuals = TRUE, impute_ncp = 2, relevel = NULL,
-  alpha_ellipses = 0.15, plot_eta2 = TRUE, axis_lab_name = "Achse",
-  label_mean_points = TRUE, highlight = FALSE, profiles = NULL,
-  labels = NULL, axes_annotate_alpha = 0.3, facet_label_y = 0.77)
+fviz_gda_quali_ellipses(
+  res_gda,
+  df_var_quali,
+  var_quali,
+  title = NULL,
+  facet = TRUE,
+  alpha_point = 0.75,
+  conc_linetype = "solid",
+  conf_linetype = "solid",
+  scale_mean_points = TRUE,
+  axes = 1:2,
+  palette = "Set1",
+  open_sans = TRUE,
+  impute = TRUE,
+  concentration_ellipses = TRUE,
+  confidence_ellipses = FALSE,
+  conf_colour = FALSE,
+  plot_modif_rates = TRUE,
+  ncol = 3,
+  individuals = TRUE,
+  impute_ncp = 2,
+  relevel = NULL,
+  alpha_ellipses = 0.15,
+  plot_eta2 = TRUE,
+  axis_lab_name = "Achse",
+  label_mean_points = TRUE,
+  highlight = FALSE,
+  profiles = NULL,
+  labels = NULL,
+  axes_annotate_alpha = 0.3,
+  facet_label_y = 0.77
+)
 }
 \arguments{
 \item{res_gda}{GDA (MCA, MFA) result (rownames have to be individual questionnaire IDs).}

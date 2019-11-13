@@ -4,12 +4,23 @@
 \alias{fviz_gda_trajectory_sample}
 \title{Visualization of the separated concentration ellipses of the sample.}
 \usage{
-fviz_gda_trajectory_sample(res_gda, time_point_names = NULL,
-  open_sans = TRUE, axes = 1:2, ind_points = TRUE,
-  concentration_ellipse = TRUE, complete = TRUE, title = NULL,
-  plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse",
-  axes_annotate_alpha = 0.3, labels = NULL, legend_x = 0.12,
-  legend_y = 0.9)
+fviz_gda_trajectory_sample(
+  res_gda,
+  time_point_names = NULL,
+  open_sans = TRUE,
+  axes = 1:2,
+  ind_points = TRUE,
+  concentration_ellipse = TRUE,
+  complete = TRUE,
+  title = NULL,
+  plot_modif_rates = TRUE,
+  alpha = 0.15,
+  axis_lab_name = "Achse",
+  axes_annotate_alpha = 0.3,
+  labels = NULL,
+  legend_x = 0.12,
+  legend_y = 0.9
+)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}

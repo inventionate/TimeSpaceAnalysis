@@ -4,12 +4,23 @@
 \alias{fviz_gda_trajectory_ellipses}
 \title{Visualization of trajectory structuring factor ellipses.}
 \usage{
-fviz_gda_trajectory_ellipses(res_gda, df_var_quali, var_quali,
-  axes = 1:2, open_sans = TRUE, impute = TRUE,
-  time_point_names = NULL, ind_points = TRUE,
-  concentration_ellipse = TRUE, title = NULL,
-  plot_modif_rates = TRUE, alpha = 0.15, select = NULL,
-  labels = NULL, axes_annotate_alpha = 0.3)
+fviz_gda_trajectory_ellipses(
+  res_gda,
+  df_var_quali,
+  var_quali,
+  axes = 1:2,
+  open_sans = TRUE,
+  impute = TRUE,
+  time_point_names = NULL,
+  ind_points = TRUE,
+  concentration_ellipse = TRUE,
+  title = NULL,
+  plot_modif_rates = TRUE,
+  alpha = 0.15,
+  select = NULL,
+  labels = NULL,
+  axes_annotate_alpha = 0.3
+)
 }
 \arguments{
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}

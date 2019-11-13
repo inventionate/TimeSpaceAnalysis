@@ -4,10 +4,19 @@
 \alias{plot_places_chronology_time_pattern}
 \title{Plot place chronology time pattern data.}
 \usage{
-plot_places_chronology_time_pattern(data, id = "all", weekday = "all",
-  graph = TRUE, print_prop_duration = TRUE, legend = TRUE,
-  bar_width = 1, ncol = 3, open_sans = TRUE, labels = NULL,
-  facet_label = TRUE)
+plot_places_chronology_time_pattern(
+  data,
+  id = "all",
+  weekday = "all",
+  graph = TRUE,
+  print_prop_duration = TRUE,
+  legend = TRUE,
+  bar_width = 1,
+  ncol = 3,
+  open_sans = TRUE,
+  labels = NULL,
+  facet_label = TRUE
+)
 }
 \arguments{
 \item{data}{data frame, which contains place chronology time pattern data.}

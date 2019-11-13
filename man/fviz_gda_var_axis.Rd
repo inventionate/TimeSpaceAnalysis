@@ -4,14 +4,27 @@
 \alias{fviz_gda_var_axis}
 \title{Visualize specific contributing modalities.}
 \usage{
-fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto", title = NULL,
-  axes = 1:2, group = NULL, group_names = NULL,
-  group_style = "both", textsize = 4, colour_palette = "Set1",
-  individuals = FALSE, individuals_size = "auto",
-  individuals_alpha = 0.5, individuals_names = FALSE,
-  open_sans = TRUE, plot_modif_rates = TRUE, axis_lab_name = "Achse",
-  group_lab_name = "Themengruppen", labels = NULL, legend_x = 0.12,
-  legend_y = 0.1)
+fviz_gda_var_axis(
+  res_gda,
+  axis = 1,
+  contrib = "auto",
+  title = NULL,
+  axes = 1:2,
+  group = NULL,
+  group_names = NULL,
+  group_style = "both",
+  textsize = 4,
+  colour_palette = "Set1",
+  individuals = FALSE,
+  individuals_size = "auto",
+  individuals_alpha = 0.5,
+  individuals_names = FALSE,
+  open_sans = TRUE,
+  plot_modif_rates = TRUE,
+  axis_lab_name = "Achse",
+  group_lab_name = "Themengruppen",
+  labels = NULL
+)
 }
 \arguments{
 \item{res_gda}{GDA result data frame.}
@@ -51,10 +64,6 @@ fviz_gda_var_axis(res_gda, axis = 1, contrib = "auto", title = NULL,
 \item{group_lab_name}{name of variable groups.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
-
-\item{legend_x}{x position of legend.}
-
-\item{legend_y}{y position of legend.}
 }
 \value{
 ggplot2 visualization containing selected modalities.

@@ -4,11 +4,22 @@
 \alias{fviz_gda_structure}
 \title{Visualize additive cloud.}
 \usage{
-fviz_gda_structure(res_gda, df_var_quali, var_quali, title = NULL,
-  scale_mean_points = TRUE, axes = 1:2, palette = "Set1",
-  impute = TRUE, open_sans = TRUE, cloud = "both",
-  plot_modif_rates = TRUE, axis_lab_name = "Achse", labels = NULL,
-  axes_annotate_alpha = 0.3)
+fviz_gda_structure(
+  res_gda,
+  df_var_quali,
+  var_quali,
+  title = NULL,
+  scale_mean_points = TRUE,
+  axes = 1:2,
+  palette = "Set1",
+  impute = TRUE,
+  open_sans = TRUE,
+  cloud = "both",
+  plot_modif_rates = TRUE,
+  axis_lab_name = "Achse",
+  labels = NULL,
+  axes_annotate_alpha = 0.3
+)
 }
 \arguments{
 \item{res_gda}{MCA result.}

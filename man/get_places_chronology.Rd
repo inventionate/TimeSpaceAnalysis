@@ -4,8 +4,13 @@
 \alias{get_places_chronology}
 \title{Reshape place chronology data.}
 \usage{
-get_places_chronology(data, id = "all", weekday = "all", title,
-  exclude_sleep = TRUE)
+get_places_chronology(
+  data,
+  id = "all",
+  weekday = "all",
+  title,
+  exclude_sleep = TRUE
+)
 }
 \arguments{
 \item{data}{a data frame, which contains place chronology data.}

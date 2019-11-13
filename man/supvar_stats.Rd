@@ -4,8 +4,7 @@
 \alias{supvar_stats}
 \title{Calculate results for supplementary variables.}
 \usage{
-supvar_stats(res_gda, var_quali_df, var_quali, impute = TRUE,
-  impute_ncp = 2)
+supvar_stats(res_gda, var_quali_df, var_quali, impute = TRUE, impute_ncp = 2)
 }
 \arguments{
 \item{res_gda}{GDA result.}

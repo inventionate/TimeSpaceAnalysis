@@ -332,8 +332,8 @@ fviz_gda_var <- function(res_gda,
       p +
       theme(
         plot.title = element_blank(),
-        # @TODO: Make position adjustable
-        legend.position = c(0.12, 0.1),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
         legend.box.background = element_rect(
           linetype = "solid",
           colour = "gray17",

@@ -4,8 +4,7 @@
 \alias{gda_optimise_df}
 \title{Optimise data frame for Geometric Data Analysis}
 \usage{
-gda_optimise_df(df_name, mod_excl = NA, prop_na_excl = 0.2,
-  rename_na = FALSE)
+gda_optimise_df(df_name, mod_excl = NA, prop_na_excl = 0.2, rename_na = FALSE)
 }
 \arguments{
 \item{df_name}{name of the data frame to optimise.}
