@@ -12,7 +12,7 @@ plot_places_chronology(
   colour_path = "black",
   size_path = 2,
   alpha_path = 0.25,
-  alpha_points = 0.5,
+  alpha_points = 0.85,
   linetype_path = "solid",
   force_repel = 3,
   title = NULL,

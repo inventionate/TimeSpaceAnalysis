@@ -8,7 +8,7 @@ get_time_pattern_series <- function(data_tp) {
 
   # Daten für die Zeitserien aufbereiten
   data_series <-
-    daten_ws_1516 %>%
+    data_tp %>%
     gather(
       "day_activity",
       "duration",
@@ -54,13 +54,14 @@ get_time_pattern_series <- function(data_tp) {
 
   # Prozentuale Verteilung der Zeitmuster
   data_series_profile_prop <-
-    daten_ws_1516 %>%
+    data_tp %>%
     select(zeitmuster) %>%
     na.omit() %>%
     count(zeitmuster) %>%
     transmute(
       zeitmuster = zeitmuster,
-      prop = str_glue("({round(n / sum(n) * 100, 1)} %)")
+      prop = str_glue("{round(n / sum(n) * 100, 1)} %"),
+      n = n
     )
 
   list(

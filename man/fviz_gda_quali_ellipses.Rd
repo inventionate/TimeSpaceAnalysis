@@ -34,8 +34,8 @@ fviz_gda_quali_ellipses(
   profiles = NULL,
   labels = NULL,
   axes_annotate_alpha = 0.3,
-  facet_label_y = 0.75,
-  facet_label_sep = 0.03
+  facet_label_y = 0.97,
+  facet_label_sep = 0.05
 )
 }
 \arguments{

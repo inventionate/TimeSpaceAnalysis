@@ -8,16 +8,20 @@ NULL
 #' @param ncol facet columns.
 #' @param open_sans use Open Sans font family (boolean).
 #' @param fluid should be static bars or fluid lines visualized (boolean).
+#' @param facet_label_y adjust facet labels y position.
+#' @param facet_label_sep adjust facet sublabel seperation distance.
 #'
 #' @return ggplot2 avgerage time pattern profile plot.
 #' @export
 plot_time_pattern_profile <- function(data_tp,
                                       id = "all",
-                                      ncol = 2,
+                                      ncol = 4,
                                       fluid = FALSE,
-                                      open_sans = TRUE) {
+                                      open_sans = TRUE,
+                                      facet_label_y = 0.95,
+                                      facet_label_sep = 0.05) {
   # Add Open Sans font family
-  if(open_sans) .add_fonts()
+  if (open_sans) .add_fonts()
 
   data_tsp <- get_time_pattern_profile(data_tp, id)
 
@@ -103,18 +107,17 @@ plot_time_pattern_profile <- function(data_tp,
 
   p <-
     p +
-    theme_minimal() +
+    theme_minimal(base_family = "Fira Sans") +
     theme(
-      text = element_text(family = "Fira Sans"),
       title = element_text(size = 14),
-      strip.text = element_text(size = 14, face = "bold"),
-      panel.spacing.x=unit(1.5, "lines"),
-      panel.spacing.y=unit(1, "lines"),
+      strip.text = element_blank(),
+      panel.spacing.x = unit(1.5, "lines"),
+      panel.spacing.y = unit(1, "lines"),
       axis.text = element_text(size = 9),
       axis.title = element_text(size = 12),
       axis.ticks = element_line(size = 0.5, colour = "black"),
-      panel.grid.minor=element_blank(),
-      panel.grid.major=element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_blank(),
       panel.background = element_blank(),
       panel.border = element_rect(
         fill = "transparent",
@@ -122,11 +125,52 @@ plot_time_pattern_profile <- function(data_tp,
         size = 1,
         linetype = "solid"
       ),
+      plot.margin = margin(0.75, 0, 0, 0, "cm"),
       legend.title = element_blank(),
-      legend.position = "right")
+      legend.position = "bottom",
+      legend.direction = "horizontal"
+    ) +
+    guides(fill = guide_legend(nrow = 1))
 
   # Mehrere Gafiken parallel erzeugen
   p <- p + facet_wrap(~zeitmuster, ncol = ncol)
+
+  df_titles <-
+    data_tsp %>%
+    select(zeitmuster, prop, n) %>%
+    distinct() %>%
+    unite("desc", prop, n, sep = ", n = ")
+
+  i <- 1
+  j <- 1
+  k <- 4
+  titles <- list()
+  while (i < (nrow(df_titles) * 2)) {
+    titles[[i]] <-
+      draw_label(
+        df_titles$zeitmuster[[j]],
+        # @TODO: Verify x-value calc!
+        k/25,
+        facet_label_y + facet_label_sep,
+        fontfamily = "Fira Sans",
+        fontface = "bold")
+
+    i <- i + 1
+
+    titles[[i]] <- draw_label(
+      df_titles$desc[[j]],
+      # @TODO: Verify x-value calc!
+      k/25,
+      facet_label_y,
+      fontfamily = "Fira Sans",
+      size = 10)
+
+    i <- i + 1
+    j <- j + 1
+    k <- k + 6
+  }
+
+  p <- suppressWarnings(suppressMessages(ggdraw(p) + coord_fixed(0.275) + titles))
 
   p
 }

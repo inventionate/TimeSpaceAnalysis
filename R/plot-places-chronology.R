@@ -33,7 +33,7 @@ plot_places_chronology <- function(data,
                                    colour_path = "black",
                                    size_path = 2,
                                    alpha_path = 0.25,
-                                   alpha_points = 0.5,
+                                   alpha_points = 0.85,
                                    linetype_path = "solid",
                                    force_repel = 3,
                                    title = NULL,
@@ -128,7 +128,7 @@ plot_places_chronology <- function(data,
       axis.text = element_text(size = 8, family = "Fira Sans"),
       axis.ticks = element_line(size = 0.1, linetype = "solid"),
       axis.line = element_line(size = 0.1, linetype = "solid"),
-      axis.ticks.length=unit(.15, "cm"),
+      axis.ticks.length = unit(.15, "cm"),
       plot.margin = unit(c(0, xextra, 0, 0),"cm")
     ) +
     ggtitle(data_pc$title)
@@ -209,10 +209,15 @@ plot_places_chronology <- function(data,
       legend.position = "bottom",
       legend.direction = "vertical",
       legend.justification = c(1,0),
-      panel.background = element_rect(fill = "transparent", colour = NA), # bg of the panel
-      plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot
-      legend.background = element_rect(fill = "transparent"), # get rid of legend bg
-      legend.box.background = element_rect(fill = "transparent"), # get rid of leg
+      panel.background = element_blank(), # bg of the panel
+      plot.margin = margin(3, 3, 0, 3, "mm"),
+      plot.background = element_blank(), # bg of the plot
+      legend.background = element_blank(), # get rid of legend bg
+      legend.box.background = element_rect(
+        colour = "black",
+        fill = "transparent",
+        linetype = "solid"
+      ), # get rid of leg
       rect = element_rect(fill = "transparent") # all rectangles
     ) +
     coord_fixed(ratio = 4, xlim = c(0.5,7.5), ylim = c(0,1))
@@ -245,12 +250,16 @@ plot_places_chronology <- function(data,
   if (facets) {
     plot_pc_full <-
       ggdraw(plot_pc) +
-      draw_image(plot_time_path, scale= 0.4, x = 0.37, y = -0.21)
+      draw_image(plot_time_path, scale = 0.4, x = 0.37, y = -0.21)
   } else {
-    plot_pc_full <-
-      ggdraw(plot_pc) +
-      draw_image(plot_time_path, scale= 0.7, x = 0.35, y = 0.1)
+    plot_pc_full <- plot_grid(plot_pc, plot_time, rel_widths = c(2, 1))
+    # plot_pc_full <-
+    #   ggdraw(plot_pc) +
+    #   draw_image(plot_time_path, scale = 0.4, x = 0.35, y = 0.1)
   }
+
+  # @TODO: Make legend direction editable and the plot position also.
+  # try grid plot on right with legend vertical!
 
   plot_pc_full
 

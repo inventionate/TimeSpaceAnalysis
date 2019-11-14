@@ -7,9 +7,11 @@
 plot_time_pattern_profile(
   data_tp,
   id = "all",
-  ncol = 2,
+  ncol = 4,
   fluid = FALSE,
-  open_sans = TRUE
+  open_sans = TRUE,
+  facet_label_y = 0.95,
+  facet_label_sep = 0.05
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ plot_time_pattern_profile(
 \item{fluid}{should be static bars or fluid lines visualized (boolean).}
 
 \item{open_sans}{use Open Sans font family (boolean).}
+
+\item{facet_label_y}{adjust facet labels y position.}
+
+\item{facet_label_sep}{adjust facet sublabel seperation distance.}
 }
 \value{
 ggplot2 avgerage time pattern profile plot.

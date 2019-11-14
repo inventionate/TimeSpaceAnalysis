@@ -10,7 +10,8 @@
                            axes = 1:2,
                            labels,
                            axis_label_y_vjust = 1,
-                           axis_label_x_hjust = 1) {
+                           axis_label_x_hjust = 1,
+                           facet_labels = FALSE) {
 
   # Werte brechnen
   tickmarks_y <-
@@ -174,8 +175,11 @@
       axis.text = element_blank(),
       axis.ticks = element_blank(),
       axis.title = element_blank()
-    ) +
-    coord_fixed()
+    )
+
+  if (!facet_labels) {
+    p <- p + coord_fixed()
+  }
 
   p
 }

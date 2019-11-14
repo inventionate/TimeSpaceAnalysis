@@ -65,8 +65,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
                                     profiles = NULL,
                                     labels = NULL,
                                     axes_annotate_alpha = 0.3,
-                                    facet_label_y = 0.75,
-                                    facet_label_sep = 0.03) {
+                                    facet_label_y = 0.97,
+                                    facet_label_sep = 0.05) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -467,7 +467,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
       axes,
       labels,
       axis_label_y_vjust = 0.99,
-      axis_label_x_hjust = 0.99
+      axis_label_x_hjust = 0.99,
+      facet_labels = TRUE
     )
 
     p <- .annotate_axes(p, labels)
@@ -484,6 +485,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
           fill = NA,
           colour = "gray17"
         ),
+        plot.margin = margin(0.5, 0, 0, 0, "cm"),
         panel.spacing = unit(0.5, "cm"),
         strip.text = element_blank()
       )
@@ -515,7 +517,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
         k <- k + 2
     }
 
-    p <- ggdraw(p) + titles
+    p <- suppressMessages(ggdraw(p) + coord_fixed(1/3) + titles)
 
   } else {
 

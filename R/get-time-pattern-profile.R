@@ -67,13 +67,13 @@ get_time_pattern_profile <- function(data_tp, id = "all")
       .,
       data_ts$data_series_profile_prop_label,
       by = "zeitmuster"
-    ) %>%
-    unite(
-      zeitmuster,
-      zeitmuster,
-      prop,
-      sep = " "
-    )
+    ) #%>%
+    # unite(
+    #   zeitmuster,
+    #   zeitmuster,
+    #   prop,
+    #   sep = " "
+    # )
 
   data_series_average_prop
 }
