@@ -34,7 +34,8 @@ Depends:
     rlang,
     glue,
     stringr,
-    magick
+    magick,
+    scales
 Suggests:
     kml3d,
     explor,

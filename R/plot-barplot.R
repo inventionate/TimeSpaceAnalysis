@@ -83,7 +83,8 @@ plot_barplot <- function(df_origin,
     scale_y_continuous(
       limits = c(0, df_cat %>% pull(abs) %>% pretty() %>% max() * 1.1),
       breaks = tickmarks,
-      expand = expand_scale(mult = c(0, 0.05))) +
+      expand = expand_scale(mult = c(0, 0.05)),
+      labels = comma) +
     theme_minimal_hgrid(
       rel_small = 0.6,
       font_size = 12,

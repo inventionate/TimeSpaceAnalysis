@@ -66,14 +66,6 @@
   # Achsen und beschriftung neu ausrichten
   p <-
     p +
-    scale_x_continuous(
-      breaks = tickmarks_x,
-      sec.axis = dup_axis()
-    ) +
-    scale_y_continuous(
-      breaks = tickmarks_y,
-      sec.axis = dup_axis()
-    ) +
     theme(
       axis.text.x.top = element_blank(),
       axis.text.y.right = element_blank(),
@@ -92,6 +84,16 @@
       ),
       axis.ticks.length = unit(0.15, "cm"),
       axis.ticks = element_line(colour = "gray17")
+    ) +
+    scale_x_continuous(
+      breaks = tickmarks_x,
+      sec.axis = dup_axis(),
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ")
+    ) +
+    scale_y_continuous(
+      breaks = tickmarks_y,
+      sec.axis = dup_axis(),
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ")
     )
 
   g <- ggplotGrob(p)
@@ -452,9 +454,9 @@
 
     modif_rates <- modified_rates(res_gda)
 
-    rate_1 <- modif_rates[axes[1], 1]
+    rate_1 <- format(modif_rates[[axes[1], 1]], decimal.mark = ",")
 
-    rate_2 <- modif_rates[axes[2], 1]
+    rate_2 <- format(modif_rates[[axes[2], 1]], decimal.mark = ",")
 
     if (mod_rates_message) {
 
@@ -467,17 +469,19 @@
 
     eig <- factoextra::get_eigenvalue(res_gda)[,2]
 
-    rate_1 <- round(eig[axes[1]], 1)
+    rate_1 <- format(round(eig[[axes[1]]], 1), decimal.mark = ",")
 
-    rate_2 <- round(eig[axes[2]], 1)
+    rate_2 <- format(round(eig[[axes[2]]], 1), decimal.mark = ",")
 
   }
 
   if (!is.null(eta2)) {
 
-    xlab = str_glue("{axis_lab_name} {axes[1]}\n({rate_1} %; η² = {eta2[axes[1]]})")
+    xlab = str_glue("{axis_lab_name} {axes[1]}\n({rate_1} %;
+                    η² = {format(eta2[axes[1]], decimal.mark = ',')})")
 
-    ylab = str_glue("{axis_lab_name} {axes[2]}\n({rate_2} %; η² = {eta2[axes[2]]})")
+    ylab = str_glue("{axis_lab_name} {axes[2]}\n({rate_2} %;
+                    η² = {format(eta2[axes[2]], decimal.mark = ',')})")
 
   } else {
 

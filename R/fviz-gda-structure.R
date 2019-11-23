@@ -187,7 +187,9 @@ fviz_gda_structure <- function(res_gda,
   }
 
   # Skalierungsdimension festlegen
-  p <- p + scale_size_continuous(range = c(1, 7))
+  p <-
+    p +
+    scale_size_continuous(range = c(1, 7))
 
   # Pfad plotten
   if (cloud == "deviation") {

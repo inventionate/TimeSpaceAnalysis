@@ -77,8 +77,8 @@ fviz_mca_var_corr <- function(res_gda,
   # Set fix dimensions
   p <-
     add_theme(p) +
-    scale_x_continuous(expand = c(0,0), limits = c(0,1)) +
-    scale_y_continuous(expand = c(0,0), limits = c(0,1))
+    scale_x_continuous(expand = c(0,0), limits = c(0,1), labels = comma) +
+    scale_y_continuous(expand = c(0,0), limits = c(0,1), labels = comma)
 
   # If there are no passive variables use only one colour
   if (nlevels(vars$type) == 1) {

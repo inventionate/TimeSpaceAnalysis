@@ -118,7 +118,9 @@ fviz_gda_quali_supvar <- function(res_gda,
   }
 
   # Skalierungsgrenzen festlegen
-  p <- p + scale_size_continuous(range = c(1, 7))
+  p <-
+    p +
+    scale_size_continuous(range = c(1, 7))
 
   # Punkte verbinden
   if (path) {

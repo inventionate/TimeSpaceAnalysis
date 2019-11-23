@@ -205,7 +205,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     mutate(
       # @Info: Hier Einstellungen für die Beschriftung der Gruppen.
       prop = str_glue("{var_quali}"),
-      prop_desc = str_glue("{round(size/sum(size) * 100, 1)} %, n = {size}"),
+      prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
       colour = as.character(as.numeric(var_quali))
     )
 
