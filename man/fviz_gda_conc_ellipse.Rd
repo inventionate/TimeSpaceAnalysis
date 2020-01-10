@@ -11,7 +11,7 @@ fviz_gda_conc_ellipse(
   colour = "black",
   linetype = "dashed",
   density = FALSE,
-  fill = "transparent",
+  fill = NA,
   axes = 1:2,
   open_sans = TRUE,
   scale_size = 1,

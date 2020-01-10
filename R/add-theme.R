@@ -22,7 +22,7 @@ plot +
     panel.grid.major = element_blank(),
     panel.background = element_blank(),
     panel.border = element_rect(
-      fill = "transparent",
+      fill = NA,
       colour = "gray70",
       size = 1,
       linetype = "solid"

@@ -131,7 +131,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
         colour = "black",
         linetype = "dashed",
         segments = 500,
-        fill = "transparent",
+        fill = NA,
         show.legend = FALSE
       )
   }

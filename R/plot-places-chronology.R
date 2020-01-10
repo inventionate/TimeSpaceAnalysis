@@ -158,7 +158,16 @@ plot_places_chronology <- function(data,
       plot_pc +
       facet_wrap(~day, ncol = 4, nrow = 2) +
       theme(
-        plot.margin = unit(c(0, 0, 0, 0),"cm")
+        plot.margin = unit(c(0, 0, 0, 0),"cm"),
+        strip.text = element_text(size = 14, face = "bold"),
+        panel.spacing.x=unit(1.5, "lines"),
+        panel.spacing.y=unit(1, "lines"),
+        panel.border = element_rect(
+          fill = NA,
+          colour = "black",
+          size = 1,
+          linetype = "solid"
+        )
       )
   }
 
@@ -205,7 +214,7 @@ plot_places_chronology <- function(data,
       axis.text.y.left = element_text(family = "Fira Sans", size = 12),
       legend.text = element_text(family = "Fira Sans", size = 12),
       legend.title = element_text(family = "Fira Sans", face = "bold", size = 14),
-      panel.border = element_rect(colour = "black", size = 1, fill = "transparent"),
+      panel.border = element_rect(colour = "black", size = 1, fill = NA),
       legend.position = "bottom",
       legend.direction = "vertical",
       legend.justification = c(1,0),
@@ -215,10 +224,10 @@ plot_places_chronology <- function(data,
       legend.background = element_blank(), # get rid of legend bg
       legend.box.background = element_rect(
         colour = "black",
-        fill = "transparent",
+        fill = NA,
         linetype = "solid"
       ), # get rid of leg
-      rect = element_rect(fill = "transparent") # all rectangles
+      rect = element_rect(fill = NA) # all rectangles
     ) +
     coord_fixed(ratio = 4, xlim = c(0.5,7.5), ylim = c(0,1))
 
@@ -244,7 +253,7 @@ plot_places_chronology <- function(data,
   # Save time plot
   plot_time_path <- tempfile(fileext = ".png")
 
-  save_plot(plot_time_path, plot_time, bg = "transparent")
+  save_plot(plot_time_path, plot_time, bg = NA)
 
   # Combine places chronology and time plot
   if (facets) {

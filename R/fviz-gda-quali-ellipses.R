@@ -229,7 +229,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       colour = "black",
       linetype = "dashed",
       segments = 500,
-      fill = "transparent"
+      fill = NA
     )
 
   # Konzentrationsellipsen für die passiven Variablengruppen
@@ -394,7 +394,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
           label = prop,
           description = prop_desc
         ),
-        color = "transparent",
+        color = NA,
         expand = unit(-1, "mm"),
         radius = unit(5, "mm"),
         label.family = "Fira Sans",

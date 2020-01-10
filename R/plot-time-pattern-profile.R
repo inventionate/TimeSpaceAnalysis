@@ -120,7 +120,7 @@ plot_time_pattern_profile <- function(data_tp,
       panel.grid.major = element_blank(),
       panel.background = element_blank(),
       panel.border = element_rect(
-        fill = "transparent",
+        fill = NA,
         colour = "black",
         size = 1,
         linetype = "solid"

@@ -120,7 +120,7 @@ fviz_gda_trajectory_sample <- function(res_gda,
         alpha = 0.1,
         colour = "black",
         linetype = "dashed",
-        fill = "transparent",
+        fill = NA,
         segments = 500
       )
 
