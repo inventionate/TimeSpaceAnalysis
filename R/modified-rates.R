@@ -4,8 +4,6 @@
 #'
 #' @return Modified rates as tibble.
 #' @export
-#'
-#' @examples
 modified_rates <- function(mca_res) {
   Q <- ncol(mca_res$call$X)
   seuil <- 1/Q

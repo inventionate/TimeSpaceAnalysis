@@ -19,6 +19,8 @@ fviz_gda_trajectory_ellipses(
   alpha = 0.15,
   select = NULL,
   labels = NULL,
+  xlim = NULL,
+  ylim = NULL,
   axes_annotate_alpha = 0.3
 )
 }

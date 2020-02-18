@@ -17,6 +17,8 @@ fviz_gda_trajectory_quali(
   impute = TRUE,
   plot_modif_rates = TRUE,
   labels = NULL,
+  xlim = NULL,
+  ylim = NULL,
   axes_annotate_alpha = 0.3
 )
 }
@@ -44,6 +46,10 @@ fviz_gda_trajectory_quali(
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{xlim}{numeric vector of 2.}
+
+\item{ylim}{numeric vector of 2.}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 }
