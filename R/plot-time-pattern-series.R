@@ -55,7 +55,7 @@ plot_time_pattern_series <- function(data_tp,
       ) +
     scale_x_discrete(
       name = "Wochentage",
-      expand = expand_scale(mult = c(0,0))
+      expand = expansion(mult = c(0,0))
       ) +
     scale_y_continuous(
       limits = hour_limits,

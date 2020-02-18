@@ -133,7 +133,7 @@ plot_time_pattern <- function(data,
                    "Sa",
                    "So"),
         name = "Wochentag",
-        expand = expand_scale(mult = 0)
+        expand = expansion(mult = 0)
       ) +
       scale_y_continuous(
         breaks = c(0,
@@ -147,7 +147,7 @@ plot_time_pattern <- function(data,
                    "75%",
                    "100%"),
         name = "Zeitanteil in Prozent",
-        expand = expand_scale(mult = 0.005)
+        expand = expansion(mult = 0.005)
       )
       # scale_fill_brewer(name = "Tätigkeiten", labels = c("Veranstaltungen", "Zwischenzeit", "Selbststudium", "Fahrzeit",
       #                                                     "Arbeitszeit", "Freizeit", "Schlafen"), palette = "Spectral") +

@@ -197,13 +197,13 @@ plot_places_chronology <- function(data,
     scale_x_discrete(
       labels = c("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"),
       name = "Wochentag",
-      expand = expand_scale(mult = c(0,0))
+      expand = expansion(mult = c(0,0))
     ) +
     scale_y_continuous(
       breaks = c(0, 0.25, 0.5, 0.75, 1),
       labels = c("0%", "25%", "50%", "75%", "100%"),
       name = "Zeitanteil in Prozent",
-      expand = expand_scale(mult = c(0,0))
+      expand = expansion(mult = c(0,0))
     ) +
     theme_minimal() +
     theme(

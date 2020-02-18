@@ -8,8 +8,6 @@ NULL
 #' @param ncol facet columns.
 #' @param open_sans use Open Sans font family (boolean).
 #' @param fluid should be static bars or fluid lines visualized (boolean).
-#' @param facet_label_y adjust facet labels y position.
-#' @param facet_label_sep adjust facet sublabel seperation distance.
 #'
 #' @return ggplot2 avgerage time pattern profile plot.
 #' @export
@@ -17,13 +15,21 @@ plot_time_pattern_profile <- function(data_tp,
                                       id = "all",
                                       ncol = 4,
                                       fluid = FALSE,
-                                      open_sans = TRUE,
-                                      facet_label_y = 0.95,
-                                      facet_label_sep = 0.05) {
+                                      open_sans = TRUE) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
   data_tsp <- get_time_pattern_profile(data_tp, id)
+
+  # Überschrift der facets anpassen
+  data_tsp <-
+    data_tsp %>%
+    mutate(
+      zeitmuster = glue(
+        "<b>{zeitmuster}</b><br>
+        <span style='font-size:9pt'>{prop}, n = {n}<span>"
+      )
+    )
 
   # Fixe sieben Kategorien
   colours <- c("#f15b60",
@@ -84,7 +90,7 @@ plot_time_pattern_profile <- function(data_tp,
                  "Sa",
                  "So"),
       name = "Wochentag",
-      expand = expand_scale(mult = c(0,0))
+      expand = expansion(mult = c(0,0))
     ) +
     scale_y_continuous(
       breaks = c(0,
@@ -98,7 +104,7 @@ plot_time_pattern_profile <- function(data_tp,
                  "75%",
                  "100%"),
       name = "Zeitanteil in Prozent",
-      expand = expand_scale(mult = c(0.005,0.005))
+      expand = expansion(mult = c(0.005,0.005))
     ) +
     scale_fill_manual(
       name = "Tätigkeiten",
@@ -110,7 +116,7 @@ plot_time_pattern_profile <- function(data_tp,
     theme_minimal(base_family = "Fira Sans") +
     theme(
       title = element_text(size = 14),
-      strip.text = element_blank(),
+      strip.text = element_textbox(size = 12, halign = 0.5),
       panel.spacing.x = unit(1.5, "lines"),
       panel.spacing.y = unit(1, "lines"),
       axis.text = element_text(size = 9),
@@ -135,42 +141,7 @@ plot_time_pattern_profile <- function(data_tp,
   # Mehrere Gafiken parallel erzeugen
   p <- p + facet_wrap(~zeitmuster, ncol = ncol)
 
-  df_titles <-
-    data_tsp %>%
-    select(zeitmuster, prop, n) %>%
-    distinct() %>%
-    unite("desc", prop, n, sep = ", n = ")
-
-  i <- 1
-  j <- 1
-  k <- 4
-  titles <- list()
-  while (i < (nrow(df_titles) * 2)) {
-    titles[[i]] <-
-      draw_label(
-        df_titles$zeitmuster[[j]],
-        # @TODO: Verify x-value calc!
-        k/25,
-        facet_label_y + facet_label_sep,
-        fontfamily = "Fira Sans",
-        fontface = "bold")
-
-    i <- i + 1
-
-    titles[[i]] <- draw_label(
-      df_titles$desc[[j]],
-      # @TODO: Verify x-value calc!
-      k/25,
-      facet_label_y,
-      fontfamily = "Fira Sans",
-      size = 10)
-
-    i <- i + 1
-    j <- j + 1
-    k <- k + 6
-  }
-
-  p <- suppressWarnings(suppressMessages(ggdraw(p) + coord_fixed(0.275) + titles))
+  p <- p + coord_fixed(5)
 
   p
 }
