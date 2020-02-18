@@ -126,10 +126,7 @@ plot_places_chronology <- function(data,
     theme(
       axis.title = element_text(size = 10, family = "Fira Sans"),
       axis.text = element_text(size = 8, family = "Fira Sans"),
-      axis.ticks = element_line(size = 0.1, linetype = "solid"),
-      axis.line = element_line(size = 0.1, linetype = "solid"),
-      axis.ticks.length = unit(.15, "cm"),
-      plot.margin = unit(c(0, xextra, 0, 0),"cm")
+      plot.margin = unit(c(0, xextra, 0, 0),"cm"),
     ) +
     ggtitle(data_pc$title)
 
