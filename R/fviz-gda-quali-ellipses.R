@@ -31,8 +31,6 @@ NULL
 #' @param profiles optional add specific profiles (tibble).
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
-#' @param facet_label_y adjust facet labels y position.
-#' @param facet_label_sep adjust facet sublabel seperation distance.
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -64,9 +62,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
                                     highlight = FALSE,
                                     profiles = NULL,
                                     labels = NULL,
-                                    axes_annotate_alpha = 0.3,
-                                    facet_label_y = 0.97,
-                                    facet_label_sep = 0.05) {
+                                    axes_annotate_alpha = 0.3) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -74,20 +70,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
   # Datensatz auslesen
   var <-
     df_var_quali %>%
-    select(!!var_quali) %>%
+    select(var_quali = !!var_quali) %>%
     mutate_all(funs(as.character))
-
-  var_levels <-
-    df_var_quali %>%
-    select(!!var_quali) %>%
-    mutate_all(funs(as.factor)) %>%
-    pull(var_quali) %>%
-    levels()
-
-  # Reihenfolge der Levels festlegen
-  if (!is.null(relevel)) {
-    var_levels <- relevel
-  }
 
   #eta2 extrahieren
   if (plot_eta2) {
@@ -153,18 +137,45 @@ fviz_gda_quali_ellipses <- function(res_gda,
 
       }
 
-      var <- var_impute$completeObs[var_quali]
+      var <- var_impute$completeObs %>%
+        as_tibble() %>%
+        select(var_quali)
     } else {
       # Fehlende Werte durch Kategorie ersetzen (falls nicht imputiert wurde).
       var[is.na(var)] <- "Fehlender Wert"
-      var_levels <- c(var_levels, "Fehlender Wert")
     }
 
   }
 
+  # Beschriftung anpassen
+  var <-
+    var %>%
+    group_by(var_quali) %>%
+    mutate(count = n()) %>%
+    ungroup() %>%
+    mutate(var_quali = str_glue(
+      "<b>{var_quali}</b><br>
+      <span style='font-size:9pt'>
+      {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
+      </span>"
+      )
+    )
+
+  var_levels <-
+    var %>%
+    select(var_quali) %>%
+    mutate_all(funs(as.factor)) %>%
+    pull(var_quali) %>%
+    levels()
+
+  # Reihenfolge der Levels festlegen
+  if (!is.null(relevel)) {
+    var_levels <- relevel
+  }
+
   # Spalte in Vektor umwandeln
-  var_n <- var %>% count(!!sym(var_quali), name = "n")
-  var <- var %>% pull(!!sym(var_quali))
+  var_n <- var %>% count(var_quali, name = "n")
+  var <- var %>% pull(var_quali)
 
   # Datensatz zusammenstellen (Koordinaten mit passiver Variable zusammenführen)
   df_source <-
@@ -203,9 +214,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
   coord_mean_quali <-
     bind_cols(coord_mean_quali, size = size_mean_quali) %>%
     mutate(
-      # @Info: Hier Einstellungen für die Beschriftung der Gruppen.
       prop = str_glue("{var_quali}"),
-      prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
+      # prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
       colour = as.character(as.numeric(var_quali))
     )
 
@@ -487,7 +497,10 @@ fviz_gda_quali_ellipses <- function(res_gda,
         ),
         plot.margin = margin(0.5, 0, 0, 0, "cm"),
         panel.spacing = unit(0.5, "cm"),
-        strip.text = element_blank()
+        strip.text = element_textbox(
+          halign = 0.5,
+          size = 12
+        )
       )
 
     # i <- 1
@@ -517,7 +530,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     #     k <- k + 2
     # }
 
-    p <- p + coord_fixed(1/3)
+    p <- p + coord_fixed(1)
 
   } else {
 

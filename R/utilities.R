@@ -17,8 +17,11 @@
   tickmarks_y <-
     ggplot_build(plot)$layout$panel_params[[1]]$y$breaks %>% keep(function(x) x %nin% c(NA, 0))
 
+  print(tickmarks_y)
+
   tickmarks_x <-
     ggplot_build(plot)$layout$panel_params[[1]]$x$breaks %>% keep(function(x) x %nin% c(NA, 0))
+  print(tickmarks_x)
 
   label_margin = 1.1
 
@@ -81,13 +84,17 @@
     ) +
     scale_x_continuous(
       breaks = tickmarks_x,
+      minor_breaks = NULL,
+      expand = NULL,
       sec.axis = dup_axis(),
-      labels = scales::label_comma(decimal.mark = ",", big.mark = " ")
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1),
     ) +
     scale_y_continuous(
       breaks = tickmarks_y,
+      minor_breaks = NULL,
+      expand = NULL,
       sec.axis = dup_axis(),
-      labels = scales::label_comma(decimal.mark = ",", big.mark = " ")
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1)
     )
 
   g <- ggplotGrob(p)

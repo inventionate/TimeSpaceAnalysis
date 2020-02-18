@@ -117,8 +117,8 @@ fviz_gda_trajectory_quali <- function(res_gda,
     geom_path(
       data = coord_ind_timeseries,
       aes(
-        !! axis_1,
-        !! axis_2,
+        !!axis_1,
+        !!axis_2,
         group = id
       ),
       size = 1,
