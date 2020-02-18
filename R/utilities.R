@@ -15,18 +15,10 @@
 
   # Werte brechnen
   tickmarks_y <-
-    ggplot_build(plot)$layout$panel_params[[1]]$y.labels %>%
-    as.numeric() %>%
-    as_tibble() %>%
-    filter(value != 0 & value %in% c(min(value), max(value))) %>%
-    pull(value)
+    ggplot_build(plot)$layout$panel_params[[1]]$y$breaks %>% keep(function(x) x %nin% c(NA, 0))
 
   tickmarks_x <-
-    ggplot_build(plot)$layout$panel_params[[1]]$x.labels %>%
-    as.numeric() %>%
-    as_tibble() %>%
-    filter(value != 0 & value %in% c(min(value), max(value))) %>%
-    pull(value)
+    ggplot_build(plot)$layout$panel_params[[1]]$x$breaks %>% keep(function(x) x %nin% c(NA, 0))
 
   label_margin = 1.1
 
@@ -73,11 +65,13 @@
         margin = margin(0, 0, label_margin, 0, "cm"),
         hjust = axis_label_x_hjust
       ),
+      axis.title.x.bottom = element_blank(),
       axis.title.y.right = element_text(
         margin = margin(0, 0, 0, 1.65, "cm"),
         angle = 0,
         vjust = axis_label_y_vjust
       ),
+      axis.title.y.left = element_blank(),
       axis.text = element_text(
         size = 9,
         colour = "gray17"
@@ -175,8 +169,9 @@
       xmin = 0) +
     theme(
       axis.text = element_blank(),
-      axis.ticks = element_blank(),
-      axis.title = element_blank()
+      axis.title.x.top = element_blank(),
+      axis.title.y.right = element_blank(),
+      axis.ticks = element_blank()
     )
 
   if (!facet_labels) {

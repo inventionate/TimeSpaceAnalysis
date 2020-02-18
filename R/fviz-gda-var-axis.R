@@ -148,8 +148,7 @@ fviz_gda_var_axis <- function(res_gda,
           p <-
             p +
             geom_point(
-              data = .count_distinct_ind(res_gda, axes, modalities_coord$weight) %>%
-                distinct(),
+              data = .count_distinct_ind(res_gda, axes, modalities_coord$weight) %>%distinct(),
               aes(x, y, size = count),
               inherit.aes = FALSE,
               alpha = individuals_alpha
@@ -158,8 +157,7 @@ fviz_gda_var_axis <- function(res_gda,
           p <-
             p +
             geom_point(
-              data = .count_distinct_ind(res_gda, axes) %>%
-                distinct(),
+              data = .count_distinct_ind(res_gda, axes) %>% distinct(),
               aes(x, y),
               size = individuals_size,
               inherit.aes = FALSE,
@@ -175,7 +173,6 @@ fviz_gda_var_axis <- function(res_gda,
             aes(
               !!axis_1,
               !!axis_2,
-              # @CHECK if label works
               label = rownames(.count_distinct_ind(res_gda, axes))
             ),
             colour = "black",
@@ -233,7 +230,7 @@ fviz_gda_var_axis <- function(res_gda,
               !!axis_1,
               !!axis_2,
               colour = group,
-              label = factor(modalities_coord$rowname)
+              label = factor(rowname)
             ),
             size = textsize,
             show.legend = FALSE
@@ -247,7 +244,7 @@ fviz_gda_var_axis <- function(res_gda,
             aes(
               !!axis_1,
               !!axis_2,
-              label = factor(modalities_coord$rowname)
+              label = factor(rowname)
             ),
             size = textsize,
             show.legend = FALSE

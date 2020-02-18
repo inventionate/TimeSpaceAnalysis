@@ -490,34 +490,34 @@ fviz_gda_quali_ellipses <- function(res_gda,
         strip.text = element_blank()
       )
 
-    i <- 1
-    j <- 1
-    k <- 1
-    titles <- list()
-    while (i < (nrow(coord_mean_quali) * 2)) {
-      titles[[i]] <-
-        draw_label(
-          coord_mean_quali$prop[[j]],
-          k/(length(coord_mean_quali$prop) * 2),
-          facet_label_y + facet_label_sep,
-          fontfamily = "Fira Sans",
-          fontface = "bold")
+    # i <- 1
+    # j <- 1
+    # k <- 1
+    # titles <- list()
+    # while (i < (nrow(coord_mean_quali) * 2)) {
+    #   titles[[i]] <-
+    #     draw_label(
+    #       coord_mean_quali$prop[[j]],
+    #       k/(length(coord_mean_quali$prop) * 2),
+    #       facet_label_y + facet_label_sep,
+    #       fontfamily = "Fira Sans",
+    #       fontface = "bold")
+    #
+    #   i <- i + 1
+    #
+    #   titles[[i]] <- draw_label(
+    #       coord_mean_quali$prop_desc[[j]],
+    #       k/(length(coord_mean_quali$prop) * 2),
+    #       facet_label_y,
+    #       fontfamily = "Fira Sans",
+    #       size = 10)
+    #
+    #     i <- i + 1
+    #     j <- j + 1
+    #     k <- k + 2
+    # }
 
-      i <- i + 1
-
-      titles[[i]] <- draw_label(
-          coord_mean_quali$prop_desc[[j]],
-          k/(length(coord_mean_quali$prop) * 2),
-          facet_label_y,
-          fontfamily = "Fira Sans",
-          size = 10)
-
-        i <- i + 1
-        j <- j + 1
-        k <- k + 2
-    }
-
-    p <- suppressMessages(ggdraw(p) + coord_fixed(1/3) + titles)
+    p <- p + coord_fixed(1/3)
 
   } else {
 
