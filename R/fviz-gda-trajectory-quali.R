@@ -17,6 +17,8 @@ NULL
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param xlim numeric vector of 2.
+#' @param ylim numeric vector of 2.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -32,6 +34,8 @@ fviz_gda_trajectory_quali <- function(res_gda,
                                       impute = TRUE,
                                       plot_modif_rates = TRUE,
                                       labels = NULL,
+                                      xlim = NULL,
+                                      ylim = NULL,
                                       axes_annotate_alpha = 0.3) {
 
   # Add Open Sans font family
@@ -93,6 +97,14 @@ fviz_gda_trajectory_quali <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
+  if (!is.null(xlim)) {
+    p <- p + xlim(xlim)
+  }
+
+  if (!is.null(ylim)) {
+    p <- p + ylim(ylim)
+  }
+
   p <-
     p +
     scale_colour_brewer(palette = "YlGnBu", direction = -1) +
@@ -149,7 +161,9 @@ fviz_gda_trajectory_quali <- function(res_gda,
     axes,
     labels,
     axis_label_y_vjust = 0.99,
-    axis_label_x_hjust = 0.99
+    axis_label_x_hjust = 0.99,
+    xlim = xlim,
+    ylim = ylim
   )
 
   p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)

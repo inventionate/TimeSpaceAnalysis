@@ -36,6 +36,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
                                          alpha = 0.15,
                                          select = NULL,
                                          labels = NULL,
+                                         xlim = NULL,
+                                         ylim = NULL,
                                          axes_annotate_alpha = 0.3) {
 
   # Add Open Sans font family
@@ -82,8 +84,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       tibble(var_quali = df_full$var_quali)
     ) %>%
     select(
-      str_glue("Dim.{axes[1]}"),
-      str_glue("Dim.{axes[2]}"),
+      !!axis_1,
+      !!axis_2,
       var_quali,
       time
     ) %>%
@@ -115,6 +117,14 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     p <- .create_plot()
   } else {
     stop("Only MCA plots are currently supported!")
+  }
+
+  if (!is.null(xlim)) {
+    p <- p + xlim(xlim)
+  }
+
+  if (!is.null(ylim)) {
+    p <- p + ylim(ylim)
   }
 
   # Concentartion ellipse
@@ -171,8 +181,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
           time == coord_mean_mass_var_quali$time[i]
       ) %>%
       select(
-        str_glue("Dim.{axes[1]}"),
-        str_glue("Dim.{axes[2]}")
+        !!axis_1,
+        !!axis_2,
       ) %>%
       as.matrix() %>%
       as.vector()
@@ -386,11 +396,6 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       )
 
   }
-
-  # if ( length(select) == 1 & title == "Trajectory individuals structuring factors ellipse plot") {
-  #   title <- str_glue("{title} classification category {select}")
-  # }
-  # @TODO: Improve titel display.
 
   if (!is_null(title)) p <- p + ggtitle(title)
 
