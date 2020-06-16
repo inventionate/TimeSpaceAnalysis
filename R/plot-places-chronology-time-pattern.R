@@ -111,7 +111,7 @@ plot_places_chronology_time_pattern <- function(data,
       plot_pc_zm +
       theme_minimal() +
       theme(
-        text = element_text(family = "Fira Sans"),
+        text = element_text(family = "Fira Sans Condensed"),
         title = element_text(size = 14),
         strip.text = element_text(size = 14, face = "bold"),
         panel.spacing.x=unit(1.5, "lines"),

@@ -33,7 +33,7 @@
   plot +
   theme_void(
     base_size = 10,
-    base_family = "Fira Sans"
+    base_family = "Fira Sans Condensed"
   ) +
   theme(
     axis.title = element_text(
@@ -199,7 +199,7 @@
   if (!is.null(normalize)) {
     coord_ind <-
       coord_ind %>%
-      mutate_at("count", funs( . * (mean(normalize))^(1/2) ))
+      mutate_at("count", ~ ( . * (mean(normalize))^(1/2) ))
   }
 
   coord_ind
@@ -235,11 +235,11 @@
 .add_fonts <- function() {
   showtext::showtext_auto()
   sysfonts::font_add(
-    "Fira Sans",
-    regular = "FiraSans-Regular.otf",
-    italic = "FiraSans-Italic.otf",
-    bold = "FiraSans-Bold.otf",
-    bolditalic = "FiraSans-BoldItalic.otf"
+    "Fira Sans Condensed",
+    regular = "FiraSansCondensed-Regular.otf",
+    italic = "FiraSansCondensed-Italic.otf",
+    bold = "FiraSansCondensed-Bold.otf",
+    bolditalic = "FiraSansCondensed-BoldItalic.otf"
   )
 }
 
@@ -251,8 +251,8 @@
     group_by(!! var) %>%
     mutate(total_weight = sum(weight),
            relative_weight = weight/total_weight) %>%
-    mutate_at(vars(matches("Dim")), funs(weighted.mean(., weight) - .)) %>%
-    summarise_at(vars(matches("Dim")), funs(sum(relative_weight*(.^2))))# %>%
+    mutate_at(vars(matches("Dim")), ~ weighted.mean(., weight) - .) %>%
+    summarise_at(vars(matches("Dim")), sum(relative_weight*(.^2)))# %>%
     #mutate_each(funs(. * eigenvalues$.), matches("Dim"))
 
   # Gesamte Anzahl an Personen
@@ -264,7 +264,7 @@
   # Age within gender variance
   within_variance <-
     join(variances, weight_total, by = var) %>%
-    summarise_at(vars(matches("Dim")), funs(weighted.mean(., weight_total)))
+    summarise_at(vars(matches("Dim")), ~ weighted.mean(., weight_total))
 
   within_variance
 }
@@ -277,7 +277,7 @@
     tibble::rownames_to_column() %>%
     separate(rowname, c("dim", "num")) %>%
     select(num, eigenvalue) %>%
-    mutate_at(vars(matches("num")), funs(as.numeric)) %>%
+    mutate_at(vars(matches("num")), as.numeric) %>%
     spread(num, eigenvalue)
 
   colnames(eigenvalues) <- paste0("Dim.", 1:ncol(eigenvalues))
@@ -334,7 +334,7 @@
       coord_complete %>%
       select(-time) %>%
       group_by(id) %>%
-      summarise_all(funs(mean))
+      summarise_all(~ mean)
 
     ind_mean_coord_id <-
       data.frame(ind_mean_coord)$id
@@ -407,7 +407,7 @@
 # Gruppennamen der einzelnen Kategorien extrahieren
 .get_group_names <- function(res_gda, group, group_names) {
 
-  data <- res_gda$call$X %>% mutate_all(funs( sub("\\.", "_", .) ))
+  data <- res_gda$call$X %>% mutate_all(~sub("\\.", "_", .) )
   colnames(data) <- colnames(data) %>% sub("\\.", "_", .)
 
   if (is.null(res_gda$call$excl)) {
@@ -418,12 +418,12 @@
 
   var_num <- var_num %>%
     tibble(var.cat = .) %>% separate(var.cat, c("var", "cat"), sep = "[.]") %>%
-    select(var) %>% count(var) %>% mutate_at(vars(var), funs(as.factor))
+    select(var) %>% count(var) %>% mutate_at(vars(var), as.factor)
 
-  var <- tibble(var = colnames(data)) %>% mutate_all(funs(as.factor))
+  var <- tibble(var = colnames(data)) %>% mutate_all(as.factor)
 
   n_mod <- left_join(var, var_num, by = "var") %>% .$n
-  # n_mod <- res_gda$call$X %>% mutate_each(funs(n_distinct)) %>% distinct
+  # n_mod <- res_gda$call$X %>% mutate_all(n_distinct) %>% distinct
 
   n_mod_group <- NULL
   start <- 0
@@ -516,7 +516,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[1]),
-          family = "Fira Sans",
+          family = "Fira Sans Condensed",
           fontface = "bold"
         )
     }
@@ -536,7 +536,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[2]),
-          family = "Fira Sans",
+          family = "Fira Sans Condensed",
           fontface = "bold"
         )
     }
@@ -556,7 +556,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[3]),
-          family = "Fira Sans",
+          family = "Fira Sans Condensed",
           fontface = "bold"
         )
     }
@@ -576,7 +576,7 @@
             fill = "gray80",
             alpha = alpha,
             label = toupper(labels[4]),
-            family = "Fira Sans",
+            family = "Fira Sans Condensed",
             fontface = "bold"
           )
       }

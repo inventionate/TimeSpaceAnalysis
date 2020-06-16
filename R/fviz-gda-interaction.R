@@ -144,7 +144,7 @@ fviz_gda_interaction <- function(res_gda,
       size = 4,
       alpha = mean_alpha,
       inherit.aes = FALSE,
-      family = "Fira Sans"
+      family = "Fira Sans Condensed"
     )
 
   # Pfad plotten

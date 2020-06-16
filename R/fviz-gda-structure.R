@@ -162,10 +162,9 @@ fviz_gda_structure <- function(res_gda,
       remove = FALSE
     ) %>%
     mutate(variable = "fitted") %>%
-    # @TODO replace deprecated funs call.
     mutate_at(
       vars(matches("Dim")),
-      funs(. * 1/sqrt(eigenvalues$.))
+      ~ (. * 1/sqrt(eigenvalues$.))
     )
 
   df_ges <- bind_rows(df_real, df_fitted)
@@ -367,7 +366,7 @@ fviz_gda_structure <- function(res_gda,
         ),
         size = 4,
         inherit.aes = FALSE,
-        family = "Fira Sans")
+        family = "Fira Sans Condensed")
     # Punkte verbinden
     p <-
       p +

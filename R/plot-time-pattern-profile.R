@@ -113,7 +113,7 @@ plot_time_pattern_profile <- function(data_tp,
 
   p <-
     p +
-    theme_minimal(base_family = "Fira Sans") +
+    theme_minimal(base_family = "Fira Sans Condensed") +
     theme(
       title = element_text(size = 14),
       strip.text = element_textbox(size = 12, halign = 0.5),
