@@ -38,7 +38,7 @@ supvar_stats <- function(res_gda,
       X <- res_gda$call$X
     }
 
-    var <- var %>% mutate_all(funs(as.factor))
+    var <- var %>% mutate_all(as.factor)
 
     if (inherits(res_gda, c("MCA"))) {
 

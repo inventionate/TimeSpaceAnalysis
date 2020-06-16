@@ -181,7 +181,7 @@ fviz_gda_trajectory_quali <- function(res_gda,
       panel.spacing = unit(0.5, "cm"),
       strip.text.x = element_text(
         face = "bold",
-        family = "Fira Sans",
+        family = "Fira Sans Condensed",
         vjust = 0.5,
         hjust = 0.5,
         size = 12,

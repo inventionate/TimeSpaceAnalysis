@@ -32,7 +32,7 @@ get_mfa_mod_group_id <- function(res_mfa) {
     ) %>%
     # mutate(contrib = Dim.1*res_mfa$eig$eigenvalue[1] + Dim.2*res_mfa$eig$eigenvalue[2]) %>%
     # arrange(desc(contrib)) %>%
-    mutate_each(funs(as.character)) %>%
+    mutate_all(as.character) %>%
     select(mod, group_id)
 
   group_shape

@@ -4,7 +4,7 @@
 \alias{add_theme}
 \title{Optimise ggplot2 plot.}
 \usage{
-add_theme(plot, font_family = "Fira Sans")
+add_theme(plot, font_family = "Fira Sans Condensed")
 }
 \arguments{
 \item{plot}{ggplot2 object.}

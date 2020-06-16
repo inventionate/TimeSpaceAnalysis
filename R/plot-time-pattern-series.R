@@ -63,7 +63,7 @@ plot_time_pattern_series <- function(data_tp,
       name = "Dauer (in Stunden)"
       ) +
     ggtitle(title) +
-    theme_minimal(base_family = "Fira Sans") +
+    theme_minimal(base_family = "Fira Sans Condensed") +
     theme(
       title = element_text(size = 14),
       strip.text = element_text(size = 12, face = "bold"),

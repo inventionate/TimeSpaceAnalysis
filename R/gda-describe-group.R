@@ -69,7 +69,7 @@ gda_describe_group <- function(res_gda,
 
   data <-
     res_gda$call$X %>%
-    mutate_all(funs( sub("\\.", "_", .) ))
+    mutate_all( ~ sub("\\.", "_", .) )
 
   colnames(data) <-
     colnames(data) %>%

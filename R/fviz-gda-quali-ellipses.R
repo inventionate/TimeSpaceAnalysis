@@ -71,7 +71,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
   var <-
     df_var_quali %>%
     select(var_quali = !!var_quali) %>%
-    mutate_all(funs(as.character))
+    mutate_all(as.character)
 
   #eta2 extrahieren
   if (plot_eta2) {
@@ -93,7 +93,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       ) %>%
       filter(rowname == "eta2") %>%
       select(-rowname) %>%
-      mutate_all(funs(round(., 3)))
+      mutate_all(~ round(., 3))
 
   } else {
 
@@ -109,7 +109,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     if (impute) {
       message("Info: Missing data will be imputed!")
 
-      var <- var %>% mutate_all(funs(as.factor))
+      var <- var %>% mutate_all(as.factor)
 
       # Nur aktive Individuen verwenden
       if (!is.null(res_gda$call$ind.sup)) {
@@ -148,23 +148,25 @@ fviz_gda_quali_ellipses <- function(res_gda,
   }
 
   # Beschriftung anpassen
-  var <-
-    var %>%
-    group_by(var_quali) %>%
-    mutate(count = n()) %>%
-    ungroup() %>%
-    mutate(var_quali = str_glue(
-      "<b>{var_quali}</b><br>
+  if (facet) {
+    var <-
+      var %>%
+      group_by(var_quali) %>%
+      mutate(count = n()) %>%
+      ungroup() %>%
+      mutate(var_quali = str_glue(
+        "<b>{var_quali}</b><br>
       <span style='font-size:9pt'>
       {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
       </span>"
       )
     )
+  }
 
   var_levels <-
     var %>%
     select(var_quali) %>%
-    mutate_all(funs(as.factor)) %>%
+    mutate_all(as.factor) %>%
     pull(var_quali) %>%
     levels()
 
@@ -199,13 +201,13 @@ fviz_gda_quali_ellipses <- function(res_gda,
     coord_ind_quali %>%
     select(-colour) %>%
     group_by(var_quali) %>%
-    summarise_all(funs(mean))
+    summarise_all(mean)
 
   size_mean_quali <-
     coord_ind_quali %>%
     select(-colour) %>%
     group_by(var_quali) %>%
-    summarise_all(funs(length)) %>%
+    summarise_all(length) %>%
     ungroup() %>%
     mutate(size = count) %>%
     select(size) %>%
@@ -215,7 +217,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     bind_cols(coord_mean_quali, size = size_mean_quali) %>%
     mutate(
       prop = str_glue("{var_quali}"),
-      # prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
+      prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
       colour = as.character(as.numeric(var_quali))
     )
 
@@ -407,10 +409,12 @@ fviz_gda_quali_ellipses <- function(res_gda,
         color = NA,
         expand = unit(-1, "mm"),
         radius = unit(5, "mm"),
-        label.family = "Fira Sans",
+        label.family = "Fira Sans Condensed",
         label.fontsize = c(12, 10),
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
+        # Small fix for label margin
+        label.margin = margin(2, 2, 2, 3, "mm"),
         con.size = 0.5
       )
   }
@@ -456,7 +460,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       geom_label_repel(data = profiles,
                        inherit.aes = FALSE,
                        aes(x = Dim.1, y = Dim.2, label = name, colour = var_quali),
-                       family = "Fira Sans",
+                       family = "Fira Sans Condensed",
                        size = 5,
                        alpha = 1,
                        segment.colour = "black",
@@ -499,7 +503,8 @@ fviz_gda_quali_ellipses <- function(res_gda,
         panel.spacing = unit(0.5, "cm"),
         strip.text = element_textbox(
           halign = 0.5,
-          size = 12
+          size = 12,
+          margin = unit(c(0.5, 0, 0, 0), "mm")
         )
       )
 
@@ -513,7 +518,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     #       coord_mean_quali$prop[[j]],
     #       k/(length(coord_mean_quali$prop) * 2),
     #       facet_label_y + facet_label_sep,
-    #       fontfamily = "Fira Sans",
+    #       fontfamily = "Fira Sans Condensed",
     #       fontface = "bold")
     #
     #   i <- i + 1
@@ -522,7 +527,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     #       coord_mean_quali$prop_desc[[j]],
     #       k/(length(coord_mean_quali$prop) * 2),
     #       facet_label_y,
-    #       fontfamily = "Fira Sans",
+    #       fontfamily = "Fira Sans Condensed",
     #       size = 10)
     #
     #     i <- i + 1
