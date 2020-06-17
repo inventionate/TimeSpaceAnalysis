@@ -8,7 +8,7 @@
 .finalize_plot <- function(plot,
                            res_gda,
                            axes = 1:2,
-                           labels,
+                           labels = NULL,
                            axis_label_y_vjust = 1,
                            axis_label_x_hjust = 1,
                            facet_labels = FALSE,
@@ -24,7 +24,7 @@
 
   label_margin = 1.1
 
-  if (!is_null(labels) && labels[2] != "") {
+  if (labels[2] != "") {
     label_margin = 2
   }
 
