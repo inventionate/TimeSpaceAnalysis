@@ -52,7 +52,7 @@ fviz_mca_var_corr <- function(res_gda,
     p <-
       p +
       geom_point(
-        aes(x, y, colour = vars$type, shape = vars$type),
+        aes(x, y, colour = type, shape = type),
         size = pointsize)
   }
 
@@ -61,14 +61,14 @@ fviz_mca_var_corr <- function(res_gda,
       p <-
         p +
         ggrepel::geom_text_repel(
-          mapping = aes(x, y, color = vars$type, label = name),
+          mapping = aes(x, y, color = type, label = name),
           size = labelsize
         )
     } else {
       p <-
         p +
         geom_text(
-          mapping = aes(x, y, color = vars$type, label = name),
+          mapping = aes(x, y, color = type, label = name),
           size = labelsize, nudge_y = -0.015
         )
     }
