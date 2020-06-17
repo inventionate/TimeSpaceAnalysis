@@ -248,7 +248,7 @@ fviz_gda_var <- function(res_gda,
               !!axis_1,
               !!axis_2,
               colour = group,
-              label = factor(modalities_coord$rowname)
+              label = factor(rowname)
             ),
             size = textsize,
             show.legend = FALSE
@@ -263,7 +263,7 @@ fviz_gda_var <- function(res_gda,
             aes(
               !!axis_1,
               !!axis_2,
-              label = factor(modalities_coord$rowname)
+              label = factor(rowname)
             ),
             size = textsize,
             show.legend = FALSE
