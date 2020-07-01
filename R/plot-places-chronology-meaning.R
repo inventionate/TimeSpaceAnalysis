@@ -119,15 +119,20 @@ plot_places_chronology_meaning <- function(data,
       right = max(df_pc_meaning$lon) + 0.2 * width
     )
 
-    map <- get_stamenmap(
-      bbox = borders,
-      zoom = map_zoom,
-      maptype = "watercolor",
+    map_background <-
+      get_stamenmap(
+        bbox = borders,
+        zoom = map_zoom,
+        maptype = "watercolor",
     )
 
-    plot_pc <- ggmap(map)
+    plot_pc <- ggmap(map_background)
   } else {
-    plot_pc <- ggplot()
+    plot_pc <- ggplot() +
+      theme_void() +
+      theme(
+        text = element_text(family = "Fira Sans Condensed")
+      )
   }
 
   if (!map && !facets) {
@@ -163,14 +168,12 @@ plot_places_chronology_meaning <- function(data,
       alpha = alpha_points,
       show.legend = FALSE
     ) +
-    theme_void() +
-    theme(
-      text = element_text(family = "Fira Sans Condensed")
-    ) +
     ggtitle(data_pc$title)
 
   # Geo plot
   if (!facets) {
+    print("Hello")
+
     plot_pc <-
       plot_pc +
       ggforce::geom_mark_hull(
@@ -209,8 +212,8 @@ plot_places_chronology_meaning <- function(data,
         label.fill = "gray90",
         con.cap = unit(4, "mm"),
         show.legend = FALSE
-      ) +
-      theme(
+    ) +
+    theme(
         plot.margin = unit(c(0.5, 0.5, 0.5, 0.5),"cm"),
         axis.title = element_blank(),
         axis.text = element_blank(),
