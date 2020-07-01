@@ -20,6 +20,7 @@ plot_places_chronology_meaning(
   open_sans = TRUE,
   exclude_sleep = TRUE,
   facets = FALSE,
+  facets_na = FALSE,
   exclude = NULL,
   meanings = NULL,
   map = FALSE,
@@ -62,6 +63,8 @@ plot_places_chronology_meaning(
 \item{exclude_sleep}{exclude sleep duration (boolean).}
 
 \item{facets}{plot facets (boolean).}
+
+\item{facets_na}{auto remove places without meanings in facets (boolean).}
 
 \item{exclude}{exclude specific places from the plot (vector).}
 

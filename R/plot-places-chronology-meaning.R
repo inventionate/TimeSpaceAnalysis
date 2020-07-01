@@ -28,6 +28,7 @@ NULL
 #' @param area_alpha alpha of meaning area.
 #' @param area_size size of meaning area.
 #' @param area_linetype linetype of meaning area.
+#' @param facets_na auto remove places without meanings in facets (boolean).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -46,6 +47,7 @@ plot_places_chronology_meaning <- function(data,
                                            open_sans = TRUE,
                                            exclude_sleep = TRUE,
                                            facets = FALSE,
+                                           facets_na = FALSE,
                                            exclude = NULL,
                                            meanings = NULL,
                                            map = FALSE,
@@ -117,6 +119,16 @@ plot_places_chronology_meaning <- function(data,
       df_pc_meaning %>% select(place, meaning),
       by = "place"
     )
+
+  if (!facets_na) {
+    df_pc_meaning_path <-
+      df_pc_meaning_path %>%
+      drop_na()
+
+    df_pc_meaning <-
+      df_pc_meaning %>%
+      drop_na()
+  }
 
   # Plot Stamen maps as background
   if (map) {
