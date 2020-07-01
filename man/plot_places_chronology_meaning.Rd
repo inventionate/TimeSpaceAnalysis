@@ -30,7 +30,8 @@ plot_places_chronology_meaning(
   area_colour = "black",
   area_alpha = 0,
   area_size = 2,
-  area_linetype = "solid"
+  area_linetype = "solid",
+  area_label_fontsize = c(12, 10)
 )
 }
 \arguments{
@@ -85,6 +86,8 @@ plot_places_chronology_meaning(
 \item{area_size}{size of meaning area.}
 
 \item{area_linetype}{linetype of meaning area.}
+
+\item{area_label_fontsize}{area label fontsize (vector).}
 }
 \value{
 ggplot2 visualization of place chronology data.

@@ -29,6 +29,7 @@ NULL
 #' @param area_size size of meaning area.
 #' @param area_linetype linetype of meaning area.
 #' @param facets_na auto remove places without meanings in facets (boolean).
+#' @param area_label_fontsize area label fontsize (vector).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -57,7 +58,8 @@ plot_places_chronology_meaning <- function(data,
                                            area_colour = "black",
                                            area_alpha = 0,
                                            area_size = 2,
-                                           area_linetype = "solid") {
+                                           area_linetype = "solid",
+                                           area_label_fontsize = c(12, 10)) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -212,7 +214,7 @@ plot_places_chronology_meaning <- function(data,
         colour = area_colour,
         linetype = area_linetype,
         label.family = "Fira Sans Condensed",
-        label.fontsize = c(12, 10),
+        label.fontsize = area_label_fontsize,
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
         con.cap = unit(area_size, "mm"),
