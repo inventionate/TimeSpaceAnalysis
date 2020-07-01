@@ -38,7 +38,9 @@ plot_places_chronology_meaning(
   map_scalebar_location = "topright",
   map_scalebar_text_size = 4.5,
   map_scalebar_box_size = 0.015,
-  map_scalebar_border_size = 0.85
+  map_scalebar_border_size = 0.85,
+  map_scalebar_dist = 1,
+  map_scalebar_text_dist = 0.02
 )
 }
 \arguments{
@@ -109,6 +111,10 @@ plot_places_chronology_meaning(
 \item{map_scalebar_box_size}{size of the box.}
 
 \item{map_scalebar_border_size}{size of the border.}
+
+\item{map_scalebar_dist}{displayed disctance.}
+
+\item{map_scalebar_text_dist}{distance between box and text.}
 }
 \value{
 ggplot2 visualization of place chronology data.

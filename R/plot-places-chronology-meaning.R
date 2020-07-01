@@ -37,6 +37,8 @@ NULL
 #' @param map_scalebar_text_size size of the scale text.
 #' @param map_scalebar_box_size size of the box.
 #' @param map_scalebar_border_size size of the border.
+#' @param map_scalebar_dist displayed disctance.
+#' @param map_scalebar_text_dist distance between box and text.
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -73,7 +75,9 @@ plot_places_chronology_meaning <- function(data,
                                            map_scalebar_location = "topright",
                                            map_scalebar_text_size = 4.5,
                                            map_scalebar_box_size = 0.015,
-                                           map_scalebar_border_size = 0.85) {
+                                           map_scalebar_border_size = 0.85,
+                                           map_scalebar_dist = 1,
+                                           map_scalebar_text_dist = 0.02) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -295,11 +299,12 @@ plot_places_chronology_meaning <- function(data,
       plot_pc +
       scalebar(
         location = map_scalebar_location,
-        dist = 1,
+        dist = map_scalebar_dist,
         dist_unit = "km",
         transform = TRUE,
         model = "WGS84",
         st.size = map_scalebar_text_size,
+        st.dist = map_scalebar_text_dist,
         height = map_scalebar_box_size,
         border.size = map_scalebar_border_size,
         x.min = min(df_pc_meaning$lon),
