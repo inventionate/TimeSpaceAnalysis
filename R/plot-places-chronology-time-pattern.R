@@ -14,6 +14,7 @@ NULL
 #' @param open_sans use Open Sans font (boolean).
 #' @param labels facet labels.
 #' @param facet_label show facets (boolean).
+#' @param legend_bottom show legend on bottom (boolean).
 #'
 #' @return ggplot2 visualization of place chronology time pattern data.
 #' @export
