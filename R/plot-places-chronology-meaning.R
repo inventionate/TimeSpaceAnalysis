@@ -28,8 +28,15 @@ NULL
 #' @param area_alpha alpha of meaning area.
 #' @param area_size size of meaning area.
 #' @param area_linetype linetype of meaning area.
-#' @param facets_na auto remove places without meanings in facets (boolean).
 #' @param area_label_fontsize area label fontsize (vector).
+#' @param map_add_x adjust map x area.
+#' @param map_add_y adjust map y area.
+#' @param exclude_na drop NA places (boolean).
+#' @param map_scalebar show a scale bar (boolean).
+#' @param map_scalebar_location location of the scalebar.
+#' @param map_scalebar_text_size size of the scale text.
+#' @param map_scalebar_box_size size of the box.
+#' @param map_scalebar_border_size size of the border.
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -48,18 +55,25 @@ plot_places_chronology_meaning <- function(data,
                                            open_sans = TRUE,
                                            exclude_sleep = TRUE,
                                            facets = FALSE,
-                                           facets_na = FALSE,
+                                           exclude_na = FALSE,
                                            exclude = NULL,
                                            meanings = NULL,
                                            map = FALSE,
                                            map_zoom = 10,
+                                           map_add_x = 0.2,
+                                           map_add_y = 0.1,
                                            graph = TRUE,
                                            area_fill = "white",
                                            area_colour = "black",
                                            area_alpha = 0,
                                            area_size = 2,
                                            area_linetype = "solid",
-                                           area_label_fontsize = c(12, 10)) {
+                                           area_label_fontsize = c(12, 10),
+                                           map_scalebar = TRUE,
+                                           map_scalebar_location = "topright",
+                                           map_scalebar_text_size = 4.5,
+                                           map_scalebar_box_size = 0.015,
+                                           map_scalebar_border_size = 0.85) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -122,7 +136,7 @@ plot_places_chronology_meaning <- function(data,
       by = "place"
     )
 
-  if (!facets_na) {
+  if (exclude_na) {
     df_pc_meaning_path <-
       df_pc_meaning_path %>%
       drop_na()
@@ -137,10 +151,10 @@ plot_places_chronology_meaning <- function(data,
     height <- max(df_pc_meaning$lat) - min(df_pc_meaning$lat)
     width <- max(df_pc_meaning$lon) - min(df_pc_meaning$lon)
     borders <- c(
-      bottom = min(df_pc_meaning$lat) - 0.1 * height,
-      top = max(df_pc_meaning$lat) + 0.1 * height,
-      left = min(df_pc_meaning$lon) - 0.2 * width,
-      right = max(df_pc_meaning$lon) + 0.2 * width
+      bottom = min(df_pc_meaning$lat) - map_add_y * height,
+      top = max(df_pc_meaning$lat) + map_add_y * height,
+      left = min(df_pc_meaning$lon) - map_add_x * width,
+      right = max(df_pc_meaning$lon) + map_add_x * width
     )
 
     map_background <-
@@ -273,6 +287,25 @@ plot_places_chronology_meaning <- function(data,
         range = size_range,
         name = "Dauer",
         labels = function(x) paste0(x, "h")
+      )
+  }
+
+  if (map && map_scalebar) {
+    plot_pc <-
+      plot_pc +
+      scalebar(
+        location = map_scalebar_location,
+        dist = 1,
+        dist_unit = "km",
+        transform = TRUE,
+        model = "WGS84",
+        st.size = map_scalebar_text_size,
+        height = map_scalebar_box_size,
+        border.size = map_scalebar_border_size,
+        x.min = min(df_pc_meaning$lon),
+        x.max = max(df_pc_meaning$lon),
+        y.min = min(df_pc_meaning$lat),
+        y.max = max(df_pc_meaning$lat)
       )
   }
 

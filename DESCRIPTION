@@ -25,6 +25,7 @@ Depends:
     cowplot,
     ggthemes,
     ggmap,
+    sf,
     RColorBrewer,
     dendextend,
     GDAtools,

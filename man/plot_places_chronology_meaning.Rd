@@ -20,18 +20,25 @@ plot_places_chronology_meaning(
   open_sans = TRUE,
   exclude_sleep = TRUE,
   facets = FALSE,
-  facets_na = FALSE,
+  exclude_na = FALSE,
   exclude = NULL,
   meanings = NULL,
   map = FALSE,
   map_zoom = 10,
+  map_add_x = 0.2,
+  map_add_y = 0.1,
   graph = TRUE,
   area_fill = "white",
   area_colour = "black",
   area_alpha = 0,
   area_size = 2,
   area_linetype = "solid",
-  area_label_fontsize = c(12, 10)
+  area_label_fontsize = c(12, 10),
+  map_scalebar = TRUE,
+  map_scalebar_location = "topright",
+  map_scalebar_text_size = 4.5,
+  map_scalebar_box_size = 0.015,
+  map_scalebar_border_size = 0.85
 )
 }
 \arguments{
@@ -65,7 +72,7 @@ plot_places_chronology_meaning(
 
 \item{facets}{plot facets (boolean).}
 
-\item{facets_na}{auto remove places without meanings in facets (boolean).}
+\item{exclude_na}{drop NA places (boolean).}
 
 \item{exclude}{exclude specific places from the plot (vector).}
 
@@ -74,6 +81,10 @@ plot_places_chronology_meaning(
 \item{map}{use map background (boolean).}
 
 \item{map_zoom}{map zoom level.}
+
+\item{map_add_x}{adjust map x area.}
+
+\item{map_add_y}{adjust map y area.}
 
 \item{graph}{plot graph (boolean).}
 
@@ -88,6 +99,16 @@ plot_places_chronology_meaning(
 \item{area_linetype}{linetype of meaning area.}
 
 \item{area_label_fontsize}{area label fontsize (vector).}
+
+\item{map_scalebar}{show a scale bar (boolean).}
+
+\item{map_scalebar_location}{location of the scalebar.}
+
+\item{map_scalebar_text_size}{size of the scale text.}
+
+\item{map_scalebar_box_size}{size of the box.}
+
+\item{map_scalebar_border_size}{size of the border.}
 }
 \value{
 ggplot2 visualization of place chronology data.
