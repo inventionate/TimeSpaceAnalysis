@@ -23,7 +23,7 @@ supvar_stats <- function(res_gda,
   # Datensatz auslesen
   var <-
     var_quali_df %>%
-    select(var = !! var_quali) %>%
+    select(var = {{ var_quali }}) %>%
     mutate_all(~ as.character(.))
 
   # Check, ob es fehlende Werte gibt und ggf. imputieren

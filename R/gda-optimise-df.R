@@ -15,7 +15,7 @@ gda_optimise_df <- function(df_name,
   # Identify cases (more than 5% NA over all variables)
   df_name_na_id <- df_name %>%
     rownames_to_column("id") %>%
-    gather(variable, value, !! 2:ncol(df_name)) %>%
+    gather(variable, value, 2:ncol(df_name)) %>%
     count(id, value) %>%
     filter((value %in% mod_excl) & (n > (ncol(df_name)-1) * prop_na_excl))
 

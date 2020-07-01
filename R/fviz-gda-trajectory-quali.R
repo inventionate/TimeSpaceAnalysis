@@ -55,7 +55,7 @@ fviz_gda_trajectory_quali <- function(res_gda,
     df_var_quali %>%
     as.data.frame() %>%
     tibble::rownames_to_column(var = "id") %>%
-    select(id, var_quali = !!var_quali)
+    select(id, var_quali = {{ var_quali }})
   df_base <-
     res_gda$call$X %>%
     data.frame() %>%

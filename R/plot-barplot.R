@@ -29,7 +29,7 @@ plot_barplot <- function(df_origin,
 
   df_cat <-
     df_origin %>%
-    select(var = !!sym(df_var)) %>%
+    select(var = {{ df_var }}) %>%
     mutate_all( fct_explicit_na, na_level = "fehlend" ) %>%
     count(var, name = "abs", sort = sort) %>%
     mutate(rel = abs / sum(abs) )

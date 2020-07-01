@@ -27,7 +27,8 @@ plot_places_chronology_time_pattern <- function(data,
                                                 ncol = 3,
                                                 open_sans = TRUE,
                                                 labels = NULL,
-                                                facet_label = TRUE) {
+                                                facet_label = TRUE,
+                                                legend_bottom = TRUE) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -132,11 +133,26 @@ plot_places_chronology_time_pattern <- function(data,
         legend.position = "right"
       )
 
-    if(!legend) plot_pc_zm <- plot_pc_zm + theme(legend.position = "none")
+    if (!legend) {
+        plot_pc_zm <-
+            plot_pc_zm +
+            theme(legend.position = "none")
+    }
 
-    if(!facet_label) plot_pc_zm <- plot_pc_zm + theme(strip.text = element_blank())
+    if (!facet_label) {
+        plot_pc_zm <-
+            plot_pc_zm +
+            theme(strip.text = element_blank())
+    }
 
-    if(graph) print(plot_pc_zm)
+    if (legend_bottom) {
+        plot_pc_zm <-
+            plot_pc_zm +
+            theme(legend.position = "bottom") +
+            guides(fill = guide_legend(nrow = 1))
+    }
+
+    if (graph) print(plot_pc_zm)
 
   plot_pc_zm
 }

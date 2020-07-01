@@ -248,7 +248,7 @@
   # Varianzen berechnen
   variances <-
     join(weight, coord, by = c("var1", "var2")) %>%
-    group_by(!! var) %>%
+    group_by({{ var }}) %>%
     mutate(total_weight = sum(weight),
            relative_weight = weight/total_weight) %>%
     mutate_at(vars(matches("Dim")), ~ weighted.mean(., weight) - .) %>%
@@ -258,7 +258,7 @@
   # Gesamte Anzahl an Personen
   weight_total <-
     weight %>%
-    group_by(!! var) %>%
+    group_by({{ var }}) %>%
     summarise(weight_total = sum(weight))
 
   # Age within gender variance

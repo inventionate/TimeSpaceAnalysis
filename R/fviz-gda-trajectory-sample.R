@@ -243,8 +243,8 @@ fviz_gda_trajectory_sample <- function(res_gda,
       geom_point(
         data = coord_all,
         aes(
-          !! axis_1,
-          !! axis_2,
+          !!axis_1,
+          !!axis_2,
           colour = time,
           size = mass
         ),

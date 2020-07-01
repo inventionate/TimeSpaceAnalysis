@@ -54,7 +54,7 @@ fviz_gda_quali_supvar <- function(res_gda,
 
   var <-
     df_var_quali %>%
-    select(!!var_quali) %>%
+    select({{ var_quali }}) %>%
     as.data.frame() %>%
     mutate_all(as.character)
 
@@ -62,7 +62,7 @@ fviz_gda_quali_supvar <- function(res_gda,
   supvar_stats <- supvar_stats(
     res_gda,
     df_var_quali,
-    var_quali,
+    {{ var_quali }},
     impute,
     impute_ncp
     )

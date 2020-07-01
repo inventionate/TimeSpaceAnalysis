@@ -70,7 +70,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
   # Datensatz auslesen
   var <-
     df_var_quali %>%
-    select(var_quali = !!var_quali) %>%
+    select(var_quali = {{ var_quali }}) %>%
     mutate_all(as.character)
 
   #eta2 extrahieren
@@ -81,7 +81,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       supvar_stats(
         res_gda,
         df_var_quali,
-        var_quali,
+        {{ var_quali }},
         impute,
         impute_ncp
       )
