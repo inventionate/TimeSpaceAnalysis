@@ -24,7 +24,12 @@ plot_places_chronology_meaning(
   meanings = NULL,
   map = FALSE,
   map_zoom = 10,
-  graph = TRUE
+  graph = TRUE,
+  area_fill = "white",
+  area_colour = "black",
+  area_alpha = 0,
+  area_size = 2,
+  area_linetype = "solid"
 )
 }
 \arguments{
@@ -67,6 +72,16 @@ plot_places_chronology_meaning(
 \item{map_zoom}{map zoom level.}
 
 \item{graph}{plot graph (boolean).}
+
+\item{area_fill}{fill colour of meaning area.}
+
+\item{area_colour}{line colour of meaning area.}
+
+\item{area_alpha}{alpha of meaning area.}
+
+\item{area_size}{size of meaning area.}
+
+\item{area_linetype}{linetype of meaning area.}
 }
 \value{
 ggplot2 visualization of place chronology data.

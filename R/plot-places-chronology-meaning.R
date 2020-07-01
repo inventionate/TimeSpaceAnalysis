@@ -23,6 +23,11 @@ NULL
 #' @param graph plot graph (boolean).
 #' @param map use map background (boolean).
 #' @param map_zoom map zoom level.
+#' @param area_fill fill colour of meaning area.
+#' @param area_colour line colour of meaning area.
+#' @param area_alpha alpha of meaning area.
+#' @param area_size size of meaning area.
+#' @param area_linetype linetype of meaning area.
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -45,7 +50,12 @@ plot_places_chronology_meaning <- function(data,
                                            meanings = NULL,
                                            map = FALSE,
                                            map_zoom = 10,
-                                           graph = TRUE) {
+                                           graph = TRUE,
+                                           area_fill = "white",
+                                           area_colour = "black",
+                                           area_alpha = 0,
+                                           area_size = 2,
+                                           area_linetype = "solid") {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -184,11 +194,16 @@ plot_places_chronology_meaning <- function(data,
         ),
         expand = unit(5, "mm"),
         radius = unit(5, "mm"),
+        size = area_size,
+        fill = area_fill,
+        alpha = area_alpha,
+        colour = area_colour,
+        linetype = area_linetype,
         label.family = "Fira Sans Condensed",
         label.fontsize = c(12, 10),
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
-        con.cap = unit(1, "mm"),
+        con.cap = unit(area_size, "mm"),
         show.legend = FALSE
       )
   } else {
