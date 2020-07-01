@@ -108,7 +108,7 @@ plot_places_chronology_meaning <- function(data,
     filter(place %nin% exclude) %>%
     mutate(
       place_desc = str_glue(
-        "{format(place_duration, decimal.mark = ',')} Stunden"
+        "{format(place_duration, decimal.mark = ',', digits = 1)} Stunden"
       )
     )
 
@@ -234,7 +234,7 @@ plot_places_chronology_meaning <- function(data,
         ),
         expand = unit(0.1, "mm"),
         label.family = "Fira Sans Condensed",
-        label.fontsize = c(12, 10),
+        label.fontsize = area_label_fontsize,
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
         con.cap = unit(4, "mm"),
