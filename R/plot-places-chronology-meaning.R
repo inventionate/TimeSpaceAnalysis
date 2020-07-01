@@ -172,8 +172,6 @@ plot_places_chronology_meaning <- function(data,
 
   # Geo plot
   if (!facets) {
-    print("Hello")
-
     plot_pc <-
       plot_pc +
       ggforce::geom_mark_hull(
