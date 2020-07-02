@@ -40,6 +40,8 @@ NULL
 #' @param map_scalebar_dist displayed disctance.
 #' @param map_scalebar_text_dist distance between box and text.
 #' @param facets_include_place explicit include places in facets (vector).
+#' @param facet_include_all include all place names in facet plot (boolean).
+#' @param map_scalebar_unit_pos_dist add space between scalebar values and unit.
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -59,6 +61,7 @@ plot_places_chronology_meaning <- function(data,
                                            exclude_sleep = TRUE,
                                            facets = FALSE,
                                            facets_include_place = NULL,
+                                           facet_include_all = FALSE,
                                            exclude_na = FALSE,
                                            exclude = NULL,
                                            meanings = NULL,
@@ -101,7 +104,6 @@ plot_places_chronology_meaning <- function(data,
     print("Given places:", quote = FALSE)
     print(data_pc$data_unique_places_overall$place %>% as.character())
     stop("Please choose place meanings.")
-
   }
 
   # Check if the given meanings fit
@@ -154,6 +156,10 @@ plot_places_chronology_meaning <- function(data,
   }
 
   # Prepare data for facets
+  if (facet_include_all) {
+    facets_include_place <- df_pc_meaning$place
+  }
+
   df_pc_meaning_facets <-
     df_pc_meaning %>%
     filter(
