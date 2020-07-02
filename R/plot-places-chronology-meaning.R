@@ -61,7 +61,7 @@ plot_places_chronology_meaning <- function(data,
                                            exclude_sleep = TRUE,
                                            facets = FALSE,
                                            facets_include_place = NULL,
-                                           facet_include_all = FALSE,
+                                           facets_include_all = FALSE,
                                            exclude_na = FALSE,
                                            exclude = NULL,
                                            meanings = NULL,
@@ -156,7 +156,7 @@ plot_places_chronology_meaning <- function(data,
   }
 
   # Prepare data for facets
-  if (facet_include_all) {
+  if (facets_include_all) {
     facets_include_place <- df_pc_meaning$place
   }
 
