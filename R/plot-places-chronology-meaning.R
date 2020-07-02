@@ -39,6 +39,7 @@ NULL
 #' @param map_scalebar_border_size size of the border.
 #' @param map_scalebar_dist displayed disctance.
 #' @param map_scalebar_text_dist distance between box and text.
+#' @param facets_include_place explicit include places in facets (vector).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -57,6 +58,7 @@ plot_places_chronology_meaning <- function(data,
                                            open_sans = TRUE,
                                            exclude_sleep = TRUE,
                                            facets = FALSE,
+                                           facets_include_place = NULL,
                                            exclude_na = FALSE,
                                            exclude = NULL,
                                            meanings = NULL,
@@ -150,6 +152,14 @@ plot_places_chronology_meaning <- function(data,
       drop_na()
   }
 
+  # Prepare data for facets
+  df_pc_meaning_facets <-
+    df_pc_meaning %>%
+    filter(
+      place_duration > mean(place_duration) |
+        place %in% facets_include_place
+    )
+
   # Plot Stamen maps as background
   if (map) {
     height <- max(df_pc_meaning$lat) - min(df_pc_meaning$lat)
@@ -242,7 +252,7 @@ plot_places_chronology_meaning <- function(data,
     plot_pc <-
       plot_pc +
       geom_mark_circle(
-        data = df_pc_meaning %>% filter(place_duration > mean(place_duration)),
+        data = df_pc_meaning_facets,
         aes(
           x = lon,
           y = lat,
