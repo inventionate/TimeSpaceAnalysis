@@ -13,7 +13,7 @@ get_time_pattern <- function(data,
 
   # Check NA
   na_exist <- nrow(data) > nrow(na.omit(data))
-  if( na_exist ) warning("There are NAs. They will be omitted!")
+  if( na_exist ) warning("There are NAs. They will be omitted!", call. = FALSE)
 
   # Filter ID
   if (id[[1]] != "all") {

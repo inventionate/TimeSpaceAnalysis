@@ -42,6 +42,7 @@ NULL
 #' @param facets_include_place explicit include places in facets (vector).
 #' @param facets_include_all include all place names in facet plot (boolean).
 #' @param map_scalebar_unit_pos_dist add space between scalebar values and unit.
+#' @param exclude_meaning meanings to be excluded (vector).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -64,6 +65,7 @@ plot_places_chronology_meaning <- function(data,
                                            facets_include_all = FALSE,
                                            exclude_na = FALSE,
                                            exclude = NULL,
+                                           exclude_meaning = NULL,
                                            meanings = NULL,
                                            map = FALSE,
                                            map_zoom = 10,
@@ -93,7 +95,7 @@ plot_places_chronology_meaning <- function(data,
   # Don't use maps in facets (free scale)
   if (map && facets) {
     map <- FALSE
-    warning("You can't use map backgrounds in facets at the moment.")
+    warning("You can't use map backgrounds in facets at the moment.", call. = FALSE)
   }
 
   # Datensatz aufbereiten.
@@ -133,6 +135,10 @@ plot_places_chronology_meaning <- function(data,
       place_desc = str_glue(
         "{format(place_duration, decimal.mark = ',', digits = 1)} Stunden"
       )
+    ) %>%
+    # Exclude a whole meaningful plave
+    filter(
+      meaning %nin% exclude_meaning
     )
 
   # Create meanings path tibble
@@ -144,6 +150,13 @@ plot_places_chronology_meaning <- function(data,
       df_pc_meaning %>% select(place, meaning),
       by = "place"
     )
+
+  if (!is_null(exclude_meaning)) {
+    warning("All places with no meaning will be dropped.", call. = FALSE)
+    df_pc_meaning_path <-
+      df_pc_meaning_path %>%
+      drop_na()
+  }
 
   if (exclude_na) {
     df_pc_meaning_path <-
@@ -304,7 +317,12 @@ plot_places_chronology_meaning <- function(data,
       facet_wrap(
         ~meaning,
         scales = "free"
-      )
+      ) +
+      labs(
+        caption = "Achtung: Die Skalierung der Grafiken ist unabhängig voneinander.
+        Die Länge der Pfade ist nicht vergleichbar.")
+
+    warning("The facets are free scaled. Use the plot only to investigate structure.", call. = FALSE)
   }
 
   if (!is_null(size_range)) {

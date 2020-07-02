@@ -48,7 +48,7 @@ supvar_stats <- function(res_gda,
 
     if (inherits(res_gda, c("MFA"))) {
 
-      warning("MFA input. Variances, cos2 and v.test aren't calculated!")
+      warning("MFA input. Variances, cos2 and v.test aren't calculated!", call. = FALSE)
 
       var_impute <- missMDA::imputeMFA(data.frame(X, var$var),
                        c(res_gda$call$group, 1),

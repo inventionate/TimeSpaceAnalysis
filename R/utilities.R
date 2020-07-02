@@ -329,7 +329,7 @@
   # Durch Angabe der Varianz filtern.
   if (!is.null(select$within_inertia)) {
 
-    warning("Only complete cases will be used to calculate within inertia!")
+    warning("Only complete cases will be used to calculate within inertia!", call. = FALSE)
     ind_mean_coord <-
       coord_complete %>%
       select(-time) %>%
