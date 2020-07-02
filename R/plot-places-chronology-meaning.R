@@ -221,7 +221,13 @@ plot_places_chronology_meaning <- function(data,
       alpha = alpha_points,
       show.legend = FALSE
     ) +
-    ggtitle(data_pc$title)
+    ggtitle(
+      data_pc$title
+    ) +
+    theme(
+      text = element_text(family = "Fira Sans Condensed"),
+      title = element_text(face = "bold")
+    )
 
   # Geo plot
   if (!facets) {

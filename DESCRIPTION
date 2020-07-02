@@ -24,6 +24,7 @@ Depends:
     ggtext,
     cowplot,
     ggthemes,
+    patchwork,
     ggmap,
     sf,
     RColorBrewer,
