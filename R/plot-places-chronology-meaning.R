@@ -40,7 +40,7 @@ NULL
 #' @param map_scalebar_dist displayed disctance.
 #' @param map_scalebar_text_dist distance between box and text.
 #' @param facets_include_place explicit include places in facets (vector).
-#' @param facet_include_all include all place names in facet plot (boolean).
+#' @param facets_include_all include all place names in facet plot (boolean).
 #' @param map_scalebar_unit_pos_dist add space between scalebar values and unit.
 #'
 #' @return ggplot2 visualization of place chronology data.

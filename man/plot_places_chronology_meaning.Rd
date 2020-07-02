@@ -20,6 +20,8 @@ plot_places_chronology_meaning(
   open_sans = TRUE,
   exclude_sleep = TRUE,
   facets = FALSE,
+  facets_include_place = NULL,
+  facet_include_all = FALSE,
   exclude_na = FALSE,
   exclude = NULL,
   meanings = NULL,
@@ -31,7 +33,7 @@ plot_places_chronology_meaning(
   area_fill = "white",
   area_colour = "black",
   area_alpha = 0,
-  area_size = 2,
+  area_size = 1.5,
   area_linetype = "solid",
   area_label_fontsize = c(12, 10),
   map_scalebar = TRUE,
@@ -40,7 +42,8 @@ plot_places_chronology_meaning(
   map_scalebar_box_size = 0.015,
   map_scalebar_border_size = 0.85,
   map_scalebar_dist = 1,
-  map_scalebar_text_dist = 0.02
+  map_scalebar_text_dist = 0.02,
+  map_scalebar_unit_pos_dist = 0.5
 )
 }
 \arguments{
@@ -73,6 +76,8 @@ plot_places_chronology_meaning(
 \item{exclude_sleep}{exclude sleep duration (boolean).}
 
 \item{facets}{plot facets (boolean).}
+
+\item{facets_include_place}{explicit include places in facets (vector).}
 
 \item{exclude_na}{drop NA places (boolean).}
 
@@ -115,6 +120,10 @@ plot_places_chronology_meaning(
 \item{map_scalebar_dist}{displayed disctance.}
 
 \item{map_scalebar_text_dist}{distance between box and text.}
+
+\item{map_scalebar_unit_pos_dist}{add space between scalebar values and unit.}
+
+\item{facets_include_all}{include all place names in facet plot (boolean).}
 }
 \value{
 ggplot2 visualization of place chronology data.
