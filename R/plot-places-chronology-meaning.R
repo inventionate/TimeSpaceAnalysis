@@ -79,7 +79,8 @@ plot_places_chronology_meaning <- function(data,
                                            map_scalebar_box_size = 0.015,
                                            map_scalebar_border_size = 0.85,
                                            map_scalebar_dist = 1,
-                                           map_scalebar_text_dist = 0.02) {
+                                           map_scalebar_text_dist = 0.02,
+                                           map_scalebar_unit_pos_dist = 0.5) {
   # Add Open Sans font family
   if (open_sans) .add_fonts()
 
@@ -320,7 +321,8 @@ plot_places_chronology_meaning <- function(data,
         x.min = min(df_pc_meaning$lon),
         x.max = max(df_pc_meaning$lon),
         y.min = min(df_pc_meaning$lat),
-        y.max = max(df_pc_meaning$lat)
+        y.max = max(df_pc_meaning$lat),
+        unit_pos_dist = map_scalebar_unit_pos_dist
       )
   }
 

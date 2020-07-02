@@ -608,7 +608,8 @@ scalebar <- function(data = NULL,
                      anchor = NULL,
                      facet.var = NULL,
                      facet.lev = NULL,
-                     st.inherit = TRUE) {
+                     st.inherit = TRUE,
+                     unit_pos_dist = 0.5) {
   if (is.null(data)) {
     if (is.null(x.min) | is.null(x.max) |
       is.null(y.min) | is.null(y.max)) {
@@ -874,22 +875,21 @@ scalebar <- function(data = NULL,
       inherit.aes = st.inherit,
       family = "Fira Sans Condensed"
     )
-  # Create unit label position
-  if (legend2$label[3] < 10) {
-    unit_pos_dist <- 0.4
-  } else {
-    unit_pos_dist <- 0.45
-  }
+  # Right distance for unit label
+  if (direction < 0) dist_direction <- 0
+  else dist_direction <- 2
+
   unit_pos <-
     maptools::gcDestination(
       lon = x,
       lat = y,
-      bearing = 90,
-      dist = dist * unit_pos_dist,
+      bearing = 90, #* direction,
+      dist = dist * (dist_direction + unit_pos_dist),
       dist.units = dist_unit,
       model = model
     )[1, 1]
-  gg.unit <-
+
+    gg.unit <-
     annotate(
       "text",
       x = unit_pos,
