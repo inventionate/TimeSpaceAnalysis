@@ -176,7 +176,7 @@ plot_places_chronology_meaning <- function(data,
   df_pc_meaning_facets <-
     df_pc_meaning %>%
     filter(
-      place_duration > mean(place_duration) |
+      place_duration > mean(data_pc$data_unique_places_overall$place_duration) |
         place %in% facets_include_place
     )
 
