@@ -98,12 +98,12 @@ plot_time_pattern_profile <- function(data_tp,
                  0.5,
                  0.75,
                  1),
-      labels = c("0%",
-                 "25%",
-                 "50%",
-                 "75%",
-                 "100%"),
-      name = "Zeitanteil in Prozent",
+      labels = c("0 %",
+                 "25 %",
+                 "50 %",
+                 "75 %",
+                 "100 %"),
+      name = "Zeitanteil",
       expand = expansion(mult = c(0.005,0.005))
     ) +
     scale_fill_manual(
@@ -115,19 +115,20 @@ plot_time_pattern_profile <- function(data_tp,
     p +
     theme_minimal(base_family = "Fira Sans Condensed") +
     theme(
-      title = element_text(size = 14),
-      strip.text = element_textbox(size = 12, halign = 0.5),
+      text = element_text(colour = "gray17"),
+      title = element_text(size = 14, colour = "gray17"),
+      strip.text = element_textbox(size = 12, halign = 0.5, colour = "gray17"),
       panel.spacing.x = unit(1.5, "lines"),
       panel.spacing.y = unit(1, "lines"),
-      axis.text = element_text(size = 9),
-      axis.title = element_text(size = 12),
-      axis.ticks = element_line(size = 0.5, colour = "black"),
+      axis.text = element_text(size = 9, colour = "gray17"),
+      axis.title = element_blank(),
+      axis.ticks = element_blank(),
       panel.grid.minor = element_blank(),
       panel.grid.major = element_blank(),
       panel.background = element_blank(),
       panel.border = element_rect(
         fill = NA,
-        colour = "black",
+        colour = "gray17",
         size = 1,
         linetype = "solid"
       ),
@@ -136,7 +137,15 @@ plot_time_pattern_profile <- function(data_tp,
       legend.position = "bottom",
       legend.direction = "horizontal"
     ) +
-    guides(fill = guide_legend(nrow = 1))
+    guides(fill = guide_legend(nrow = 1)) +
+    +
+    geom_hline(
+      yintercept = 0.5,
+      size = 1,
+      colour = "gray85",
+      linetype = "dotted"
+    ) +
+    coord_fixed(ratio = 4)
 
   # Mehrere Gafiken parallel erzeugen
   p <- p + facet_wrap(~zeitmuster, ncol = ncol)

@@ -74,7 +74,7 @@ plot_places_chronology_time_pattern <- function(data,
         ) +
         scale_y_continuous(
           breaks = c(0, 0.25, 0.5, 0.75, 1),
-          labels = c("0%", "25%", "50%", "75%", "100%")
+          labels = c("0", "25", "50", "75", "100")
         ) +
         #scale_fill_brewer(name = "Tätigkeiten:",
         #                 labels = c("Veranstaltungen", "Zwischenzeit", "Selbststudium", "Fahrzeit", "Arbeitszeit", "Freizeit", "Schlafen"),
@@ -111,28 +111,36 @@ plot_places_chronology_time_pattern <- function(data,
     # Theme
     plot_pc_zm <-
       plot_pc_zm +
-      theme_minimal() +
+      theme_minimal(base_family = "Fira Sans Condensed") +
       theme(
-        text = element_text(family = "Fira Sans Condensed"),
-        title = element_text(size = 14),
-        strip.text = element_text(size = 14, face = "bold"),
-        panel.spacing.x=unit(1.5, "lines"),
-        panel.spacing.y=unit(1, "lines"),
-        axis.text = element_text(size = 9),
-        axis.title = element_text(size = 12),
-        axis.ticks = element_line(size = 0.5, colour = "black"),
-        panel.grid.minor=element_blank(),
-        panel.grid.major=element_blank(),
+        text = element_text(colour = "gray17"),
+        title = element_text(size = 20),
+        strip.text = element_text(size = 20, face = "bold"),
+        panel.spacing.x = unit(1.5, "lines"),
+        panel.spacing.y = unit(1, "lines"),
+        axis.text = element_text(size = 15),
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
         panel.background = element_blank(),
         panel.border = element_rect(
           fill = NA,
-          colour = "black",
-          size = 1,
+          colour = "gray17",
+          size = 2,
           linetype = "solid"
         ),
         legend.title = element_blank(),
+        legend.text = element_text(size = 12),
         legend.position = "right"
-      )
+      ) +
+      geom_hline(
+        yintercept = 0.5,
+        size = 1,
+        colour = "gray85",
+        linetype = "dotted"
+      ) +
+      coord_fixed(ratio = 4)
 
     if (!legend) {
         plot_pc_zm <-
@@ -150,7 +158,7 @@ plot_places_chronology_time_pattern <- function(data,
         plot_pc_zm <-
             plot_pc_zm +
             theme(legend.position = "bottom") +
-            guides(fill = guide_legend(nrow = 1))
+            guides(fill = guide_legend(ncol = 4))
     }
 
     if (graph) print(plot_pc_zm)

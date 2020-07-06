@@ -56,28 +56,29 @@ plot_time_pattern_series <- function(data_tp,
     scale_x_discrete(
       name = "Wochentage",
       expand = expansion(mult = c(0,0))
-      ) +
+    ) +
     scale_y_continuous(
       limits = hour_limits,
       breaks = hour_scale,
-      name = "Dauer (in Stunden)"
-      ) +
+      name = "Dauer (in Stunden)",
+      expand = expansion(mult = c(0.009, 0.05))
+    ) +
     ggtitle(title) +
-    theme_minimal(base_family = "Fira Sans Condensed") +
+    theme_minimal_hgrid(font_family = "Fira Sans Condensed") +
     theme(
+      text = element_text(colour = "gray17"),
       title = element_text(size = 14),
       strip.text = element_text(size = 12, face = "bold"),
-      axis.text = element_text(size = 9),
-      axis.title = element_text(size = 12),
-      axis.ticks = element_line(size = 0.5, colour = "black"),
-      panel.grid.minor = element_blank(),
-      panel.grid.major = element_blank(),
-      panel.background = element_blank(),
+      axis.title.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.ticks.y = element_line(colour = "gray17"),
+      axis.line = element_blank(),
+      axis.text.x = element_text(margin = margin(t = 0)),
       panel.border = element_rect(
         fill = NA,
-        colour = "black",
-        size = 1,
-        linetype = "solid"),
+        colour = "gray17",
+        size = 1
+      ),
       legend.position = "bottom",
       legend.title = element_blank()
     )
