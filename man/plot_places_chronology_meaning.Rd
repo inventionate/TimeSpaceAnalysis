@@ -37,6 +37,7 @@ plot_places_chronology_meaning(
   area_size = 1.5,
   area_linetype = "solid",
   area_label_fontsize = c(12, 10),
+  area_buffer = 10,
   map_scalebar = TRUE,
   map_scalebar_location = "topright",
   map_scalebar_text_size = 4.5,
@@ -111,6 +112,8 @@ plot_places_chronology_meaning(
 \item{area_linetype}{linetype of meaning area.}
 
 \item{area_label_fontsize}{area label fontsize (vector).}
+
+\item{area_buffer}{The size of the region around the mark where labels cannot be placed (in mm).}
 
 \item{map_scalebar}{show a scale bar (boolean).}
 

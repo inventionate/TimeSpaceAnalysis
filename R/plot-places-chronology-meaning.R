@@ -43,6 +43,7 @@ NULL
 #' @param facets_include_all include all place names in facet plot (boolean).
 #' @param map_scalebar_unit_pos_dist add space between scalebar values and unit.
 #' @param exclude_meaning meanings to be excluded (vector).
+#' @param area_buffer The size of the region around the mark where labels cannot be placed (in mm).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
@@ -78,6 +79,7 @@ plot_places_chronology_meaning <- function(data,
                                            area_size = 1.5,
                                            area_linetype = "solid",
                                            area_label_fontsize = c(12, 10),
+                                           area_buffer = 10,
                                            map_scalebar = TRUE,
                                            map_scalebar_location = "topright",
                                            map_scalebar_text_size = 4.5,
@@ -269,7 +271,7 @@ plot_places_chronology_meaning <- function(data,
         linetype = area_linetype,
         label.family = "Fira Sans Condensed",
         label.fontsize = area_label_fontsize,
-        label.buffer = unit(10, "mm"),
+        label.buffer = unit(area_buffer, "mm"),
         label.fill = "gray90",
         con.cap = unit(area_size, "mm"),
         show.legend = FALSE
