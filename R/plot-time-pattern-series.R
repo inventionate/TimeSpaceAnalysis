@@ -48,7 +48,7 @@ plot_time_pattern_series <- function(data_tp,
         colour = as.factor(zeitmuster)
         ),
       inherit.aes = FALSE,
-      size = 2
+      size = 1
     ) +
     geom_point(
       data = data_ts$data_series_average,
