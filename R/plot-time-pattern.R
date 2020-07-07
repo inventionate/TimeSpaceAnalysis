@@ -18,7 +18,7 @@ NULL
 #' @export
 plot_time_pattern <- function(data,
                               id = "all",
-                              ncol = 3,
+                              ncol = 4,
                               reshape_data = TRUE,
                               print_prop_duration = TRUE,
                               fluid = FALSE,
@@ -188,8 +188,8 @@ plot_time_pattern <- function(data,
         text = element_text(colour = "gray17"),
         title = element_text(size = 14),
         strip.text = element_text(size = 14, face = "bold"),
-        panel.spacing.x=unit(1.5, "lines"),
-        panel.spacing.y=unit(1, "lines"),
+        panel.spacing.x = unit(3, "mm"),
+        panel.spacing.y = unit(1, "lines"),
         axis.text = element_text(size = 9),
         axis.title = element_blank(),
         axis.ticks = element_blank(),
@@ -203,22 +203,18 @@ plot_time_pattern <- function(data,
           linetype = "solid"
         )
       ) +
-      geom_hline(
-        yintercept = 0.5,
-        size = 1,
-        colour = "gray85",
-        linetype = "dotted"
-      ) +
       coord_fixed(ratio = 4)
 
     # Legende
-    if (is_true(legend)) {
+    if (legend) {
       p <-
         p +
         theme(
           legend.title = element_blank(),
-          legend.position = "right"
-        )
+          legend.position = "bottom",
+          legend.direction = "horizontal"
+        ) +
+        guides(fill = guide_legend(ncol = 4))
     }
 
     p

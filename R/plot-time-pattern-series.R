@@ -74,7 +74,7 @@ plot_time_pattern_series <- function(data_tp,
     scale_y_continuous(
       limits = hour_limits,
       breaks = hour_scale,
-      labels = paste(c(0, 4, 8, 12), "Std"),
+      labels = paste(c(0, 4, 8, 12), "h"),
       name = "Dauer (in Stunden)"
     ) +
     ggtitle(title) +

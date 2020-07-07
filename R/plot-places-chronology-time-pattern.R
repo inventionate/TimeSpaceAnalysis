@@ -116,7 +116,7 @@ plot_places_chronology_time_pattern <- function(data,
         text = element_text(colour = "gray17"),
         title = element_text(size = 20),
         strip.text = element_text(size = 20, face = "bold"),
-        panel.spacing.x = unit(1.5, "lines"),
+        panel.spacing.x = unit(3, "mm"),
         panel.spacing.y = unit(1, "lines"),
         axis.text = element_text(size = 15),
         axis.title = element_blank(),
@@ -133,13 +133,7 @@ plot_places_chronology_time_pattern <- function(data,
         legend.title = element_blank(),
         legend.text = element_text(size = 12),
         legend.position = "right"
-      ) +
-      geom_hline(
-        yintercept = 0.5,
-        size = 1,
-        colour = "gray85",
-        linetype = "dotted"
-      ) +
+      )
       coord_fixed(ratio = 4)
 
     if (!legend) {
