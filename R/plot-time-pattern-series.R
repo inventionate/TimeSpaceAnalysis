@@ -36,8 +36,9 @@ plot_time_pattern_series <- function(data_tp,
         group = questionnaire_id
         )
       ) +
-    geom_line(alpha = alpha) +
-    facet_wrap(~activity) +
+    # Das hier optional machen
+    #geom_line(alpha = alpha) +
+    facet_wrap(~activity, nrow = 2, scales = "free") +
     geom_line(
       data = data_ts$data_series_average,
       aes(
@@ -47,7 +48,20 @@ plot_time_pattern_series <- function(data_tp,
         colour = as.factor(zeitmuster)
         ),
       inherit.aes = FALSE,
-      size = 2) +
+      size = 2
+    ) +
+    geom_point(
+      data = data_ts$data_series_average,
+      aes(
+        x = day,
+        y = avg_duration,
+        group = as.factor(zeitmuster),
+        colour = as.factor(zeitmuster)
+      ),
+      shape = 15,
+      inherit.aes = FALSE,
+      size = 4
+    ) +
     scale_colour_brewer(
       palette = palette,
       name = "Zeitmuster",
@@ -55,32 +69,25 @@ plot_time_pattern_series <- function(data_tp,
       ) +
     scale_x_discrete(
       name = "Wochentage",
-      expand = expansion(mult = c(0,0))
+      expand = c(0.1, 0)
     ) +
     scale_y_continuous(
       limits = hour_limits,
       breaks = hour_scale,
-      name = "Dauer (in Stunden)",
-      expand = expansion(mult = c(0.009, 0.05))
+      labels = paste(c(0, 4, 8, 12), "Std"),
+      name = "Dauer (in Stunden)"
     ) +
     ggtitle(title) +
     theme_minimal_hgrid(font_family = "Fira Sans Condensed") +
     theme(
-      text = element_text(colour = "gray17"),
-      title = element_text(size = 14),
-      strip.text = element_text(size = 12, face = "bold"),
-      axis.title.x = element_blank(),
+      strip.text = element_text(size = 15, face = "bold"),
+      axis.line.x = element_blank(),
+      axis.title = element_blank(),
       axis.ticks.x = element_blank(),
-      axis.ticks.y = element_line(colour = "gray17"),
-      axis.line = element_blank(),
-      axis.text.x = element_text(margin = margin(t = 0)),
-      panel.border = element_rect(
-        fill = NA,
-        colour = "gray17",
-        size = 1
-      ),
-      legend.position = "bottom",
-      legend.title = element_blank()
+      panel.spacing = unit(10, "mm"),
+      legend.position = c(0.8, 0.25),
+      legend.title = element_blank(),
+      legend.text = element_text(size = 12)
     )
 
   p
