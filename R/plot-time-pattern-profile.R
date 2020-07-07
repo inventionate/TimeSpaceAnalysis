@@ -138,13 +138,6 @@ plot_time_pattern_profile <- function(data_tp,
       legend.direction = "horizontal"
     ) +
     guides(fill = guide_legend(nrow = 1)) +
-    +
-    geom_hline(
-      yintercept = 0.5,
-      size = 1,
-      colour = "gray85",
-      linetype = "dotted"
-    ) +
     coord_fixed(ratio = 4)
 
   # Mehrere Gafiken parallel erzeugen
