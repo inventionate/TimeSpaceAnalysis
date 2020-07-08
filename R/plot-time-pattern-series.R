@@ -60,7 +60,7 @@ plot_time_pattern_series <- function(data_tp,
       ),
       shape = 15,
       inherit.aes = FALSE,
-      size = 4
+      size = 3
     ) +
     scale_colour_brewer(
       palette = palette,
