@@ -334,7 +334,7 @@
       coord_complete %>%
       select(-time) %>%
       group_by(id) %>%
-      summarise_all(~ mean)
+      summarise_all(~ mean(.))
 
     ind_mean_coord_id <-
       data.frame(ind_mean_coord)$id
