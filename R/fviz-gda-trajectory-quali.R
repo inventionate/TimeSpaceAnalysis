@@ -79,7 +79,7 @@ fviz_gda_trajectory_quali <- function(res_gda,
   coord_var_quali <- bind_cols(coord_all, tibble(var_quali = df_full$var_quali))
 
   # Filtern nach Cluster
-  if (!is.null(var_quali_select)) {
+  if (!is_null(var_quali_select)) {
     df_full <-
       df_full %>%
       filter(var_quali %in% var_quali_select)
@@ -112,11 +112,11 @@ fviz_gda_trajectory_quali <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  if (!is.null(xlim)) {
+  if (!is_null(xlim)) {
     p <- p + xlim(xlim)
   }
 
-  if (!is.null(ylim)) {
+  if (!is_null(ylim)) {
     p <- p + ylim(ylim)
   }
 

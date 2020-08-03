@@ -16,9 +16,12 @@ NULL
 #' @param concentration_ellipse plot confidence ellipses (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param alpha ellipse fill alpha.
-#' @param select choose time point.
+#' @param select choose cluster/category.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param select_facet facet clusters/categories (boolean.)
+#' @param xlim x limits.
+#' @param ylim y limits.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -35,6 +38,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
                                          plot_modif_rates = TRUE,
                                          alpha = 0.15,
                                          select = NULL,
+                                         select_facet = TRUE,
                                          labels = NULL,
                                          xlim = NULL,
                                          ylim = NULL,
@@ -88,7 +92,31 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       !!axis_2,
       var_quali,
       time
-    ) %>%
+    )
+
+  if (!is_null(select) & select_facet) {
+    coord_var_quali <-
+      coord_var_quali %>%
+      group_by(var_quali, time) %>%
+      mutate(
+        count = n()
+      ) %>%
+      ungroup() %>%
+      group_by(time) %>%
+      mutate(
+        time = fct_inorder(as_factor(str_glue(
+        "<b>{time}</b><br>
+        <span style='font-size:9pt'>
+        {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
+        </span>"
+      )))
+      ) %>%
+      ungroup() %>%
+      select(-count)
+  }
+
+  coord_var_quali <-
+    coord_var_quali %>%
     group_by_all() %>%
     mutate(mass = n()) %>%
     ungroup()
@@ -119,11 +147,11 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     stop("Only MCA plots are currently supported!")
   }
 
-  if (!is.null(xlim)) {
+  if (!is_null(xlim)) {
     p <- p + xlim(xlim)
   }
 
-  if (!is.null(ylim)) {
+  if (!is_null(ylim)) {
     p <- p + ylim(ylim)
   }
 
@@ -232,7 +260,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   # if( !is.null(relevel) ) ellipse_axes <- ellipse_axes %>% mutate(var_quali = fct_relevel(var_quali, relevel))
 
   # Filter data
-  if (!is.null(select)) {
+  if (!is_null(select)) {
 
     coord_var_quali <-
       coord_var_quali %>%
@@ -315,7 +343,6 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     p +
     geom_point(
       data = coord_mean_mass_var_quali,
-      # @CHECK is multiply works.
       aes(
         !!axis_1,
         !!axis_2,
@@ -336,21 +363,26 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       shape = 18,
       show.legend = TRUE
     ) +
-    geom_path(
-      data = coord_mean_mass_var_quali,
-      aes(
-        !!axis_1,
-        !!axis_2
-      ),
-      size = 1,
-      arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
-      show.legend = FALSE
-    ) +
     scale_size_continuous(guide = FALSE) +
     guides(
       colour = guide_legend(
         override.aes = list(size = 4))
     )
+
+  if (is_null(select) | (length(select) == 1 & !select_facet)) {
+    p <-
+      p +
+      geom_path(
+        data = coord_mean_mass_var_quali,
+        aes(
+          !!axis_1,
+          !!axis_2
+        ),
+        size = 1,
+        arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+        show.legend = FALSE
+      )
+  }
 
   # Beschriftung anpassen
   p <- .finalize_plot(
@@ -371,6 +403,26 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       theme(
         legend.position = "bottom",
         legend.title = element_blank()
+      )
+  }
+
+  if (select_facet & length(select) == 1) {
+    p <-
+      p +
+      facet_wrap(~time) +
+      theme(
+        panel.border = element_rect(
+          size = 1,
+          fill = NA,
+          colour = "gray17"
+        ),
+        plot.margin = margin(0.5, 0, 0, 0, "cm"),
+        panel.spacing = unit(0.5, "cm"),
+        strip.text = element_textbox(
+          halign = 0.5,
+          size = 12,
+          margin = unit(c(0.5, 0, 0, 0), "mm")
+        )
       )
   }
 

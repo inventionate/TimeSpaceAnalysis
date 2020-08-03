@@ -61,6 +61,7 @@
   p <-
     p +
     theme(
+      plot.title = element_textbox(face = "bold", size = 15),
       axis.text.x.top = element_blank(),
       axis.text.y.right = element_blank(),
       axis.title.x.top = element_text(

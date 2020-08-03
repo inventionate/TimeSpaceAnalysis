@@ -18,6 +18,7 @@ fviz_gda_trajectory_ellipses(
   plot_modif_rates = TRUE,
   alpha = 0.15,
   select = NULL,
+  select_facet = TRUE,
   labels = NULL,
   xlim = NULL,
   ylim = NULL,
@@ -49,9 +50,15 @@ fviz_gda_trajectory_ellipses(
 
 \item{alpha}{ellipse fill alpha.}
 
-\item{select}{choose time point.}
+\item{select}{choose cluster/category.}
+
+\item{select_facet}{facet clusters/categories (boolean.)}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{xlim}{x limits.}
+
+\item{ylim}{y limits.}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 }

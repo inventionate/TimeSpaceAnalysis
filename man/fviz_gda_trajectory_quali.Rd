@@ -8,6 +8,7 @@ fviz_gda_trajectory_quali(
   res_gda,
   df_var_quali,
   var_quali,
+  var_quali_select = NULL,
   axes = 1:2,
   open_sans = TRUE,
   ind_labels = FALSE,
@@ -28,6 +29,8 @@ fviz_gda_trajectory_quali(
 \item{df_var_quali}{data frame containing one qualitative variable (with IDs as rownames).}
 
 \item{var_quali}{name of the structuring variable.}
+
+\item{var_quali_select}{the name of the selected categories/clusters.}
 
 \item{axes}{the axes to plot.}
 

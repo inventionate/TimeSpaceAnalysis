@@ -7,7 +7,7 @@
 plot_time_pattern(
   data,
   id = "all",
-  ncol = 3,
+  ncol = 4,
   reshape_data = TRUE,
   print_prop_duration = TRUE,
   fluid = FALSE,
