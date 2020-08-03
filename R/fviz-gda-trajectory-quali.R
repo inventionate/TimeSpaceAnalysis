@@ -19,12 +19,14 @@ NULL
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param xlim numeric vector of 2.
 #' @param ylim numeric vector of 2.
+#' @param var_quali_select the name of the selected categories/clusters.
 #'
 #' @return ggplot2 visualization.
 #' @export
 fviz_gda_trajectory_quali <- function(res_gda,
                                       df_var_quali,
                                       var_quali,
+                                      var_quali_select = NULL,
                                       axes = 1:2,
                                       open_sans = TRUE,
                                       ind_labels = FALSE,
@@ -70,11 +72,24 @@ fviz_gda_trajectory_quali <- function(res_gda,
   # Imputation
   if (impute) {
     message("Info: Missing data will be imputed!")
-    df_full_imp <- imputeMCA(df_full)$completeObs
+    df_full <- imputeMCA(df_full)$completeObs
   }
 
   # Datensatz um qualitative Variable ergänzen, um Gruppierungen vorzunehmen.
   coord_var_quali <- bind_cols(coord_all, tibble(var_quali = df_full$var_quali))
+
+  # Filtern nach Cluster
+  if (!is.null(var_quali_select)) {
+    df_full <-
+      df_full %>%
+      filter(var_quali %in% var_quali_select)
+
+    coord_var_quali <-
+      coord_var_quali %>%
+      filter(var_quali %in% var_quali_select)
+
+    coord_all <- coord_all %>% filter(id %in% coord_var_quali$id)
+  }
 
   # Behandlung von fehlenden Werten
   if (!impute) {
