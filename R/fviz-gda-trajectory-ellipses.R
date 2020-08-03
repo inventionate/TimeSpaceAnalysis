@@ -59,7 +59,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     df_var_quali %>%
     as.data.frame() %>%
     tibble::rownames_to_column(var = "id") %>%
-    select(id, var_quali = !!var_quali)
+    select(id, var_quali = {{ var_quali }})
   df_base <-
     res_gda$call$X %>%
     as.data.frame() %>%
@@ -225,9 +225,9 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   end_points <-
     ellipse_axes %>%
     slice(even_indexes) %>%
-    select(xend = x, yend = y, group)
+    select(xend = x, yend = y, group, time)
 
-  ellipse_axes <- full_join(start_points, end_points, by = "group")
+  ellipse_axes <- full_join(start_points, end_points, by = c("group", "time"))
 
   # if( !is.null(relevel) ) ellipse_axes <- ellipse_axes %>% mutate(var_quali = fct_relevel(var_quali, relevel))
 
