@@ -2,7 +2,7 @@
 NULL
 #' Title
 #'
-#' @param res_gda GDA (MCA, MFA) result (rownames have to be individual questionnaire IDs).
+#' @param res_gda GDA (MCA, MFA) result (rowname s have to be individual questionnaire IDs).
 #' @param df_var_quali data frame of one quali variable.
 #' @param var_quali name if quali variable.
 #' @param title plot title.
@@ -194,7 +194,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     ungroup() %>%
     mutate(
       var_quali = fct_drop(var_quali),
-      colour = as.character(as.numeric(var_quali))
+      colour = var_quali
     )
 
   coord_mean_quali <-
@@ -218,7 +218,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
     mutate(
       prop = str_glue("{var_quali}"),
       prop_desc = str_glue("{format(round(size/sum(size) * 100, 1), decimal.mark=',')} %, n = {size}"),
-      colour = as.character(as.numeric(var_quali))
+      colour = var_quali
     )
 
   # Plot
@@ -321,14 +321,11 @@ fviz_gda_quali_ellipses <- function(res_gda,
     ellipse_axes <-
       ellipse_axes %>%
       mutate(
-        colour = as.character(
-          as.numeric(
+        colour =
             factor(
               var_quali,
               levels = levels(coord_ind_quali$var_quali)
             )
-          )
-        )
       )
 
     p <-
@@ -444,19 +441,11 @@ fviz_gda_quali_ellipses <- function(res_gda,
       )
   }
 
-  if (palette != FALSE) {
-    p <-
-      p +
-      scale_colour_brewer(palette = palette) +
-      scale_fill_brewer(palette = palette)
-  }
-
   if (!is_null(profiles)) {
     profiles <-
       profiles %>%
-      rename(var_quali = clust) %>%
       mutate(
-        colour = as.character(as.numeric(var_quali))
+        colour = clust
       )
 
     p <-
@@ -469,6 +458,13 @@ fviz_gda_quali_ellipses <- function(res_gda,
                        alpha = 1,
                        segment.colour = "black",
                        segment.size = 1.5)
+  }
+
+  if (palette != FALSE) {
+    p <-
+      p +
+      scale_colour_brewer(palette = palette) +
+      scale_fill_brewer(palette = palette)
   }
 
   if (facet) {
