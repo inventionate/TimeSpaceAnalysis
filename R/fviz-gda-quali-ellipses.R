@@ -2,7 +2,7 @@
 NULL
 #' Title
 #'
-#' @param res_gda GDA (MCA, MFA) result (rowname s have to be individual questionnaire IDs).
+#' @param res_gda GDA (MCA, MFA) result (rownames have to be individual questionnaire IDs).
 #' @param df_var_quali data frame of one quali variable.
 #' @param var_quali name if quali variable.
 #' @param title plot title.
@@ -160,7 +160,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
       {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
       </span>"
       )
-    )
+      )
   }
 
   var_levels <-
@@ -254,7 +254,7 @@ fviz_gda_quali_ellipses <- function(res_gda,
             y = y,
             colour = colour,
             size = count
-          ),
+        ),
         inherit.aes = FALSE,
         alpha = alpha_point
       )
@@ -322,10 +322,10 @@ fviz_gda_quali_ellipses <- function(res_gda,
       ellipse_axes %>%
       mutate(
         colour =
-            factor(
-              var_quali,
-              levels = levels(coord_ind_quali$var_quali)
-            )
+          factor(
+            var_quali,
+            levels = levels(coord_ind_quali$var_quali)
+          )
       )
 
     p <-
@@ -341,11 +341,11 @@ fviz_gda_quali_ellipses <- function(res_gda,
         level = 0.8647,
         inherit.aes = FALSE
       ) +
-     geom_path(
-       data = ellipse_axes,
-       aes(x = x, y = y, group = group, colour = colour),
-       linetype = "dashed",
-       inherit.aes = FALSE
+      geom_path(
+        data = ellipse_axes,
+        aes(x = x, y = y, group = group, colour = colour),
+        linetype = "dashed",
+        inherit.aes = FALSE
       )
 
   }
