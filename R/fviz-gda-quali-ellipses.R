@@ -453,13 +453,17 @@ fviz_gda_quali_ellipses <- function(res_gda,
 
   if (!is_null(profiles)) {
     profiles <-
-      profiles %>% rename(var_quali = cluster)
+      profiles %>%
+      rename(var_quali = clust) %>%
+      mutate(
+        colour = as.character(as.numeric(var_quali))
+      )
 
     p <-
       p +
       geom_label_repel(data = profiles,
                        inherit.aes = FALSE,
-                       aes(x = Dim.1, y = Dim.2, label = name, colour = var_quali),
+                       aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
                        family = "Fira Sans Condensed",
                        size = 5,
                        alpha = 1,
