@@ -450,14 +450,14 @@ fviz_gda_quali_ellipses <- function(res_gda,
 
     p <-
       p +
-      geom_label_repel(data = profiles,
+      geom_label(data = profiles,
                        inherit.aes = FALSE,
                        aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
                        family = "Fira Sans Condensed",
                        size = 5,
-                       alpha = 1,
-                       segment.colour = "black",
-                       segment.size = 1.5)
+                       alpha = 1)
+                       # segment.colour = "black",
+                       # segment.size = 1.5)
   }
 
   if (palette != FALSE) {
