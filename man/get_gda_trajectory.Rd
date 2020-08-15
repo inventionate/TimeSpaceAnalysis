@@ -4,12 +4,14 @@
 \alias{get_gda_trajectory}
 \title{Extract trajectory data.}
 \usage{
-get_gda_trajectory(res_gda, time_point_names = NULL)
+get_gda_trajectory(res_gda, time_point_names = NULL, complete_obs = FALSE)
 }
 \arguments{
 \item{res_gda}{GDA result.}
 
 \item{time_point_names}{name of the separated time points.}
+
+\item{complete_obs}{plot only complete observations (boolean).}
 }
 \value{
 list containing time point separated ind coord and time point names.

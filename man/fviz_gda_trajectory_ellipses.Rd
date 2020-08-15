@@ -22,7 +22,8 @@ fviz_gda_trajectory_ellipses(
   labels = NULL,
   xlim = NULL,
   ylim = NULL,
-  axes_annotate_alpha = 0.3
+  axes_annotate_alpha = 0.3,
+  complete_obs = FALSE
 )
 }
 \arguments{
@@ -61,6 +62,8 @@ fviz_gda_trajectory_ellipses(
 \item{ylim}{y limits.}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
+
+\item{complete_obs}{plot only complete observations (boolean).}
 }
 \value{
 ggplot2 visualization.

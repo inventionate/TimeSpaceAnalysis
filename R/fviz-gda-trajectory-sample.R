@@ -83,7 +83,6 @@ fviz_gda_trajectory_sample <- function(res_gda,
   coord_mean_mass <- full_join(coord_mean, coord_mass, by = "time")
 
   # Masse hinzufügen
-  # @TODO replace deprecated _ functions with new ones!
   coord_all <-
     coord_all %>%
     select(

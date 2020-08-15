@@ -22,6 +22,7 @@ NULL
 #' @param select_facet facet clusters/categories (boolean.)
 #' @param xlim x limits.
 #' @param ylim y limits.
+#' @param complete_obs plot only complete observations (boolean).
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -42,7 +43,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
                                          labels = NULL,
                                          xlim = NULL,
                                          ylim = NULL,
-                                         axes_annotate_alpha = 0.3) {
+                                         axes_annotate_alpha = 0.3,
+                                         complete_obs = FALSE) {
 
   # Add Open Sans font family
   if (open_sans) .add_fonts()
@@ -52,13 +54,12 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   axis_2 <- sym(paste0("Dim.", axes[2]))
 
   # Trajektoriedaten zusammenstellen
-  coord_trajectory <- get_gda_trajectory(res_gda, time_point_names)
-  coord_all = coord_trajectory$coord_all
-  coord_mean_mass = coord_trajectory$coord_mean_mass
+  coord_trajectory <- get_gda_trajectory(res_gda, time_point_names, complete_obs)
+  coord_all <-  coord_trajectory$coord_all
+  coord_all_complete <-  coord_trajectory$coord_all_complete
   time_point_names <- coord_trajectory$time_point_names
 
   # Datensatz für zusätzliche Variable konstruieren
-  # @TODO replace deprecated _ functions!
   df_quali <-
     df_var_quali %>%
     as.data.frame() %>%
@@ -69,9 +70,23 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     as.data.frame() %>%
     tibble::rownames_to_column() %>%
     separate(rowname, c("id", "time"), sep = "_", fill = "right")
-  df_full <-
+  df_full_id <-
     full_join(df_base, df_quali, by = "id") %>%
-    mutate_all(as.factor) %>%
+    mutate_all(as_factor)
+
+  if (complete_obs) {
+
+    df_full_complete <-
+      df_full_id %>%
+      filter(id %in% coord_all_complete$id) %>%
+      select(-id, -time) %>%
+      as.data.frame()
+
+      message("Info: Complete cases filtered!")
+  }
+
+  df_full <-
+    df_full_id %>%
     select(-id, -time) %>%
     as.data.frame()
 
@@ -79,9 +94,14 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   if (impute) {
     message("Info: Missing data will be imputed!")
     df_full <- imputeMCA(df_full)$completeObs
+
+    if (complete_obs) {
+      df_full_complete <- imputeMCA(df_full_complete)$completeObs
+    }
   }
 
   # Datensatz um qualitative Variable ergänzen, um Gruppierungen vorzunehmen.
+  # @TODO: Code ist zu kompliziert und repetitiv! Refactor!
   coord_var_quali <-
     bind_cols(
       coord_all,
@@ -92,7 +112,30 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
       !!axis_2,
       var_quali,
       time
+    ) %>%
+    group_by(var_quali, time) %>%
+    mutate(
+      count = n()
+    ) %>%
+    ungroup() %>%
+    mutate(
+      time_short= time
     )
+
+  if (complete_obs) {
+
+    coord_var_quali_complete <-
+      bind_cols(
+        coord_all_complete,
+        tibble(var_quali = df_full_complete$var_quali)
+      ) %>%
+      select(
+        !!axis_1,
+        !!axis_2,
+        var_quali,
+        time
+      )
+  }
 
   if (!is_null(select) & select_facet) {
     coord_var_quali <-
@@ -102,6 +145,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
         count = n()
       ) %>%
       ungroup() %>%
+      mutate(time_short = time) %>%
       group_by(time) %>%
       mutate(
         time = fct_inorder(as_factor(str_glue(
@@ -111,9 +155,106 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
         </span>"
       )))
       ) %>%
-      ungroup() %>%
-      select(-count)
+      ungroup()
+
+    count_selected_overall <-
+      coord_var_quali %>%
+      filter(var_quali %in% select) %>%
+      slice(1) %>%
+      pull(count)
+
+    if (!complete_obs) {
+      coord_var_quali <-
+        coord_var_quali %>%
+        select(-count, -time_short)
+    }
   }
+
+  if (complete_obs) {
+
+    if( is_null(select) ) select <- df_full %>% pull(var_quali) %>% as_factor() %>% levels()
+
+    coord_var_quali_all <-
+      coord_var_quali %>%
+      select(-count) %>%
+      group_by_all() %>%
+      mutate(mass = n()) %>%
+      ungroup() %>%
+      filter(time_short == time_point_names[[1]]) %>%
+      select(-time, -time_short) %>%
+      filter(var_quali %in% select)
+
+    coord_mean_var_quali_all <-
+      coord_var_quali_all %>%
+      select(-mass) %>%
+      group_by(var_quali) %>%
+      summarise_all(mean)
+
+    coord_mass_var_quali_all <-
+      coord_var_quali_all %>%
+      count(var_quali) %>%
+      rename(mass = n)
+
+    coord_mean_mass_var_quali_all <-
+      full_join(
+        coord_mean_var_quali_all,
+        coord_mass_var_quali_all, by = "var_quali")
+  }
+
+  # Die Anzahlen berechnen
+  if (complete_obs & !select_facet) {
+
+    count_selected_complete <-
+      coord_var_quali_complete %>%
+      filter(var_quali %in% select) %>%
+      filter(time == time_point_names[[1]]) %>%
+      nrow()
+
+    count_selected_overall <-
+      coord_var_quali_all %>%
+      nrow()
+
+  }
+
+  if (!is_null(select) & select_facet & complete_obs) {
+
+    coord_var_quali <-
+      coord_var_quali_complete %>%
+      group_by(var_quali, time) %>%
+      mutate(
+        count = n()
+      ) %>%
+      ungroup() %>%
+      mutate(time_short = time) %>%
+      group_by(time) %>%
+      mutate(
+        time = fct_inorder(as_factor(str_glue(
+          "<b>{time}</b>"
+        )))
+      ) %>%
+      ungroup()
+
+    count_selected_complete <-
+      coord_var_quali %>%
+      filter(var_quali %in% select) %>%
+      slice(1) %>%
+      pull(count)
+
+    coord_var_quali <-
+      coord_var_quali %>%
+      select(-count)
+
+  }
+
+  if (complete_obs) {
+
+    coord_var_quali <-
+      coord_var_quali_complete %>%
+      mutate(
+        time_short = time
+      )
+
+    }
 
   coord_var_quali <-
     coord_var_quali %>%
@@ -130,7 +271,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
   # Mittelwerte und Gruppengewicht berechnen
   coord_mean_var_quali <-
     coord_var_quali %>%
-    select(-mass) %>%
+    select(-mass, -time_short) %>%
     group_by(time, var_quali) %>%
     summarise_all(mean)
   coord_mass_var_quali <-
@@ -172,6 +313,136 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
         fill = NA,
         show.legend = FALSE
       )
+  }
+
+  if (complete_obs) {
+
+    # Calculate ellipsis axes
+    p_calc <-
+      ggplot() +
+      stat_ellipse(
+        data = coord_var_quali_all,
+        aes(
+          !!axis_1,
+          !!axis_2
+        ),
+        segments = 500,
+        type = "norm",
+        level = 0.86
+      )
+
+    # Get ellipse coords from plot
+    pb <- ggplot_build(p_calc)
+    el <- pb$data[[1]][c("x","y")]
+
+    # Calculate centre of ellipse
+    ctr <-
+      coord_mean_mass_var_quali_all %>%
+      ungroup() %>%
+      select(
+        !!axis_1,
+        !!axis_2,
+      ) %>%
+      as.matrix() %>%
+      as.vector()
+
+    # Calculate distance to centre from each ellipse pts
+    dist2center <- sqrt(rowSums(t(t(el) - ctr)^2))
+
+    # Identify axes points
+    df <-
+      bind_cols(
+        el,
+        dist2center = dist2center
+      )%>%
+      arrange(dist2center) %>%
+      slice(c(1, 2, n() - 1, n())) %>%
+      mutate(dist2center = round(dist2center, 2))
+
+    # Store results
+    odd_indexes <- seq(1,nrow(df), 2)
+
+    even_indexes <- seq(2,nrow(df), 2)
+
+    start_points <-
+      df %>%
+      slice(odd_indexes)
+
+    end_points <-
+      df %>%
+      slice(even_indexes) %>%
+      rename(xend = x, yend = y)
+
+    ellipse_axes_all <- full_join(start_points, end_points, by = "dist2center")
+
+    p <-
+      p +
+      stat_ellipse(
+        data = coord_var_quali_all,
+        aes(
+          !!axis_1,
+          !!axis_2
+        ),
+        colour = "gray80",
+        fill = NA,
+        geom = "polygon",
+        type = "norm",
+        alpha = 1,
+        segments = 500,
+        level = 0.8647,
+        linetype = "solid",
+        show.legend = FALSE
+      ) +
+      geom_segment(
+        data = ellipse_axes_all,
+        aes(x = x, xend = xend, y = y, yend = yend),
+        colour = "gray80",
+        linetype = "dashed",
+        inherit.aes = FALSE,
+        show.legend = FALSE
+      )
+
+    if (ind_points) {
+      p <-
+        p +
+
+        geom_point(
+          data = coord_var_quali_all,
+          aes(
+            !!axis_1,
+            !!axis_2,
+            size = mass
+          ),
+          colour = "gray80",
+          show.legend = FALSE
+        )
+
+    }
+      p <-
+        p +
+      geom_point(
+        data = coord_mean_mass_var_quali_all,
+        aes(
+          !!axis_1,
+          !!axis_2,
+          size = mass * 1.75
+        ),
+        colour = "black",
+        shape = 18,
+        show.legend = FALSE
+      ) +
+      geom_point(
+        data = coord_mean_mass_var_quali_all,
+        aes(
+          !!axis_1,
+          !!axis_2,
+          size = mass
+        ),
+        colour = "gray60",
+        shape = 18,
+        show.legend = TRUE
+      )
+
   }
 
   # Quali ellipses
@@ -325,6 +596,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
     )
 
   if (ind_points) {
+
     p <-
       p +
       geom_point(
@@ -449,7 +721,21 @@ fviz_gda_trajectory_ellipses <- function(res_gda,
 
   }
 
-  if (!is_null(title)) p <- p + ggtitle(title)
+  if (!is_null(title)) {
+    p <-
+      p +
+      ggtitle(title)
+
+    if (complete_obs) {
+      p <-
+        p +
+        labs(
+          title = title,
+          subtitle =  str_glue("{count_selected_complete} vollständige Fälle von insgesamt {count_selected_overall} dieser Konstellation")
+        )
+    }
+
+  }
 
     # Plotten
    p

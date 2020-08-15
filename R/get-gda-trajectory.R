@@ -5,21 +5,22 @@ NULL
 #'
 #' @param res_gda GDA result.
 #' @param time_point_names name of the separated time points.
+#' @param complete_obs plot only complete observations (boolean).
 #'
 #' @return list containing time point separated ind coord and time point names.
 #' @export
-get_gda_trajectory <- function(res_gda, time_point_names = NULL) {
+get_gda_trajectory <- function(res_gda, time_point_names = NULL, complete_obs = FALSE) {
 
   # Anzahl Zeitpunkte bestimmen
   time_points <-
     res_gda$ind.sup$coord %>%
-    data.frame() %>%
+    as.data.frame() %>%
     tibble::rownames_to_column() %>%
     separate(rowname, c("id", "time")) %>%
     select(time) %>%
     distinct() %>%
-    .$time %>%
-    length
+    pull(time) %>%
+    length()
 
   if (length(time_points) == 0) stop("There are no different time points!")
 
@@ -53,6 +54,22 @@ get_gda_trajectory <- function(res_gda, time_point_names = NULL) {
     ) %>%
     mutate(time = factor(time, levels = time_point_names))
 
+  coord_all_complete <- NULL
+
+  if (complete_obs) {
+
+    complete_ids <-
+      coord_all %>%
+      count(id) %>%
+      filter(n == length(time_point_names)) %>%
+      pull(id)
+
+    coord_all_complete <-
+      coord_all %>%
+      filter(id %in% complete_ids)
+
+  }
+
   # # Mittelpunkte
   # coord_mean <- coord_all %>% select(-id) %>% group_by(time) %>% summarise_each(funs(mean))
   #
@@ -65,6 +82,7 @@ get_gda_trajectory <- function(res_gda, time_point_names = NULL) {
   # Zusammenstellung der Ergebnisse
   res <- list(
     coord_all = coord_all,
+    coord_all_complete = coord_all_complete,
     time_point_names = time_point_names
   )
 
