@@ -10,18 +10,20 @@ NULL
 #' @param title plot title.
 #' @param hour_scale y axis breaks (hours).
 #' @param hour_limits y axis limits (hours).
+#' @param individual_lines show individual time pattern lines (boolean).
 #'
 #' @return ggplot2 time pattern series plot.
 #' @export
 plot_time_pattern_series <- function(data_tp,
                                      alpha = 0.3,
+                                     individual_lines = FALSE,
                                      palette = "Set1",
                                      open_sans = TRUE,
                                      title = "Time pattern profiles (kml3d results)",
-                                     hour_limits = c(0,24),
-                                     hour_scale = c(0, 4, 8, 12, 16, 20, 24)) {
+                                     hour_limits = c(0, 24),
+                                     hour_scale = c(0, 4, 8, 12)) {
 
-    # Add Open Sans font family
+  # Add Open Sans font family
   if (open_sans) .add_fonts()
 
   data_ts <- get_time_pattern_series(data_tp)
@@ -34,10 +36,14 @@ plot_time_pattern_series <- function(data_tp,
         x = day,
         y = duration,
         group = questionnaire_id
-        )
-      ) +
-    # Das hier optional machen
-    #geom_line(alpha = alpha) +
+      )
+    )
+  # Das hier optional machen
+  if (individual_lines) {
+    p <- p + geom_line(alpha = alpha)
+  }
+  p <-
+    p +
     facet_wrap(~activity, nrow = 2, scales = "free") +
     geom_line(
       data = data_ts$data_series_average,
@@ -46,7 +52,7 @@ plot_time_pattern_series <- function(data_tp,
         y = avg_duration,
         group = as.factor(zeitmuster),
         colour = as.factor(zeitmuster)
-        ),
+      ),
       inherit.aes = FALSE,
       size = 1
     ) +
@@ -66,7 +72,7 @@ plot_time_pattern_series <- function(data_tp,
       palette = palette,
       name = "Zeitmuster",
       labels = data_ts$data_series_profile_prop_label
-      ) +
+    ) +
     scale_x_discrete(
       name = "Wochentage",
       expand = c(0.1, 0)
@@ -88,7 +94,7 @@ plot_time_pattern_series <- function(data_tp,
       legend.position = c(0.8, 0.2),
       legend.title = element_blank(),
       legend.text = element_text(size = 12),
-      aspect.ratio = 1/1.7
+      aspect.ratio = 1 / 1.7
     )
 
   p
