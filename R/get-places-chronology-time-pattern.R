@@ -6,13 +6,14 @@
 #'
 #' @return reshaped data frame for further visualization.
 #' @export
-get_places_chronology_time_pattern <- function(data,
+get_places_chronology_time_pattern <- function(oc_data,
                                                id = "all",
                                                weekday = "all") {
 
+  print(oc_data)
   # Relevante Variablen auswählen
-  data <-
-    data %>%
+  oc_data <-
+    oc_data %>%
     ungroup() %>%
     select(
       questionnaire_id,
@@ -24,12 +25,13 @@ get_places_chronology_time_pattern <- function(data,
       activity = as.factor(activity)
     )
 
+  print(oc_data)
   # Leeren Datensatz hinzufügen, um vergleichbare Ausgangsbedingungen zu schaffen.
   # D. h., jeder Person wird eine vergleichbare Aktivität mit der Länge Null hinzugefügt.
   # Für jede ID an jedem Tag eine Aktivität mit prop_duration 0 erzeugen.
-  activities <- levels(data$activity)
+  activities <- levels(oc_data$activity)
 
-  data_scaffold <- data %>%
+  data_scaffold <- oc_data %>%
     group_by(questionnaire_id, day) %>%
     distinct(.keep_all = TRUE) %>%
     na.omit()
@@ -50,16 +52,16 @@ get_places_chronology_time_pattern <- function(data,
   }
 
   data_pc_zm <-
-    data <-
+    oc_data <-
     bind_rows(
-      data,
+      oc_data,
       data_zero_duration_activites %>%
         mutate_at(vars(activity), ~ as.factor(.)))
 
   # Nach ID filtern
   # Es darf dein NA Auschluss durchgeführt werden, weil sonst die Fahrzeit verloren geht!
   if (id[[1]] != "all") {
-    data_pc_zm <- data %>% filter(questionnaire_id %in% id)
+    data_pc_zm <- oc_data %>% filter(questionnaire_id %in% id)
   }
 
   if (weekday[[1]] != "all") {
