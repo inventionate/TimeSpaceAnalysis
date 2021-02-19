@@ -11,7 +11,6 @@ fviz_add_sup_ind(
   ind_visible = FALSE,
   label = NULL,
   size = 10,
-  open_sans = TRUE,
   group = NULL,
   group_names = NULL,
   group_style = "both",
@@ -30,8 +29,6 @@ fviz_add_sup_ind(
 \item{label}{label names.}
 
 \item{size}{label size.}
-
-\item{open_sans}{use Open Sans font.}
 
 \item{group}{vector containing group definition.}
 

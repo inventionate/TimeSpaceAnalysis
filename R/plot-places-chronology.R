@@ -18,7 +18,6 @@ NULL
 #' @param axis_label show or hide axis labels (boolean).
 #' @param print_place_duration print place overall duration (hours).
 #' @param point_padding Amount of padding around labeled point. Defaults to unit(0, "lines").
-#' @param open_sans use Open Sans font (boolean).
 #' @param exclude_sleep exclude sleep duration (boolean).
 #' @param xextra extra space for time plot (units in cm).
 #' @param alpha_points specify the point alpha value [0:1].
@@ -26,29 +25,11 @@ NULL
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
-plot_places_chronology <- function(data,
-                                   id,
-                                   weekday = "all",
-                                   size_range = NULL,
-                                   colour_path = "black",
-                                   size_path = 2,
-                                   alpha_path = 0.25,
-                                   alpha_points = 0.85,
-                                   linetype_path = "solid",
-                                   force_repel = 3,
-                                   title = NULL,
-                                   axis_label = FALSE,
-                                   xlim = NULL,
-                                   ylim = NULL,
-                                   xextra = 3,
-                                   print_place_duration = TRUE,
-                                   point_padding = unit(1, "lines"),
-                                   open_sans = TRUE,
-                                   exclude_sleep = TRUE,
+plot_places_chronology <- function(data, id, weekday = "all", size_range = NULL, colour_path = "black", size_path = 2,
+                                   alpha_path = 0.25, alpha_points = 0.85, linetype_path = "solid", force_repel = 3,
+                                   title = NULL, axis_label = FALSE, xlim = NULL, ylim = NULL, xextra = 3,
+                                   print_place_duration = TRUE, point_padding = unit(1, "lines"), exclude_sleep = TRUE,
                                    facets = FALSE) {
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
-
   # Check if only one id is given
   if (length(id) > 1) stop("Please give only one ID.")
 

@@ -13,7 +13,6 @@ fviz_dendrogram(
   hline = 0.8,
   pointsize = 2,
   linetype = "dashed",
-  open_sans = TRUE,
   cut_height = NULL,
   title = NULL,
   cut_upper = NULL,
@@ -38,8 +37,6 @@ fviz_dendrogram(
 \item{pointsize}{leaves pointsize.}
 
 \item{linetype}{hline linetype.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{cut_height}{cut dendrogram at specific hight.}
 

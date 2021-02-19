@@ -6,7 +6,6 @@ NULL
 #' @param data_tp data frame including questionnaire_id, kml3d results and time pattern data.
 #' @param alpha opacity of the time pattern lines.
 #' @param palette colour of average time pattern lines.
-#' @param open_sans use Open Sans font (boolean).
 #' @param title plot title.
 #' @param hour_scale y axis breaks (hours).
 #' @param hour_limits y axis limits (hours).
@@ -14,18 +13,9 @@ NULL
 #'
 #' @return ggplot2 time pattern series plot.
 #' @export
-plot_time_pattern_series <- function(data_tp,
-                                     alpha = 0.3,
-                                     individual_lines = FALSE,
-                                     palette = "Set1",
-                                     open_sans = TRUE,
-                                     title = "Time pattern profiles (kml3d results)",
-                                     hour_limits = c(0, 24),
+plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FALSE, palette = "Set1",
+                                     title = "Time pattern profiles (kml3d results)", hour_limits = c(0, 24),
                                      hour_scale = c(0, 4, 8, 12)) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
-
   data_ts <- get_time_pattern_series(data_tp)
 
   # Zeitserien plotten

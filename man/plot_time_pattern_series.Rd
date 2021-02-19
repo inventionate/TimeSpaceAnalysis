@@ -7,11 +7,11 @@
 plot_time_pattern_series(
   data_tp,
   alpha = 0.3,
+  individual_lines = FALSE,
   palette = "Set1",
-  open_sans = TRUE,
   title = "Time pattern profiles (kml3d results)",
   hour_limits = c(0, 24),
-  hour_scale = c(0, 4, 8, 12, 16, 20, 24)
+  hour_scale = c(0, 4, 8, 12)
 )
 }
 \arguments{
@@ -19,9 +19,9 @@ plot_time_pattern_series(
 
 \item{alpha}{opacity of the time pattern lines.}
 
-\item{palette}{colour of average time pattern lines.}
+\item{individual_lines}{show individual time pattern lines (boolean).}
 
-\item{open_sans}{use Open Sans font (boolean).}
+\item{palette}{colour of average time pattern lines.}
 
 \item{title}{plot title.}
 

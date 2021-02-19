@@ -6,9 +6,7 @@
 #'
 #' @return list containing axis contribution results.
 #' @export
-gda_describe_axis <- function(res_gda,
-                              axis = 1,
-                              contrib = "auto") {
+gda_describe_axis <- function(res_gda, axis = 1, contrib = "auto") {
 
   # Check GDA result
   if (!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")

@@ -17,7 +17,6 @@ plot_places_chronology_meaning(
   title = NULL,
   axis_label = FALSE,
   print_place_duration = TRUE,
-  open_sans = TRUE,
   exclude_sleep = TRUE,
   facets = FALSE,
   facets_include_place = NULL,
@@ -51,7 +50,7 @@ plot_places_chronology_meaning(
 \arguments{
 \item{data}{a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).}
 
-\item{id}{vector, which contains questionnaire ids. Choosa "all" to compute all ids.}
+\item{id}{vector, which contains questionnaire ids. Choose "all" to compute all ids.}
 
 \item{weekday}{vector, which contains the weekday to plot.}
 
@@ -72,8 +71,6 @@ plot_places_chronology_meaning(
 \item{axis_label}{show or hide axis labels (boolean).}
 
 \item{print_place_duration}{print place overall duration (hours).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{exclude_sleep}{exclude sleep duration (boolean).}
 

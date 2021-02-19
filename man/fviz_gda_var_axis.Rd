@@ -19,7 +19,6 @@ fviz_gda_var_axis(
   individuals_size = "auto",
   individuals_alpha = 0.5,
   individuals_names = FALSE,
-  open_sans = TRUE,
   plot_modif_rates = TRUE,
   axis_lab_name = "Achse",
   group_lab_name = "Themengruppen",
@@ -54,8 +53,6 @@ fviz_gda_var_axis(
 \item{individuals_alpha}{set alpha value.}
 
 \item{individuals_names}{plot individual names (boolean).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 

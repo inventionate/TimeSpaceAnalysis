@@ -13,7 +13,6 @@ plot_places_chronology_time_pattern(
   legend = TRUE,
   bar_width = 1,
   ncol = 3,
-  open_sans = TRUE,
   labels = NULL,
   facet_label = TRUE,
   legend_bottom = TRUE
@@ -35,8 +34,6 @@ plot_places_chronology_time_pattern(
 \item{bar_width}{specify the width of the bars.}
 
 \item{ncol}{number of cols, if there are multiple plots (facets).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{labels}{facet labels.}
 

@@ -8,7 +8,6 @@ NULL
 #' @param df_var_quali data frame containing one qualitative variable (with IDs as rownames).
 #' @param var_quali name of the structuring variable.
 #' @param axes the axes to plot.
-#' @param open_sans use Open Sans font (boolean).
 #' @param ind_labels plot labels (boolean).
 #' @param select select vector of names, within_inertia of individuals selection (within_inertia: vector containing the number of high variation and low variationindividuals) or case (vector containing NULL, complete, or incomplete).
 #' @param title the plot title.
@@ -23,25 +22,11 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_quali <- function(res_gda,
-                                      df_var_quali,
-                                      var_quali,
-                                      var_quali_select = NULL,
-                                      axes = 1:2,
-                                      open_sans = TRUE,
-                                      ind_labels = FALSE,
-                                      title = NULL,
-                                      time_point_names = NULL,
-                                      select = list(name = NULL, within_inertia = NULL, case = NULL),
-                                      impute = TRUE,
-                                      plot_modif_rates = TRUE,
-                                      labels = NULL,
-                                      xlim = NULL,
-                                      ylim = NULL,
+fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_quali_select = NULL, axes = 1:2,
+                                      ind_labels = FALSE, title = NULL, time_point_names = NULL,
+                                      select = list(name = NULL, within_inertia = NULL, case = NULL), impute = TRUE,
+                                      plot_modif_rates = TRUE, labels = NULL, xlim = NULL, ylim = NULL,
                                       axes_annotate_alpha = 0.3) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

@@ -9,23 +9,12 @@ NULL
 #' @param bar_abs_size size of absolute values in plot.
 #' @param bar_rel_size size of relative values in plot.
 #' @param show_missing include missing values in plot or not (boolean).
-#' @param open_sans use Open Sans font.
 #' @param axes_rel_small relative value for small axes text (labels, titles …).
 #'
 #' @return ggplot2 barplot.
 #' @export
-plot_barplot <- function(df_origin,
-                         df_var,
-                         sort = FALSE,
-                         bar_abs_size = 3.5,
-                         bar_rel_size = 3,
-                         axes_rel_small = 0.6,
-                         show_missing = TRUE,
-                         digits = 1,
-                         open_sans = TRUE){
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, bar_rel_size = 3, axes_rel_small = 0.6,
+                         show_missing = TRUE, digits = 1){
 
   df_cat <-
     df_origin %>%

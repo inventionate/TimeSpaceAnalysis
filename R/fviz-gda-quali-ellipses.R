@@ -13,7 +13,6 @@ NULL
 #' @param alpha_point opacity of individual points.
 #' @param conc_linetype linetype of concentration ellipses.
 #' @param conf_linetype linetype of confidence ellipses.
-#' @param open_sans use Open Sans font family (boolean).
 #' @param concentration_ellipses plot concentration ellipse (boolean).
 #' @param confidence_ellipses plot confidence ellipses (boolean).
 #' @param conf_colour colour confidence ellipses (boolean).
@@ -34,38 +33,13 @@ NULL
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
-fviz_gda_quali_ellipses <- function(res_gda,
-                                    df_var_quali,
-                                    var_quali,
-                                    title = NULL,
-                                    facet = TRUE,
-                                    alpha_point = 0.75,
-                                    conc_linetype = "solid",
-                                    conf_linetype = "solid",
-                                    scale_mean_points = TRUE,
-                                    axes = 1:2,
-                                    palette = "Set1",
-                                    open_sans = TRUE,
-                                    impute = TRUE,
-                                    concentration_ellipses = TRUE,
-                                    confidence_ellipses = FALSE,
-                                    conf_colour = FALSE,
-                                    plot_modif_rates = TRUE,
-                                    ncol = 3,
-                                    individuals = TRUE,
-                                    impute_ncp = 2,
-                                    relevel = NULL,
-                                    alpha_ellipses = 0.15,
-                                    plot_eta2 = TRUE,
-                                    axis_lab_name = "Achse",
-                                    label_mean_points = TRUE,
-                                    highlight = FALSE,
-                                    profiles = NULL,
-                                    labels = NULL,
-                                    axes_annotate_alpha = 0.3) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NULL, facet = TRUE, alpha_point = 0.75,
+                                    conc_linetype = "solid", conf_linetype = "solid", scale_mean_points = TRUE,
+                                    axes = 1:2, palette = "Set1", impute = TRUE, concentration_ellipses = TRUE,
+                                    confidence_ellipses = FALSE, conf_colour = FALSE, plot_modif_rates = TRUE, ncol = 3,
+                                    individuals = TRUE, impute_ncp = 2, relevel = NULL, alpha_ellipses = 0.15,
+                                    plot_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
+                                    highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3) {
 
   # Datensatz auslesen
   var <-

@@ -15,7 +15,6 @@ NULL
 #' @param scale_text scale text by weight (boolean).
 #' @param size_point define point size.
 #' @param size_text define text size.
-#' @param open_sans use Open Sans font family (boolean).
 #' @param impute impute missing data (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param impute_ncp number of dimensions to predict missing values.
@@ -27,30 +26,11 @@ NULL
 #'
 #' @return ggplot2 visualization of supplementary variables.
 #' @export
-fviz_gda_quali_supvar <- function(res_gda,
-                                  df_var_quali,
-                                  var_quali,
-                                  title = NULL,
-                                  path = FALSE,
-                                  linetype = "solid",
-                                  axes = 1:2,
-                                  scale_point = TRUE,
-                                  size_point = 3,
-                                  scale_text = FALSE,
-                                  size_text = 3,
-                                  palette = "Set1",
-                                  open_sans = TRUE,
-                                  impute = TRUE,
-                                  plot_modif_rates = TRUE,
-                                  impute_ncp = 2,
-                                  relevel = NULL,
-                                  plot_eta2 = TRUE,
-                                  axis_lab_name = "Achse",
-                                  axes_annotate_alpha = 0.3,
+fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL, path = FALSE, linetype = "solid",
+                                  axes = 1:2, scale_point = TRUE, size_point = 3, scale_text = FALSE, size_text = 3,
+                                  palette = "Set1", impute = TRUE, plot_modif_rates = TRUE, impute_ncp = 2,
+                                  relevel = NULL, plot_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
                                   labels = NULL) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   var <-
     df_var_quali %>%

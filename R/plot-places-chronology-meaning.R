@@ -14,7 +14,6 @@ NULL
 #' @param title title of the plot.
 #' @param axis_label show or hide axis labels (boolean).
 #' @param print_place_duration print place overall duration (hours).
-#' @param open_sans use Open Sans font (boolean).
 #' @param exclude_sleep exclude sleep duration (boolean).
 #' @param alpha_points specify the point alpha value [0:1].
 #' @param facets plot facets (boolean).
@@ -47,49 +46,19 @@ NULL
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
-plot_places_chronology_meaning <- function(data,
-                                           id,
-                                           weekday = "all",
-                                           size_range = NULL,
-                                           colour_path = "black",
-                                           size_path = 2,
-                                           alpha_path = 0.25,
-                                           alpha_points = 1,
-                                           linetype_path = "solid",
-                                           title = NULL,
-                                           axis_label = FALSE,
-                                           print_place_duration = TRUE,
-                                           open_sans = TRUE,
-                                           exclude_sleep = TRUE,
-                                           facets = FALSE,
-                                           facets_include_place = NULL,
-                                           facets_include_all = FALSE,
-                                           exclude_na = FALSE,
-                                           exclude = NULL,
-                                           exclude_meaning = NULL,
-                                           meanings = NULL,
-                                           map = FALSE,
-                                           map_zoom = 10,
-                                           map_add_x = 0.2,
-                                           map_add_y = 0.1,
-                                           graph = TRUE,
-                                           area_fill = "white",
-                                           area_colour = "black",
-                                           area_alpha = 0,
-                                           area_size = 1.5,
-                                           area_linetype = "solid",
-                                           area_label_fontsize = c(12, 10),
-                                           area_buffer = 10,
-                                           map_scalebar = TRUE,
-                                           map_scalebar_location = "topright",
-                                           map_scalebar_text_size = 4.5,
-                                           map_scalebar_box_size = 0.015,
-                                           map_scalebar_border_size = 0.85,
-                                           map_scalebar_dist = 1,
-                                           map_scalebar_text_dist = 0.02,
-                                           map_scalebar_unit_pos_dist = 0.5) {
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range = NULL, colour_path = "black",
+                                           size_path = 2, alpha_path = 0.25, alpha_points = 1, linetype_path = "solid",
+                                           title = NULL, axis_label = FALSE, print_place_duration = TRUE,
+                                           exclude_sleep = TRUE, facets = FALSE, facets_include_place = NULL,
+                                           facets_include_all = FALSE, exclude_na = FALSE, exclude = NULL,
+                                           exclude_meaning = NULL, meanings = NULL, map = FALSE, map_zoom = 10,
+                                           map_add_x = 0.2, map_add_y = 0.1, graph = TRUE, area_fill = "white",
+                                           area_colour = "black", area_alpha = 0, area_size = 1.5,
+                                           area_linetype = "solid", area_label_fontsize = c(12, 10), area_buffer = 10,
+                                           map_scalebar = TRUE, map_scalebar_location = "topright",
+                                           map_scalebar_text_size = 4.5, map_scalebar_box_size = 0.015,
+                                           map_scalebar_border_size = 0.85, map_scalebar_dist = 1,
+                                           map_scalebar_text_dist = 0.02, map_scalebar_unit_pos_dist = 0.5) {
 
   # Check if only one id is given
   if (length(id) > 1) stop("Please give only one ID.")
@@ -202,7 +171,7 @@ plot_places_chronology_meaning <- function(data,
         bbox = borders,
         zoom = map_zoom,
         maptype = "watercolor",
-    )
+      )
 
     plot_pc <- ggmap(map_background)
   } else {
@@ -299,9 +268,9 @@ plot_places_chronology_meaning <- function(data,
         label.fill = "gray90",
         con.cap = unit(4, "mm"),
         show.legend = FALSE
-    ) +
-    theme(
-        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5),"cm"),
+      ) +
+      theme(
+        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"),
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
@@ -326,7 +295,8 @@ plot_places_chronology_meaning <- function(data,
       ) +
       labs(
         caption = "Achtung: Die Skalierung der Grafiken ist unabhängig voneinander.
-        Die Länge der Pfade ist nicht vergleichbar.")
+        Die Länge der Pfade ist nicht vergleichbar."
+      )
 
     warning("The facets are free scaled. Use the plot only to investigate structure.", call. = FALSE)
   }

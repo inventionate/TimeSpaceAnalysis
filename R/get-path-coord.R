@@ -7,10 +7,7 @@
 #'
 #' @return data frame with path coords.
 #' @export
-get_path_coord <- function(res_gda_quali,
-                           var,
-                           var_levels = NULL,
-                           exclude = NULL) {
+get_path_coord <- function(res_gda_quali, var, var_levels = NULL, exclude = NULL) {
 
   if (inherits(res_gda_quali, c("MCA"))) {
     df_var <-

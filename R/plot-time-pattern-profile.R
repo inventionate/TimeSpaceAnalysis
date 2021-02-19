@@ -6,18 +6,11 @@ NULL
 #' @param data_tp data frame containing questionnaire_id, kml3d results and time pattern data.
 #' @param id time pattern to plot.
 #' @param ncol facet columns.
-#' @param open_sans use Open Sans font family (boolean).
 #' @param fluid should be static bars or fluid lines visualized (boolean).
 #'
 #' @return ggplot2 avgerage time pattern profile plot.
 #' @export
-plot_time_pattern_profile <- function(data_tp,
-                                      id = "all",
-                                      ncol = 4,
-                                      fluid = FALSE,
-                                      open_sans = TRUE) {
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FALSE) {
 
   data_tsp <- get_time_pattern_profile(data_tp, id)
 

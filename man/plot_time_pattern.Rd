@@ -11,7 +11,6 @@ plot_time_pattern(
   reshape_data = TRUE,
   print_prop_duration = TRUE,
   fluid = FALSE,
-  open_sans = TRUE,
   labels = NULL,
   legend = TRUE,
   facet = TRUE
@@ -29,8 +28,6 @@ plot_time_pattern(
 \item{print_prop_duration}{whether to print or not to print prop duration data (boolean).}
 
 \item{fluid}{should be static bars or fluid lines visualized (boolean).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{labels}{facet labels.}
 

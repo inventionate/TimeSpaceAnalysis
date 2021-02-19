@@ -6,9 +6,7 @@
 #'
 #' @return reshaped data frame for further visualization.
 #' @export
-get_places_chronology_time_pattern <- function(oc_data,
-                                               id = "all",
-                                               weekday = "all") {
+get_places_chronology_time_pattern <- function(oc_data, id = "all", weekday = "all") {
 
   print(oc_data)
   # Relevante Variablen auswählen

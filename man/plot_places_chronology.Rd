@@ -22,7 +22,6 @@ plot_places_chronology(
   xextra = 3,
   print_place_duration = TRUE,
   point_padding = unit(1, "lines"),
-  open_sans = TRUE,
   exclude_sleep = TRUE,
   facets = FALSE
 )
@@ -61,8 +60,6 @@ plot_places_chronology(
 \item{print_place_duration}{print place overall duration (hours).}
 
 \item{point_padding}{Amount of padding around labeled point. Defaults to unit(0, "lines").}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{exclude_sleep}{exclude sleep duration (boolean).}
 

@@ -4,14 +4,14 @@
 \alias{get_places_chronology_time_pattern}
 \title{Reshpape place chronology time pattern data.}
 \usage{
-get_places_chronology_time_pattern(data, id = "all", weekday = "all")
+get_places_chronology_time_pattern(oc_data, id = "all", weekday = "all")
 }
 \arguments{
-\item{data}{data frame, which contains place chronology time pattern data.}
-
 \item{id}{vector, which contains questionnaire ids. Use "all" if you want to plot all ids.}
 
 \item{weekday}{vector, which contains days to plot.}
+
+\item{data}{data frame, which contains place chronology time pattern data.}
 }
 \value{
 reshaped data frame for further visualization.

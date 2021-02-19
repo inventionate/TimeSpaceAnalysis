@@ -7,7 +7,6 @@ NULL
 #' @param res_gda MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).
 #' @param select vector of names, within_inertia of individuals selection (within_inertia: vector containing the number of high variation and low variationindividuals) or case (vector containing NULL, complete, or incomplete).
 #' @param axes axes to plot.
-#' @param open_sans use Open Sans font (boolean).
 #' @param labels plot individual labels (boolean).
 #' @param title the plot title
 #' @param ind_labels plot labels (boolean).
@@ -21,22 +20,10 @@ NULL
 #'
 #' @return trajectory ggplot2 visualization.
 #' @export
-fviz_gda_trajectory <- function(res_gda,
-                                select = list(name = NULL, within_inertia = NULL, case = NULL),
-                                title = NULL,
-                                axes = 1:2,
-                                ind_labels = FALSE,
-                                open_sans = TRUE,
-                                time_point_names = NULL,
-                                plot_modif_rates = TRUE,
-                                axis_lab_name = "Achse",
-                                labels = NULL,
-                                legend_x = 0.12,
-                                legend_y = 0.9,
+fviz_gda_trajectory <- function(res_gda, select = list(name = NULL, within_inertia = NULL, case = NULL), title = NULL,
+                                axes = 1:2, ind_labels = FALSE, time_point_names = NULL, plot_modif_rates = TRUE,
+                                axis_lab_name = "Achse", labels = NULL, legend_x = 0.12, legend_y = 0.9,
                                 axes_annotate_alpha = 0.3) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

@@ -7,9 +7,7 @@
 #'
 #' @return reshaped data frame for further visualization.
 #' @export
-get_time_pattern <- function(data,
-                             id = "all",
-                             reshape_data = TRUE) {
+get_time_pattern <- function(data, id = "all", reshape_data = TRUE) {
 
   # Check NA
   na_exist <- nrow(data) > nrow(na.omit(data))

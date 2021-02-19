@@ -233,7 +233,7 @@
 }
 
 # Add Open Sans font
-.add_fonts <- function() {
+# .add_fonts <- function() {
   # showtext::showtext_auto()
   # sysfonts::font_add(
   #   "Fira Sans Condensed",
@@ -242,7 +242,7 @@
   #   bold = "FiraSansCondensed-Bold.otf",
   #   bolditalic = "FiraSansCondensed-BoldItalic.otf"
   # )
-}
+# }
 
 # Calculate crossed within variance
 .crossed_within_variance <- function(var, weight, coord) {#, eigenvalues) {

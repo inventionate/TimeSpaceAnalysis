@@ -10,7 +10,6 @@ fviz_gda_trajectory_quali(
   var_quali,
   var_quali_select = NULL,
   axes = 1:2,
-  open_sans = TRUE,
   ind_labels = FALSE,
   title = NULL,
   time_point_names = NULL,
@@ -33,8 +32,6 @@ fviz_gda_trajectory_quali(
 \item{var_quali_select}{the name of the selected categories/clusters.}
 
 \item{axes}{the axes to plot.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{ind_labels}{plot labels (boolean).}
 

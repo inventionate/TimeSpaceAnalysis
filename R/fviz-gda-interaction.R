@@ -14,7 +14,6 @@ NULL
 #' @param axes axes to plot.
 #' @param palette used colour brewer palette.
 #' @param path_alpha opacity of the path.
-#' @param open_sans use Open Sans font or not (boolean).
 #' @param impute use imputation to handle missing data.
 #' @param variable which diagram to plot (vector containing 1, 2 or "both").
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
@@ -23,30 +22,13 @@ NULL
 #'
 #' @return ggplot2 interaction cloud visualizsation.
 #' @export
-fviz_gda_interaction <- function(res_gda,
-                                 df_var_quali,
-                                 var_quali,
-                                 title = "MCA quali interaction effects",
-                                 mean_alpha = 0.75,
-                                 path_linetype = "solid",
-                                 path_size = 1,
-                                 path_colour = "black",
-                                 scale_mean_points = TRUE,
-                                 axes = 1:2,
-                                 palette = "Set1",
-                                 path_alpha = 1,
-                                 open_sans = TRUE,
-                                 impute = TRUE,
-                                 variable = "both",
-                                 plot_modif_rates = TRUE,
-                                 axis_lab_name = "Achse",
-                                 labels = NULL) {
+fviz_gda_interaction <- function(res_gda, df_var_quali, var_quali, title = "MCA quali interaction effects",
+                                 mean_alpha = 0.75, path_linetype = "solid", path_size = 1, path_colour = "black",
+                                 scale_mean_points = TRUE, axes = 1:2, palette = "Set1", path_alpha = 1, impute = TRUE,
+                                 variable = "both", plot_modif_rates = TRUE, axis_lab_name = "Achse", labels = NULL) {
 
   # Check GDA result
   if (!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

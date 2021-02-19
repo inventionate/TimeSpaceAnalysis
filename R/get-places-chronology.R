@@ -8,11 +8,7 @@
 #'
 #' @return reshaped data frame for further visualization.
 #' @export
-get_places_chronology <- function(data,
-                                  id = "all",
-                                  weekday = "all",
-                                  title,
-                                  exclude_sleep = TRUE) {
+get_places_chronology <- function(data, id = "all", weekday = "all", title, exclude_sleep = TRUE) {
 
   # Schlaf ggf. ausschließen
   if (exclude_sleep) {

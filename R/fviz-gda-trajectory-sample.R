@@ -6,7 +6,6 @@ NULL
 #'
 #' @param res_gda MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).
 #' @param time_point_names vector containing the name of the time points.
-#' @param open_sans use Open Sans font (boolean).
 #' @param axes the axes to plot.
 #' @param ind_points show individuals (boolean).
 #' @param title title of the plot
@@ -22,23 +21,10 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_sample <- function(res_gda,
-                                       time_point_names = NULL,
-                                       open_sans = TRUE, axes = 1:2,
-                                       ind_points = TRUE,
-                                       concentration_ellipse = TRUE,
-                                       complete = TRUE,
-                                       title = NULL,
-                                       plot_modif_rates = TRUE,
-                                       alpha = 0.15,
-                                       axis_lab_name = "Achse",
-                                       axes_annotate_alpha = 0.3,
-                                       labels = NULL,
-                                       legend_x = 0.12,
-                                       legend_y = 0.9) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 1:2, ind_points = TRUE,
+                                       concentration_ellipse = TRUE, complete = TRUE, title = NULL,
+                                       plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse",
+                                       axes_annotate_alpha = 0.3, labels = NULL, legend_x = 0.12, legend_y = 0.9) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

@@ -9,7 +9,6 @@ fviz_gda_var(
   contrib = "auto",
   title = NULL,
   axes = 1:2,
-  open_sans = TRUE,
   group = NULL,
   group_names = NULL,
   group_style = "both",
@@ -33,8 +32,6 @@ fviz_gda_var(
 \item{title}{plot title.}
 
 \item{axes}{the GDA dimensions to plot.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{group}{vector containing group definition.}
 

@@ -11,22 +11,12 @@ NULL
 #' @param group_names names of the groups.
 #' @param group_style style to plot (vector containing "shape", "colour" or "both).
 #' @param ind_visible show individual points.
-#' @param open_sans use Open Sans font.
 #' @param axes the GDA dimensions to plot.
 #'
 #' @return ggplot2 visalization of supplementary individuals.
 #' @export
-fviz_add_sup_ind <- function(res_gda,
-                             sup_ind = NULL,
-                             colour = "red",
-                             ind_visible = FALSE,
-                             label = NULL,
-                             size = 10,
-                             open_sans = TRUE,
-                             group = NULL,
-                             group_names = NULL,
-                             group_style = "both",
-                             axes = 1:2) {
+fviz_add_sup_ind <- function(res_gda, sup_ind = NULL, colour = "red", ind_visible = FALSE, label = NULL, size = 10,
+                             group = NULL, group_names = NULL, group_style = "both", axes = 1:2) {
 
   # Datensatz vorbereiten
   colnames(sup_ind) <- colnames(res_gda$call$X)
@@ -69,7 +59,6 @@ fviz_add_sup_ind <- function(res_gda,
       group = group,
       group_names = group_names,
       group_style = group_style,
-      open_sans = open_sans,
       axes = axes
     )
 

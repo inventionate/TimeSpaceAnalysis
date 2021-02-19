@@ -9,26 +9,14 @@ NULL
 #' @param reshape_data whether reshape data or not.
 #' @param print_prop_duration whether to print or not to print prop duration data (boolean).
 #' @param fluid should be static bars or fluid lines visualized (boolean).
-#' @param open_sans use Open Sans font (boolean).
 #' @param labels facet labels.
 #' @param legend show legend (boolean).
 #' @param facet plot facets (boolean).
 #'
 #' @return ggplot2 visualization of time pattern data.
 #' @export
-plot_time_pattern <- function(data,
-                              id = "all",
-                              ncol = 4,
-                              reshape_data = TRUE,
-                              print_prop_duration = TRUE,
-                              fluid = FALSE,
-                              open_sans = TRUE,
-                              labels = NULL,
-                              legend = TRUE,
-                              facet = TRUE) {
-
-  # Add Open Sans font family
-  if(open_sans) .add_fonts()
+plot_time_pattern <- function(data, id = "all", ncol = 4, reshape_data = TRUE, print_prop_duration = TRUE,
+                              fluid = FALSE, labels = NULL, legend = TRUE, facet = TRUE) {
 
   data <- get_time_pattern(data, id, reshape_data)
 

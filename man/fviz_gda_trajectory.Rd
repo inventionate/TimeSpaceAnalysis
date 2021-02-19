@@ -10,7 +10,6 @@ fviz_gda_trajectory(
   title = NULL,
   axes = 1:2,
   ind_labels = FALSE,
-  open_sans = TRUE,
   time_point_names = NULL,
   plot_modif_rates = TRUE,
   axis_lab_name = "Achse",
@@ -30,8 +29,6 @@ fviz_gda_trajectory(
 \item{axes}{axes to plot.}
 
 \item{ind_labels}{plot labels (boolean).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{time_point_names}{vector containing the name of the time points.}
 

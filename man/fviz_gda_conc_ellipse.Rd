@@ -13,7 +13,6 @@ fviz_gda_conc_ellipse(
   density = FALSE,
   fill = NA,
   axes = 1:2,
-  open_sans = TRUE,
   scale_size = 1,
   title = "GDA individuals plot",
   plot_modif_rates = TRUE,
@@ -37,8 +36,6 @@ fviz_gda_conc_ellipse(
 \item{fill}{ellipse fill colour.}
 
 \item{axes}{the GDA dimensions to plot.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{scale_size}{scale minimal point size.}
 

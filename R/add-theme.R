@@ -6,8 +6,6 @@
 #' @return ggplot2 geoms.
 #' @export
 add_theme <- function(plot, font_family = "Fira Sans Condensed") {
-  sysfonts::font_add("Fira Sans Condensed", "FiraSansCondensed-Regular.otf")
-
 plot +
   coord_fixed() +
   theme_minimal() +

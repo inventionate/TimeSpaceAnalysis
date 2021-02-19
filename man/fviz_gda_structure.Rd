@@ -13,7 +13,6 @@ fviz_gda_structure(
   axes = 1:2,
   palette = "Set1",
   impute = TRUE,
-  open_sans = TRUE,
   cloud = "both",
   plot_modif_rates = TRUE,
   axis_lab_name = "Achse",
@@ -37,8 +36,6 @@ fviz_gda_structure(
 \item{palette}{colour palette (boolean).}
 
 \item{impute}{impute missing data (boolean).}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{cloud}{which cloud should be plotted (string: real, fitted, both, deviation)}
 

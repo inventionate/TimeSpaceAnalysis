@@ -11,28 +11,15 @@ NULL
 #' @param legend show or hide legends (boolean).
 #' @param bar_width specify the width of the bars.
 #' @param ncol number of cols, if there are multiple plots (facets).
-#' @param open_sans use Open Sans font (boolean).
 #' @param labels facet labels.
 #' @param facet_label show facets (boolean).
 #' @param legend_bottom show legend on bottom (boolean).
 #'
 #' @return ggplot2 visualization of place chronology time pattern data.
 #' @export
-plot_places_chronology_time_pattern <- function(data,
-                                                id = "all",
-                                                weekday = "all",
-                                                graph = TRUE,
-                                                print_prop_duration = TRUE,
-                                                legend = TRUE,
-                                                bar_width = 1,
-                                                ncol = 3,
-                                                open_sans = TRUE,
-                                                labels = NULL,
-                                                facet_label = TRUE,
-                                                legend_bottom = TRUE) {
-
-  # Add Open Sans font family
-  # if (open_sans) .add_fonts()
+plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all", graph = TRUE,
+                                                print_prop_duration = TRUE, legend = TRUE, bar_width = 1, ncol = 3,
+                                                labels = NULL, facet_label = TRUE, legend_bottom = TRUE) {
 
   # Datensatz Zeitmuster
   data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)

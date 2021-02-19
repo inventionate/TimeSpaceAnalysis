@@ -9,7 +9,6 @@ fviz_gda_trajectory_ellipses(
   df_var_quali,
   var_quali,
   axes = 1:2,
-  open_sans = TRUE,
   impute = TRUE,
   time_point_names = NULL,
   ind_points = TRUE,
@@ -34,8 +33,6 @@ fviz_gda_trajectory_ellipses(
 \item{var_quali}{name of the structuring variable.}
 
 \item{axes}{the axes to plot.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{impute}{use imputation for missing data.}
 

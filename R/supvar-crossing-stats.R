@@ -13,11 +13,7 @@ NULL
 #' \item{var}{double breakdown of variance.}
 #' \item{reg}{result of linear regressions.}
 #' @export
-supvar_crossing_stats <- function(res_gda,
-                                  var_quali_df,
-                                  var_quali,
-                                  impute = TRUE,
-                                  axes = 1:2) {
+supvar_crossing_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, axes = 1:2) {
 
   # Check GDA result
   if(!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")

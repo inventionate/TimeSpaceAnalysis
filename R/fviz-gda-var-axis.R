@@ -9,7 +9,6 @@ NULL
 #' @param contrib "auto" calculates the optimal modalities to show (based on the basic criterion). Otherwise define an amount of modalities to plot.
 #' @param title plot title.
 #' @param axes the GDA dimensions to plot.
-#' @param open_sans use Open Sans font (boolean).
 #' @param group vector containing group definition.
 #' @param group_names names of the groups.
 #' @param group_style style to plot (vector containing "shape", "colour" or "both).
@@ -26,34 +25,17 @@ NULL
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
-fviz_gda_var_axis <- function(res_gda,
-                              axis = 1,
-                              contrib = "auto",
-                              title = NULL,
-                              axes = 1:2,
-                              group = NULL,
-                              group_names = NULL,
-                              group_style = "both",
-                              textsize = 4,
-                              colour_palette = "Set1",
-                              individuals = FALSE,
-                              individuals_size = "auto",
-                              individuals_alpha = 0.5,
-                              individuals_names = FALSE,
-                              open_sans = TRUE,
-                              plot_modif_rates = TRUE,
-                              axis_lab_name = "Achse",
-                              group_lab_name = "Themengruppen",
-                              labels = NULL) {
+fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL, axes = 1:2, group = NULL,
+                              group_names = NULL, group_style = "both", textsize = 4, colour_palette = "Set1",
+                              individuals = FALSE, individuals_size = "auto", individuals_alpha = 0.5,
+                              individuals_names = FALSE, plot_modif_rates = TRUE, axis_lab_name = "Achse",
+                              group_lab_name = "Themengruppen", labels = NULL) {
   # Check GDA algorithm
   if (inherits(res_gda, c("MCA"))) {
     df <- res_gda$var$contrib
   } else {
     stop("Only MCA plots are currently supported!")
   }
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   # Calculate contribution criterion (Le Roux & Rouanet 2004: 372)
   if (is.null(res_gda$call$excl)) {

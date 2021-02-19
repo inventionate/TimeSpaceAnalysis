@@ -17,7 +17,6 @@ fviz_gda_interaction(
   axes = 1:2,
   palette = "Set1",
   path_alpha = 1,
-  open_sans = TRUE,
   impute = TRUE,
   variable = "both",
   plot_modif_rates = TRUE,
@@ -49,8 +48,6 @@ fviz_gda_interaction(
 \item{palette}{used colour brewer palette.}
 
 \item{path_alpha}{opacity of the path.}
-
-\item{open_sans}{use Open Sans font or not (boolean).}
 
 \item{impute}{use imputation to handle missing data.}
 

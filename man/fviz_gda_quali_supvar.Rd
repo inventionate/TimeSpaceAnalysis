@@ -17,7 +17,6 @@ fviz_gda_quali_supvar(
   scale_text = FALSE,
   size_text = 3,
   palette = "Set1",
-  open_sans = TRUE,
   impute = TRUE,
   plot_modif_rates = TRUE,
   impute_ncp = 2,
@@ -52,8 +51,6 @@ fviz_gda_quali_supvar(
 \item{size_text}{define text size.}
 
 \item{palette}{RColorBrewer palette.}
-
-\item{open_sans}{use Open Sans font family (boolean).}
 
 \item{impute}{impute missing data (boolean).}
 

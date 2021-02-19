@@ -16,7 +16,6 @@ fviz_gda_quali_ellipses(
   scale_mean_points = TRUE,
   axes = 1:2,
   palette = "Set1",
-  open_sans = TRUE,
   impute = TRUE,
   concentration_ellipses = TRUE,
   confidence_ellipses = FALSE,
@@ -59,8 +58,6 @@ fviz_gda_quali_ellipses(
 
 \item{palette}{Colour brewer scale.}
 
-\item{open_sans}{use Open Sans font family (boolean).}
-
 \item{impute}{impute missing data (boolean).}
 
 \item{concentration_ellipses}{plot concentration ellipse (boolean).}
@@ -77,7 +74,7 @@ fviz_gda_quali_ellipses(
 
 \item{impute_ncp}{number of dimensions to predict missing values.}
 
-\item{relevel}{character vector containing new level order.}
+\item{relevel}{numeric vector containing new level order (index).}
 
 \item{alpha_ellipses}{concentration ellipses fill alpha.}
 

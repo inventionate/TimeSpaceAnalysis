@@ -8,7 +8,6 @@ NULL
 #' @param df_var_quali data frame containing one qualitative variable (with IDs as rownames).
 #' @param var_quali name of the structuring variable.
 #' @param axes the axes to plot.
-#' @param open_sans use Open Sans font (boolean).
 #' @param time_point_names vector containing the name of the time points.
 #' @param ind_points show individuals (boolean).
 #' @param title title of the plot.
@@ -26,28 +25,11 @@ NULL
 #'
 #' @return ggplot2 visualization.
 #' @export
-fviz_gda_trajectory_ellipses <- function(res_gda,
-                                         df_var_quali,
-                                         var_quali,
-                                         axes = 1:2,
-                                         open_sans = TRUE,
-                                         impute = TRUE,
-                                         time_point_names = NULL,
-                                         ind_points = TRUE,
-                                         concentration_ellipse = TRUE,
-                                         title = NULL,
-                                         plot_modif_rates = TRUE,
-                                         alpha = 0.15,
-                                         select = NULL,
-                                         select_facet = TRUE,
-                                         labels = NULL,
-                                         xlim = NULL,
-                                         ylim = NULL,
-                                         axes_annotate_alpha = 0.3,
-                                         complete_obs = FALSE) {
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
+fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes = 1:2, impute = TRUE,
+                                         time_point_names = NULL, ind_points = TRUE, concentration_ellipse = TRUE,
+                                         title = NULL, plot_modif_rates = TRUE, alpha = 0.15, select = NULL,
+                                         select_facet = TRUE, labels = NULL, xlim = NULL, ylim = NULL,
+                                         axes_annotate_alpha = 0.3, complete_obs = FALSE) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

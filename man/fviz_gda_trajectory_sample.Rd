@@ -7,7 +7,6 @@
 fviz_gda_trajectory_sample(
   res_gda,
   time_point_names = NULL,
-  open_sans = TRUE,
   axes = 1:2,
   ind_points = TRUE,
   concentration_ellipse = TRUE,
@@ -26,8 +25,6 @@ fviz_gda_trajectory_sample(
 \item{res_gda}{MCA result (rownames have to be questionnaire IDs including time number, e.g. 87654_1).}
 
 \item{time_point_names}{vector containing the name of the time points.}
-
-\item{open_sans}{use Open Sans font (boolean).}
 
 \item{axes}{the axes to plot.}
 

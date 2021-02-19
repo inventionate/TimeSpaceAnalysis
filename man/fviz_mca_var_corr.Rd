@@ -14,7 +14,6 @@ fviz_mca_var_corr(
   labels = TRUE,
   repel = TRUE,
   select = list(name = NULL, eta2 = NULL),
-  open_sans = TRUE,
   plot_modif_rates = TRUE,
   title = "MCA - Variable Representation"
 )
@@ -37,8 +36,6 @@ fviz_mca_var_corr(
 \item{repel}{repel labels (boolean).}
 
 \item{select}{selection of variables (names) or eta2 values (all above value).}
-
-\item{open_sans}{use Open Sans font family (boolean).}
 
 \item{plot_modif_rates}{plot modified rates instead of eigenvalue percentage (boolean).}
 

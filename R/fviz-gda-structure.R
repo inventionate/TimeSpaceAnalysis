@@ -13,7 +13,6 @@ NULL
 #' @param palette colour palette (boolean).
 #' @param impute impute missing data (boolean).
 #' @param cloud which cloud should be plotted (string: real, fitted, both, deviation)
-#' @param open_sans use Open Sans font (boolean).
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param axis_lab_name name of axis label.
 #' @param axes_annotate_alpha alpha value of axes annotations.
@@ -21,26 +20,12 @@ NULL
 #'
 #' @return ggplot2 visualization of additive cloud.
 #' @export
-fviz_gda_structure <- function(res_gda,
-                               df_var_quali,
-                               var_quali,
-                               title = NULL,
-                               scale_mean_points = TRUE,
-                               axes = 1:2,
-                               palette = "Set1",
-                               impute = TRUE,
-                               open_sans = TRUE,
-                               cloud = "both",
-                               plot_modif_rates = TRUE,
-                               axis_lab_name = "Achse",
-                               labels = NULL,
-                               axes_annotate_alpha = 0.3) {
+fviz_gda_structure <- function(res_gda, df_var_quali, var_quali, title = NULL, scale_mean_points = TRUE, axes = 1:2,
+                               palette = "Set1", impute = TRUE, cloud = "both", plot_modif_rates = TRUE,
+                               axis_lab_name = "Achse", labels = NULL, axes_annotate_alpha = 0.3) {
 
   # Check GDA result
   if (!inherits(res_gda, c("MCA"))) stop("GDA result have to be MCA results.")
-
-  # Add Open Sans font family
-  if (open_sans) .add_fonts()
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))

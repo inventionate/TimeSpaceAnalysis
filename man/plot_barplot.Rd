@@ -12,8 +12,7 @@ plot_barplot(
   bar_rel_size = 3,
   axes_rel_small = 0.6,
   show_missing = TRUE,
-  digits = 1,
-  open_sans = TRUE
+  digits = 1
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ plot_barplot(
 \item{show_missing}{include missing values in plot or not (boolean).}
 
 \item{digits}{amount of label value digits.}
-
-\item{open_sans}{use Open Sans font.}
 }
 \value{
 ggplot2 barplot.

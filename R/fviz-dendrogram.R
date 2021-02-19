@@ -8,7 +8,6 @@
 #' @param hline hline height.
 #' @param pointsize leaves pointsize.
 #' @param linetype hline linetype.
-#' @param open_sans use Open Sans font (boolean).
 #' @param cut_height cut dendrogram at specific hight.
 #' @param title the plot title.
 #' @param cut_upper style upper dendrogram.
@@ -18,24 +17,9 @@
 #'
 #' @return ggplot2 dendrogram visualization.
 #' @export
-fviz_dendrogram <- function(res_hcpc,
-                            palette = NULL,
-                            cluster = 1,
-                            labels = FALSE,
-                            circle = FALSE,
-                            hline = 0.8,
-                            pointsize = 2,
-                            linetype = "dashed",
-                            open_sans = TRUE,
-                            cut_height = NULL,
-                            title = NULL,
-                            cut_upper = NULL,
-                            colour_upper = "#555555",
-                            hlabel = NULL,
-                            hlabel_pos = 0.001) {
-
-  # Add Open Sans font family
-  if(open_sans) .add_fonts()
+fviz_dendrogram <- function(res_hcpc, palette = NULL, cluster = 1, labels = FALSE, circle = FALSE, hline = 0.8,
+                            pointsize = 2, linetype = "dashed", cut_height = NULL, title = NULL, cut_upper = NULL,
+                            colour_upper = "#555555", hlabel = NULL, hlabel_pos = 0.001) {
 
   if(is.null(palette)) palette <- RColorBrewer::brewer.pal(name = "Set1", n = cluster)
 
