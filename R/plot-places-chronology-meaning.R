@@ -4,7 +4,7 @@ NULL
 #' Plot place chronologies map structure and zoom in.
 #'
 #' @param data a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).
-#' @param id vector, which contains questionnaire ids. Choosa "all" to compute all ids.
+#' @param id vector, which contains questionnaire ids. Choose "all" to compute all ids.
 #' @param weekday vector, which contains the weekday to plot.
 #' @param size_range specify the size for visualizatipn of duration.
 #' @param colour_path sepcify the path line colour.
@@ -122,7 +122,11 @@ plot_places_chronology_meaning <- function(data,
       arrange(questionnaire_id) %>%
       mutate(questionnaire_id = as.character(questionnaire_id)) %>%
       group_by(questionnaire_id, place) %>%
-      spread(questionnaire_id, place_duration) %>%
+      pivot_wider(
+        names_from = questionnaire_id,
+        names_glue = "duartion_{questionnaire_id}",
+        values_from = place_duration
+      ) %>%
       print(n = nrow(.))
   }
 
