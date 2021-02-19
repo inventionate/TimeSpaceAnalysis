@@ -38,7 +38,8 @@ Depends:
     magick,
     scales,
     kableExtra,
-    ragg
+    ragg,
+    concaveman
 Suggests:
     kml3d,
     explor,
