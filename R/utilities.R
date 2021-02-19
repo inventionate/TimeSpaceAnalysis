@@ -234,14 +234,14 @@
 
 # Add Open Sans font
 .add_fonts <- function() {
-  showtext::showtext_auto()
-  sysfonts::font_add(
-    "Fira Sans Condensed",
-    regular = "FiraSansCondensed-Regular.otf",
-    italic = "FiraSansCondensed-Italic.otf",
-    bold = "FiraSansCondensed-Bold.otf",
-    bolditalic = "FiraSansCondensed-BoldItalic.otf"
-  )
+  # showtext::showtext_auto()
+  # sysfonts::font_add(
+  #   "Fira Sans Condensed",
+  #   regular = "FiraSansCondensed-Regular.otf",
+  #   italic = "FiraSansCondensed-Italic.otf",
+  #   bold = "FiraSansCondensed-Bold.otf",
+  #   bolditalic = "FiraSansCondensed-BoldItalic.otf"
+  # )
 }
 
 # Calculate crossed within variance

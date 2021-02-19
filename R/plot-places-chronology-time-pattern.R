@@ -32,7 +32,7 @@ plot_places_chronology_time_pattern <- function(data,
                                                 legend_bottom = TRUE) {
 
   # Add Open Sans font family
-  if (open_sans) .add_fonts()
+  # if (open_sans) .add_fonts()
 
   # Datensatz Zeitmuster
   data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)
