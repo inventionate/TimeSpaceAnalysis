@@ -490,6 +490,23 @@
   if (is_null(labels)) return(plot)
 
     if (labels[1] != "") {
+      # Fix tikz label x-margin bug.
+      label_raw <- labels[1]
+
+      label_fixed <- str_to_upper(label_raw, "de")
+
+      if (identical(knitr::opts_current$get("dev"), "tikz")) {
+        label_fixed <- str_replace_all(
+          str_to_sentence(
+            str_replace_all(
+              label_raw,
+              "1",
+              "i"),
+            "de"),
+          "\\+|\\-|\\d",
+          "a")
+        }
+
       plot <-
         plot +
         annotate(
@@ -503,13 +520,48 @@
           label.r = unit(0, "lines"),
           label.size = 0,
           fill = "gray80",
+          colour = NA,
           alpha = alpha,
-          label = labels[1],
+          label = label_fixed,
+          family = "Fira Sans Condensed Medium",
+          fontface = "bold"
+        ) +
+        annotate(
+          "label",
+          x = -Inf,
+          y = 0.008,
+          size = 4,
+          hjust = 0,
+          vjust = 0,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = NA,
+          alpha = 1,
+          colour = "black",
+          label = str_to_upper(label_raw, "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
+
     if (labels[2] != "") {
+      label_raw <- labels[2]
+
+      label_fixed <- str_to_upper(label_raw, "de")
+
+      if (identical(knitr::opts_current$get("dev"), "tikz")) {
+        label_fixed <- str_replace_all(
+          str_to_sentence(
+            str_replace_all(
+              label_raw,
+              "1",
+              "i"),
+            "de"),
+          "\\+|\\-|\\d",
+          "a")
+      }
+
       plot <-
         plot +
         annotate(
@@ -523,13 +575,48 @@
           label.r = unit(0, "lines"),
           label.size = 0,
           fill = "gray80",
+          colour = NA,
           alpha = alpha,
-          label = labels[2],
+          label = label_fixed,
+          family = "Fira Sans Condensed Medium",
+          fontface = "bold"
+        ) +
+        annotate(
+          "label",
+          x = Inf,
+          y = 0.008,
+          size = 4,
+          hjust = 1,
+          vjust = 0,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = NA,
+          alpha = 1,
+          colour = "black",
+          label = str_to_upper(label_raw, "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
+
     if (labels[3] != "") {
+      label_raw <- labels[3]
+
+      label_fixed <- str_to_upper(label_raw, "de")
+
+      if (identical(knitr::opts_current$get("dev"), "tikz")) {
+        label_fixed <- str_replace_all(
+          str_to_sentence(
+            str_replace_all(
+              label_raw,
+              "1",
+              "i"),
+            "de"),
+          "\\+|\\-|\\d",
+          "j")
+        }
+
       plot <-
         plot +
         annotate(
@@ -543,13 +630,49 @@
           label.r = unit(0, "lines"),
           label.size = 0,
           fill = "gray80",
+          colour = NA,
           alpha = alpha,
-          label = labels[3],
+          label = label_fixed,
+          family = "Fira Sans Condensed Medium",
+          fontface = "bold"
+        ) +
+        annotate(
+          "label",
+          x = -0.008,
+          y = Inf,
+          size = 4,
+          hjust = 1,
+          vjust = 1,
+          label.padding = unit(0.2, "lines"),
+          label.r = unit(0, "lines"),
+          label.size = 0,
+          fill = NA,
+          alpha = 1,
+          colour = "black",
+          label = str_to_upper(label_raw, "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
-      if (labels[4] != "") {
+
+    if (labels[4] != "") {
+
+        label_raw <- labels[4]
+
+        label_fixed <- str_to_upper(label_raw, "de")
+
+        if (identical(knitr::opts_current$get("dev"), "tikz")) {
+          label_fixed <- str_replace_all(
+            str_to_sentence(
+              str_replace_all(
+                label_raw,
+                "1",
+                "i"),
+              "de"),
+            "\\+|\\-|\\d",
+            "j")
+          }
+
         plot <-
           plot +
           annotate(
@@ -563,8 +686,26 @@
             label.r = unit(0, "lines"),
             label.size = 0,
             fill = "gray80",
+            colour = NA,
             alpha = alpha,
-            label = labels[4],
+            label = label_fixed,
+            family = "Fira Sans Condensed Medium",
+            fontface = "bold"
+          ) +
+          annotate(
+            "label",
+            x = -0.008,
+            y = -Inf,
+            size = 4,
+            hjust = 1,
+            vjust = 0,
+            label.padding = unit(0.2, "lines"),
+            label.r = unit(0, "lines"),
+            label.size = 0,
+            fill = NA,
+            alpha = 1,
+            colour = "black",
+            label = str_to_upper(label_raw, "de"),
             family = "Fira Sans Condensed Medium",
             fontface = "bold"
           )
