@@ -181,7 +181,7 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
       panel.spacing = unit(0.5, "cm"),
       strip.text.x = element_text(
         face = "bold",
-        family = "Fira Sans Condensed Semibold",
+        family = "Fira Sans Condensed Medium",
         vjust = 0.5,
         hjust = 0.5,
         size = 12,

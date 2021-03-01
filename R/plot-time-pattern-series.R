@@ -74,7 +74,7 @@ plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FA
       name = "Dauer (in Stunden)"
     ) +
     ggtitle(title) +
-    theme_minimal_hgrid(font_family = "Fira Sans Condensed Semibold") +
+    theme_minimal_hgrid(font_family = "Fira Sans Condensed Medium") +
     theme(
       strip.text = element_text(size = 15, face = "bold"),
       axis.line.x = element_blank(),

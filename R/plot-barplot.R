@@ -48,7 +48,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
       ),
       position = "stack",
       vjust = -2,
-      family = "Fira Sans Condensed Semibold",
+      family = "Fira Sans Condensed Medium",
       size = bar_abs_size
     ) +
     geom_text(
@@ -57,7 +57,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
       ),
       position = "stack",
       vjust = -0.6,
-      family = "Fira Sans Condensed Semibold",
+      family = "Fira Sans Condensed Medium",
       size = bar_rel_size
     )
 
@@ -77,7 +77,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
     theme_minimal_hgrid(
       rel_small = 0.6,
       font_size = 12,
-      font_family = "Fira Sans Condensed Semibold",
+      font_family = "Fira Sans Condensed Medium",
     ) +
     theme(aspect.ratio = 1)
 

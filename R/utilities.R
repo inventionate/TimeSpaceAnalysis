@@ -33,7 +33,7 @@
   plot +
   theme_void(
     base_size = 10,
-    base_family = "Fira Sans Condensed Semibold"
+    base_family = "Fira Sans Condensed Medium"
   ) +
   theme(
     axis.title = element_text(
@@ -61,7 +61,7 @@
   p <-
     p +
     theme(
-      plot.title = element_textbox(family= "Fira Sans Condensed Semibold", face = "bold", size = 15),
+      plot.title = element_textbox(family= "Fira Sans Condensed Medium", face = "bold", size = 15),
       axis.text.x.top = element_blank(),
       axis.text.y.right = element_blank(),
       axis.title.x.top = element_text(
@@ -505,7 +505,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[1]),
-          family = "Fira Sans Condensed Semibold",
+          family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
@@ -525,7 +525,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[2]),
-          family = "Fira Sans Condensed Semibold",
+          family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
@@ -545,7 +545,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[3]),
-          family = "Fira Sans Condensed Semibold",
+          family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
     }
@@ -565,7 +565,7 @@
             fill = "gray80",
             alpha = alpha,
             label = toupper(labels[4]),
-            family = "Fira Sans Condensed Semibold",
+            family = "Fira Sans Condensed Medium",
             fontface = "bold"
           )
       }
@@ -862,7 +862,7 @@ scalebar <- function(data = NULL,
       color = st.color,
       # We must change the font family the hard way!
       inherit.aes = st.inherit,
-      family = "Fira Sans Condensed Semibold"
+      family = "Fira Sans Condensed Medium"
     )
   # Right distance for unit label
   if (direction < 0) dist_direction <- 0
@@ -884,7 +884,7 @@ scalebar <- function(data = NULL,
       x = unit_pos,
       y = max(legend2$y),
       label = dist_unit,
-      family = "Fira Sans Condensed Semibold"
+      family = "Fira Sans Condensed Medium"
     )
 
   return(list(gg.box1, gg.box2, gg.legend, gg.unit))

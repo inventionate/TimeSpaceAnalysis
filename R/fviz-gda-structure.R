@@ -351,7 +351,7 @@ fviz_gda_structure <- function(res_gda, df_var_quali, var_quali, title = NULL, s
         ),
         size = 4,
         inherit.aes = FALSE,
-        family = "Fira Sans Condensed Semibold")
+        family = "Fira Sans Condensed Medium")
     # Punkte verbinden
     p <-
       p +

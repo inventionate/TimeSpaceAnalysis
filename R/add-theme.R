@@ -5,7 +5,7 @@
 #'
 #' @return ggplot2 geoms.
 #' @export
-add_theme <- function(plot, font_family = "Fira Sans Condensed Semibold") {
+add_theme <- function(plot, font_family = "Fira Sans Condensed Medium") {
 plot +
   coord_fixed() +
   theme_minimal() +

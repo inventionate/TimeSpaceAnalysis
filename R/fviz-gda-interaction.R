@@ -126,7 +126,7 @@ fviz_gda_interaction <- function(res_gda, df_var_quali, var_quali, title = "MCA 
       size = 4,
       alpha = mean_alpha,
       inherit.aes = FALSE,
-      family = "Fira Sans Condensed Semibold"
+      family = "Fira Sans Condensed Medium"
     )
 
   # Pfad plotten
