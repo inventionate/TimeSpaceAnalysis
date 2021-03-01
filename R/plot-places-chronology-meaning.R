@@ -178,7 +178,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
     plot_pc <- ggplot() +
       theme_void() +
       theme(
-        text = element_text(family = "Fira Sans Condensed")
+        text = element_text(family = "Fira Sans Condensed Semibold")
       )
   }
 
@@ -219,7 +219,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
       data_pc$title
     ) +
     theme(
-      text = element_text(family = "Fira Sans Condensed"),
+      text = element_text(family = "Fira Sans Condensed Semibold"),
       title = element_text(face = "bold")
     )
 
@@ -242,7 +242,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
         alpha = area_alpha,
         colour = area_colour,
         linetype = area_linetype,
-        label.family = "Fira Sans Condensed",
+        label.family = "Fira Sans Condensed Semibold",
         label.fontsize = area_label_fontsize,
         label.buffer = unit(area_buffer, "mm"),
         label.fill = "gray90",
@@ -262,7 +262,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
           description = place_desc
         ),
         expand = unit(0.1, "mm"),
-        label.family = "Fira Sans Condensed",
+        label.family = "Fira Sans Condensed Semibold",
         label.fontsize = area_label_fontsize,
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
@@ -276,7 +276,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
         axis.ticks = element_blank(),
         strip.text.x = element_text(
           face = "bold",
-          family = "Fira Sans Condensed",
+          family = "Fira Sans Condensed Semibold",
           size = 20,
           margin = margin(b = 5)
         ),

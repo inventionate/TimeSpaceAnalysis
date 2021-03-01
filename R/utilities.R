@@ -33,7 +33,7 @@
   plot +
   theme_void(
     base_size = 10,
-    base_family = "Fira Sans Condensed"
+    base_family = "Fira Sans Condensed Semibold"
   ) +
   theme(
     axis.title = element_text(
@@ -61,7 +61,7 @@
   p <-
     p +
     theme(
-      plot.title = element_textbox(face = "bold", size = 15),
+      plot.title = element_textbox(family= "Fira Sans Condensed Semibold", face = "bold", size = 15),
       axis.text.x.top = element_blank(),
       axis.text.y.right = element_blank(),
       axis.title.x.top = element_text(
@@ -231,18 +231,6 @@
 
   d
 }
-
-# Add Open Sans font
-# .add_fonts <- function() {
-  # showtext::showtext_auto()
-  # sysfonts::font_add(
-  #   "Fira Sans Condensed",
-  #   regular = "FiraSansCondensed-Regular.otf",
-  #   italic = "FiraSansCondensed-Italic.otf",
-  #   bold = "FiraSansCondensed-Bold.otf",
-  #   bolditalic = "FiraSansCondensed-BoldItalic.otf"
-  # )
-# }
 
 # Calculate crossed within variance
 .crossed_within_variance <- function(var, weight, coord) {#, eigenvalues) {
@@ -517,7 +505,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[1]),
-          family = "Fira Sans Condensed",
+          family = "Fira Sans Condensed Semibold",
           fontface = "bold"
         )
     }
@@ -537,7 +525,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[2]),
-          family = "Fira Sans Condensed",
+          family = "Fira Sans Condensed Semibold",
           fontface = "bold"
         )
     }
@@ -557,7 +545,7 @@
           fill = "gray80",
           alpha = alpha,
           label = toupper(labels[3]),
-          family = "Fira Sans Condensed",
+          family = "Fira Sans Condensed Semibold",
           fontface = "bold"
         )
     }
@@ -577,7 +565,7 @@
             fill = "gray80",
             alpha = alpha,
             label = toupper(labels[4]),
-            family = "Fira Sans Condensed",
+            family = "Fira Sans Condensed Semibold",
             fontface = "bold"
           )
       }
@@ -874,7 +862,7 @@ scalebar <- function(data = NULL,
       color = st.color,
       # We must change the font family the hard way!
       inherit.aes = st.inherit,
-      family = "Fira Sans Condensed"
+      family = "Fira Sans Condensed Semibold"
     )
   # Right distance for unit label
   if (direction < 0) dist_direction <- 0
@@ -896,7 +884,7 @@ scalebar <- function(data = NULL,
       x = unit_pos,
       y = max(legend2$y),
       label = dist_unit,
-      family = "Fira Sans Condensed"
+      family = "Fira Sans Condensed Semibold"
     )
 
   return(list(gg.box1, gg.box2, gg.legend, gg.unit))

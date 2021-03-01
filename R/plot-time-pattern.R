@@ -171,7 +171,7 @@ plot_time_pattern <- function(data, id = "all", ncol = 4, reshape_data = TRUE, p
     # Theme
     p <-
       p +
-      theme_minimal(base_family = "Fira Sans Condensed") +
+      theme_minimal(base_family = "Fira Sans Condensed Semibold") +
       theme(
         text = element_text(colour = "gray17"),
         title = element_text(size = 14),

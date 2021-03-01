@@ -106,7 +106,7 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
 
   p <-
     p +
-    theme_minimal(base_family = "Fira Sans Condensed") +
+    theme_minimal(base_family = "Fira Sans Condensed Semibold") +
     theme(
       text = element_text(colour = "gray17"),
       title = element_text(size = 14, colour = "gray17"),

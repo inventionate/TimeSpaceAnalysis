@@ -98,7 +98,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
     # Theme
     plot_pc_zm <-
       plot_pc_zm +
-      theme_minimal(base_family = "Fira Sans Condensed") +
+      theme_minimal(base_family = "Fira Sans Condensed Semibold") +
       theme(
         text = element_text(colour = "gray17"),
         title = element_text(size = 20),

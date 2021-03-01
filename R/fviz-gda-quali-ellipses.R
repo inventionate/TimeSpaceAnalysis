@@ -378,7 +378,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
         color = NA,
         expand = unit(-1, "mm"),
         radius = unit(5, "mm"),
-        label.family = "Fira Sans Condensed",
+        label.family = "Fira Sans Condensed Semibold",
         label.fontsize = c(12, 10),
         label.buffer = unit(10, "mm"),
         label.fill = "gray90",
@@ -425,7 +425,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       geom_label(data = profiles,
                        inherit.aes = FALSE,
                        aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
-                       family = "Fira Sans Condensed",
+                       family = "Fira Sans Condensed Semibold",
                        size = 5,
                        alpha = 1)
                        # segment.colour = "black",
@@ -490,7 +490,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     #       coord_mean_quali$prop[[j]],
     #       k/(length(coord_mean_quali$prop) * 2),
     #       facet_label_y + facet_label_sep,
-    #       fontfamily = "Fira Sans Condensed",
+    #       fontfamily = "Fira Sans Condensed Semibold",
     #       fontface = "bold")
     #
     #   i <- i + 1
@@ -499,7 +499,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     #       coord_mean_quali$prop_desc[[j]],
     #       k/(length(coord_mean_quali$prop) * 2),
     #       facet_label_y,
-    #       fontfamily = "Fira Sans Condensed",
+    #       fontfamily = "Fira Sans Condensed Semibold",
     #       size = 10)
     #
     #     i <- i + 1
