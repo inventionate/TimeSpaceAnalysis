@@ -504,7 +504,7 @@
           label.size = 0,
           fill = "gray80",
           alpha = alpha,
-          label = labels[1],
+          label = str_to_upper(labels[1], "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
@@ -524,7 +524,7 @@
           label.size = 0,
           fill = "gray80",
           alpha = alpha,
-          label = labels[2],
+          label = str_to_upper(labels[2], "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
@@ -544,7 +544,7 @@
           label.size = 0,
           fill = "gray80",
           alpha = alpha,
-          label = labels[3],
+          label = str_to_upper(labels[3], "de"),
           family = "Fira Sans Condensed Medium",
           fontface = "bold"
         )
@@ -564,7 +564,7 @@
             label.size = 0,
             fill = "gray80",
             alpha = alpha,
-            label = labels[4],
+            label = str_to_upper(labels[4], "de"),
             family = "Fira Sans Condensed Medium",
             fontface = "bold"
           )
