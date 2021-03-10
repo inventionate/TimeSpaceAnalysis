@@ -7,7 +7,7 @@ Author: Fabian Mundt
 Maintainer: Fabian Mundt <f.mundt@inventionate.de>
 Encoding: UTF-8
 Description: Use Geometric Data Analysis approaches (e.g. MCA or MFA), time pattern analysis (see "time sequence clustering") and places chronologies (see "time geography") analysis.
-License: GPL (>= 3) | file LICENSE
+License: AGPL (>= 3) | file LICENSE
 Depends:
     R (>= 4.0),
     tidyverse,
