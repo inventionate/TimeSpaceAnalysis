@@ -83,8 +83,7 @@ plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FA
       panel.spacing = unit(10, "mm"),
       legend.position = c(0.8, 0.2),
       legend.title = element_blank(),
-      legend.text = element_text(size = 12),
-      aspect.ratio = 1 / 1.7
+      legend.text = element_text(size = 12)
     )
 
   p

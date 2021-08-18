@@ -78,8 +78,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
       rel_small = 0.6,
       font_size = 12,
       font_family = "Fira Sans Condensed Medium",
-    ) +
-    theme(aspect.ratio = 1)
+    )
 
   p
 }
