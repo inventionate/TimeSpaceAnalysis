@@ -9,12 +9,13 @@ NULL
 #' @param bar_abs_size size of absolute values in plot.
 #' @param bar_rel_size size of relative values in plot.
 #' @param show_missing include missing values in plot or not (boolean).
+#' @param flip flip axes (boolean).
 #' @param axes_rel_small relative value for small axes text (labels, titles …).
 #'
 #' @return ggplot2 barplot.
 #' @export
-plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, bar_rel_size = 3, axes_rel_small = 0.6,
-                         show_missing = TRUE, digits = 1){
+plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, bar_rel_size = 3,
+                         axes_rel_small = 0.6, show_missing = TRUE, digits = 1, flip = FALSE){
 
   df_cat <-
     df_origin %>%
@@ -59,26 +60,29 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
       vjust = -0.6,
       family = "Fira Sans Condensed Medium",
       size = bar_rel_size
-    )
-
-  tickmarks <-
-    ggplot_build(p)$layout$panel_params[[1]]$y.labels[
-      1:(length(ggplot_build(p)$layout$panel_params[[1]]$y.labels))
-      ] %>%
-    as.numeric()
-
-  p <-
-    p +
+    ) +
     scale_y_continuous(
       limits = c(0, df_cat %>% pull(abs) %>% pretty() %>% max() * 1.1),
-      breaks = tickmarks,
-      expand = expansion(mult = c(0, 0.05)),
-      labels = comma) +
+      expand = expansion(mult = c(0, 0.05))
+    ) +
     theme_minimal_hgrid(
       rel_small = 0.6,
       font_size = 12,
       font_family = "Fira Sans Condensed Medium",
+    ) +
+    theme(
+      axis.title.y = element_text(
+        hjust = 0.5,
+        family = "Fira Sans Condensed",
+        size = 12
+      ),
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank(),
+      panel.grid = element_blank()
     )
+
+  # @TODO: Implement flip code (copy form desc playground).
 
   p
 }
