@@ -12,7 +12,8 @@ plot_barplot(
   bar_rel_size = 3,
   axes_rel_small = 0.6,
   show_missing = TRUE,
-  digits = 1
+  digits = 1,
+  flip = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ plot_barplot(
 \item{show_missing}{include missing values in plot or not (boolean).}
 
 \item{digits}{amount of label value digits.}
+
+\item{flip}{flip axes (boolean).}
 }
 \value{
 ggplot2 barplot.

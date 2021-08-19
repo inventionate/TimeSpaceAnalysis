@@ -20,7 +20,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
   df_cat <-
     df_origin %>%
     select(var = {{ df_var }}) %>%
-    mutate_all( fct_explicit_na, na_level = "fehlend" ) %>%
+    mutate_all(fct_explicit_na, na_level = "fehlend") %>%
     count(var, name = "abs", sort = sort) %>%
     mutate(rel = abs / sum(abs) )
 
@@ -33,7 +33,7 @@ plot_barplot <- function(df_origin, df_var, sort = FALSE, bar_abs_size = 3.5, ba
   df_cat_sum <-
     df_cat %>%
     summarise_at(2:3, sum) %>%
-    add_column(var = df_var, .before = 1)
+    add_column(var = deparse(substitute(df_var)), .before = 1)
 
   p <-
     ggplot(df_cat, aes(var, abs)) +

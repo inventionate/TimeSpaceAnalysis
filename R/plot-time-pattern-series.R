@@ -5,7 +5,7 @@ NULL
 #'
 #' @param data_tp data frame including questionnaire_id, kml3d results and time pattern data.
 #' @param alpha opacity of the time pattern lines.
-#' @param palette colour of average time pattern lines.
+#' @param colours colour of average time pattern lines.
 #' @param title plot title.
 #' @param hour_scale y axis breaks (hours).
 #' @param hour_limits y axis limits (hours).
@@ -13,10 +13,14 @@ NULL
 #'
 #' @return ggplot2 time pattern series plot.
 #' @export
-plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FALSE, palette = "Set1",
+plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FALSE, colours = NULL,
                                      title = "Time pattern profiles (kml3d results)", hour_limits = c(0, 24),
                                      hour_scale = c(0, 4, 8, 12)) {
   data_ts <- get_time_pattern_series(data_tp)
+
+  if (is.null(colours)) {
+    colours = RColorBrewer::brewer.pal(9, "Set1")
+  }
 
   # Zeitserien plotten
   p <-
@@ -58,8 +62,8 @@ plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FA
       inherit.aes = FALSE,
       size = 3
     ) +
-    scale_colour_brewer(
-      palette = palette,
+    scale_colour_manual(
+      values = colours,
       name = "Zeitmuster",
       labels = data_ts$data_series_profile_prop_label
     ) +
