@@ -12,7 +12,19 @@ NULL
 #' @export
 plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FALSE) {
 
-  data_tsp <- get_time_pattern_profile(data_tp, id)
+  df_tp <- get_time_pattern_profile(data_tp, id)
+
+  data_tsp <- df_tp$df_average_prop
+
+  df_missing <-
+    df_tp$df_profiles %>%
+    filter(zeitmuster == "Fehlend")
+
+  missing_cases = waiver()
+
+  if (nrow(df_missing) > 0) {
+    missing_cases = str_glue("Fehlende Fälle: {df_missing$prop}, n = {df_missing$n}")
+  }
 
   # Überschrift der facets anpassen
   data_tsp <-
@@ -35,14 +47,14 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
 
   p <-
     ggplot(
-      data_tsp,
+      data_tsp %>% drop_na(),
       aes(
         x = day,
         y = prop_avg_duration
       )
     )
 
-  if (fluid) {
+  if (FALSE) {
     p <-
       p +
       geom_area(
@@ -104,6 +116,7 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
       values = colours
     )
 
+
   p <-
     p +
     theme_minimal(base_family = "Fira Sans Condensed Medium") +
@@ -128,13 +141,17 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
       plot.margin = margin(0.75, 0, 0, 0, "cm"),
       legend.title = element_blank(),
       legend.position = "bottom",
-      legend.direction = "horizontal"
+      legend.direction = "horizontal",
+      plot.caption.position = "plot",
+      plot.caption = element_text(vjust = 19)
     ) +
     guides(fill = guide_legend(nrow = 1)) +
+    labs(caption = missing_cases) +
     coord_fixed(ratio = 4)
 
+
   # Mehrere Gafiken parallel erzeugen
-  p <- p + facet_wrap(~zeitmuster, ncol = ncol)
+  p <- p + facet_wrap(~zeitmuster, ncol = 4)
 
   p <- p + coord_fixed(5)
 

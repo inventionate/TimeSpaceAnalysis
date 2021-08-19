@@ -41,7 +41,7 @@ get_time_pattern_series <- function(data_tp) {
         "Freizeit",
         "Schlafen")
     ) %>%
-    na.omit()
+    drop_na()
 
   # Durchschnittsprofile berechnen
   data_series_average <-
@@ -56,18 +56,17 @@ get_time_pattern_series <- function(data_tp) {
   data_series_profile_prop <-
     data_tp %>%
     select(zeitmuster) %>%
-    na.omit() %>%
     count(zeitmuster) %>%
     transmute(
-      zeitmuster = zeitmuster,
-      prop = str_glue("{round(n / sum(n) * 100, 1)} %"),
+      zeitmuster = replace_na(zeitmuster, "Fehlend"),
+      prop = str_glue("{format(round(n / sum(n) * 100, 1), decimal.mark=',')} %"),
       n = n
     )
+
 
   list(
     data_series = data_series,
     data_series_average = data_series_average,
     data_series_profile_prop_label = data_series_profile_prop
   )
-
 }

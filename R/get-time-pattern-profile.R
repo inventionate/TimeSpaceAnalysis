@@ -15,15 +15,7 @@ get_time_pattern_profile <- function(data_tp, id = "all")
   data_ts <- get_time_pattern_series(data_tp)
 
   # Filter ID
-  if (id[[1]] != "all") {
-    data_ts[[2]] <-
-      filter(
-        na.omit(data_ts[[2]]),
-        zeitmuster %in% id
-      )
-  } else {
-    data_ts[[2]] <- na.omit(data_ts[[2]])
-  }
+  if (id[[1]] != "all") data_ts[[2]] <- filter(zeitmuster %in% id)
 
   # Prozentuale Durchschnittswerte berechnen
   data_series_average_prop <-
@@ -67,13 +59,10 @@ get_time_pattern_profile <- function(data_tp, id = "all")
       .,
       data_ts$data_series_profile_prop_label,
       by = "zeitmuster"
-    ) #%>%
-    # unite(
-    #   zeitmuster,
-    #   zeitmuster,
-    #   prop,
-    #   sep = " "
-    # )
+    )
 
-  data_series_average_prop
+  list(
+    df_average_prop = data_series_average_prop,
+    df_profiles = data_ts$data_series_profile_prop_label
+  )
 }
