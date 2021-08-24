@@ -58,11 +58,10 @@ get_time_pattern_series <- function(data_tp) {
     select(zeitmuster) %>%
     count(zeitmuster) %>%
     transmute(
-      zeitmuster = replace_na(zeitmuster, "Fehlend"),
+      zeitmuster = fct_explicit_na(zeitmuster, "Fehlend"),
       prop = str_glue("{format(round(n / sum(n) * 100, 1), decimal.mark=',')} %"),
       n = n
     )
-
 
   list(
     data_series = data_series,
