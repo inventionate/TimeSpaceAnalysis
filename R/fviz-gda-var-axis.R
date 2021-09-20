@@ -282,12 +282,12 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
     if (group_style %in% c("shape", "both")) {
       p <-
         p +
-        scale_shape(
+        scale_shape_manual(
           name = str_glue("{group_lab_name}"),
           labels = modalities_coord %>%
             select(group) %>%
             distinct(),
-          solid = TRUE
+          values = c(15, 17, 25, 7:14)
         )
     }
 
