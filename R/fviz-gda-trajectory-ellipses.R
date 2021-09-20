@@ -617,7 +617,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
       shape = 18,
       show.legend = TRUE
     ) +
-    scale_size_continuous(guide = FALSE) +
+    scale_size_continuous(guide = "none") +
     guides(
       colour = guide_legend(
         override.aes = list(size = 4))

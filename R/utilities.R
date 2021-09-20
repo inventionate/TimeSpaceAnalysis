@@ -24,7 +24,7 @@
 
   label_margin = 1.1
 
-  if (labels[2] != "") {
+  if (!is_null(labels) && labels[2] != "") {
     label_margin = 2
   }
 

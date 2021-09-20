@@ -261,7 +261,7 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
   if (!is_null(title)) p <- p + ggtitle(title)
 
   # Legende für Größen ausblenden
-  p <- p + scale_size(guide = FALSE)
+  p <- p + scale_size(guide = "none")
 
   # Plot aufbereiten und finalisieren
   p <- .finalize_plot(p, res_gda, axes, labels)

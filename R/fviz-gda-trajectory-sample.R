@@ -271,7 +271,7 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 
       arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
       show.legend = FALSE
     ) +
-    scale_size_continuous(guide = FALSE)
+    scale_size_continuous(guide = "none")
 
   # Beschriftung anpassen
   p <- .finalize_plot(p, res_gda, axes, labels)
