@@ -54,7 +54,7 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
   modalities <-
     df %>%
     data.frame() %>%
-    select(matches(paste0("^Dim.", axes[1], "|", axes[2], "$"))) %>%
+    select(matches(paste0("^Dim.", axes[1], "$|^Dim.", axes[2], "$"))) %>%
     tibble::rownames_to_column(var = "category") %>%
     gather(dim, ctr, -category) %>%
     arrange(desc(ctr))
