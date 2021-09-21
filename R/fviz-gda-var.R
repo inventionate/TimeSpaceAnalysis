@@ -21,6 +21,8 @@ NULL
 #' @param axis_lab_name name of axis label.
 #' @param group_lab_name name of variable groups.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
@@ -28,7 +30,7 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
                          group_style = "both", textsize = 4, colour_palette = "Set1", individuals = FALSE,
                          individuals_size = "auto", individuals_alpha = 0.5, individuals_names = FALSE,
                          plot_modif_rates = TRUE, axis_lab_name = "Achse", group_lab_name = "Themengruppen",
-                         labels = NULL ) {
+                         labels = NULL, xlim = NULL, ylim = NULL) {
   # Check GDA algorithm
   if (inherits(res_gda, c("MCA"))) {
     df <- res_gda$var$contrib
@@ -135,6 +137,31 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
           xintercept = 0,
           colour = "gray17",
           linetype = "solid"
+        )
+
+      # Add labels to repel algorithm
+      xrange <- xlim
+      yrange <- ylim
+      if (is_null(xlim) || is_null(ylim)) ggp <- ggplot_build(p)
+      if (is_null(xrange)) xrange <- ggp$layout$panel_params[[1]]$x.range
+      if (is_null(yrange)) yrange <- ggp$layout$panel_params[[1]]$y.range
+
+      df_repel <-
+        tibble(
+          x = c(0.2, xrange[2]),
+          y = c(yrange[2], 0.1)
+      )
+
+      if (!is_null(labels)) df_repel <- df_repel %>% add_row(x = xrange[2], y = 0.2)
+
+      p <-
+        p +
+        geom_point(
+          data = df_repel,
+          mapping = aes(x, y),
+          size = 12,
+          colour = "transparent",
+          inherit.aes = FALSE
         )
 
       if (individuals) {
@@ -282,7 +309,18 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
   # Legende für Größen ausblenden
   p <- p + scale_size(guide = "none")
 
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  # Dimensionen anpassen
+  if (!is_null(xlim)) p <- p + xlim(xlim)
+  if (!is_null(ylim)) p <- p + ylim(ylim)
+
+  p <- .finalize_plot(
+    plot = p,
+    res_gda = res_gda,
+    axes = axes,
+    labels = labels,
+    xlim = xlim,
+    ylim = ylim
+  )
 
   if (!is.null(group_style) & !is.null(group)) {
 

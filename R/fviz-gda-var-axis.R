@@ -126,6 +126,31 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
           colour = "gray17",
         )
 
+      # Add labels to repel algorithm
+      xrange <- xlim
+      yrange <- ylim
+      if (is_null(xlim) || is_null(ylim)) ggp <- ggplot_build(p)
+      if (is_null(xrange)) xrange <- ggp$layout$panel_params[[1]]$x.range
+      if (is_null(yrange)) yrange <- ggp$layout$panel_params[[1]]$y.range
+
+      df_repel <-
+        tibble(
+          x = c(0.2, xrange[2]),
+          y = c(yrange[2], 0.1)
+        )
+
+      if (!is_null(labels)) df_repel %>% add_row(x = xrange[2], y = 0.2)
+
+      p <-
+        p +
+        geom_point(
+          data = df_repel,
+          mapping = aes(x, y),
+          size = 12,
+          colour = "transparent",
+          inherit.aes = FALSE
+        )
+
       # Evaluate axes
       axis_1 <- sym(paste0("Dim.", axes[1]))
       axis_2 <- sym(paste0("Dim.", axes[2]))
@@ -269,8 +294,8 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
   p <- p + scale_size(guide = "none")
 
   # Dimensionen anpassen
-  p <- p + xlim(xlim)
-  # if (!is_null(ylim)) p <- p + ylim(ylim)
+  if (!is_null(xlim)) p <- p + xlim(xlim)
+  if (!is_null(ylim)) p <- p + ylim(ylim)
 
   # Plot aufbereiten und finalisieren
   p <- .finalize_plot(
