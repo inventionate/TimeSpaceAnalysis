@@ -11,7 +11,9 @@
                            labels = NULL,
                            axis_label_y_vjust = 1,
                            axis_label_x_hjust = 1,
-                           facet_labels = FALSE) {
+                           facet_labels = FALSE,
+                           xlim = NULL,
+                           ylim = NULL) {
 
   # Werte brechnen
   tickmarks_y <-
@@ -82,11 +84,13 @@
     ) +
     scale_x_continuous(
       breaks = tickmarks_x,
+      limits= xlim,
       sec.axis = dup_axis(),
       labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1)
     ) +
     scale_y_continuous(
       breaks = tickmarks_y,
+      limits = ylim,
       sec.axis = dup_axis(),
       labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1)
     )

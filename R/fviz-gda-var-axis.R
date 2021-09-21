@@ -269,15 +269,17 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
   p <- p + scale_size(guide = "none")
 
   # Dimensionen anpassen
-  if (!is_null(xlim)) p <- p + xlim(xlim)
-  if (!is_null(ylim)) p <- p + ylim(ylim)
+  p <- p + xlim(xlim)
+  # if (!is_null(ylim)) p <- p + ylim(ylim)
 
   # Plot aufbereiten und finalisieren
   p <- .finalize_plot(
     plot = p,
     res_gda = res_gda,
     axes = axes,
-    labels = labels
+    labels = labels,
+    xlim = xlim,
+    ylim = ylim
   )
 
   if (!is.null(group_style) & !is.null(group)) {
