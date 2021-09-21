@@ -15,13 +15,15 @@ NULL
 #' @param fill ellipse fill colour.
 #' @param axis_lab_name name of axis label.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
 #'
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
 fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dashed",
                                   density = FALSE, fill = NA, axes = 1:2, scale_size = 1,
                                   title = "GDA individuals plot", plot_modif_rates = TRUE, axis_lab_name = "Achse",
-                                  labels = NULL) {
+                                  labels = NULL, xlim = NULL, ylim = NULL) {
 
   if (!inherits(res_gda, c("MCA"))) {
     stop("Only MCA plots are currently supported!")
@@ -65,8 +67,33 @@ fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour =
       )
   }
 
+  # Dimensionen anpassen
+  if (!is_null(xlim)) {
+    p <-
+      p +
+      scale_x_continuous(
+        limits = xlim,
+        breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+      )
+  }
+  if (!is_null(ylim)) {
+    p <-
+      p +
+      scale_y_continuous(
+        limits = ylim,
+        breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+      )
+  }
+
   # Plot aufbereiten und finalisieren
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  p <- .finalize_plot(
+    plot = p,
+    res_gda = res_gda,
+    axes = axes,
+    labels = labels,
+    xlim = xlim,
+    ylim = ylim
+  )
 
   p <- .annotate_axes(p, labels)
 
