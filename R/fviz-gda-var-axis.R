@@ -24,6 +24,7 @@ NULL
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param xlim x Axis limits (vector of length 2).
 #' @param ylim y Axis limits (vector of length 2).
+#' @param alpha numeric value between 0 and 1.
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
@@ -31,7 +32,8 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
                               group_names = NULL, group_style = "both", textsize = 4, colour_palette = "Set1",
                               individuals = FALSE, individuals_size = "auto", individuals_alpha = 0.5,
                               individuals_names = FALSE, plot_modif_rates = TRUE, axis_lab_name = "Achse",
-                              group_lab_name = "Themengruppen", labels = NULL, xlim = NULL, ylim = NULL) {
+                              group_lab_name = "Themengruppen", labels = NULL, xlim = NULL, ylim = NULL,
+                              alpha = 1) {
   # Check GDA algorithm
   if (inherits(res_gda, c("MCA"))) {
     df <- res_gda$var$contrib
@@ -202,7 +204,8 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               colour = group,
               shape = group,
               size = weight
-            )
+            ),
+            alpha = alpha
           )
       }
       if (group_style == "colour") {
@@ -216,7 +219,8 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               colour = group,
               size = weight
             ),
-            shape = 17
+            shape = 17,
+            alpha = alpha
           )
       }
       if (group_style == "shape") {
@@ -230,7 +234,9 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               shape = group,
               size = weight
             ),
-          colour = "black"
+          colour = "black",
+          alpha = alpha
+
         )
       }
       if (group_style %in% c("colour", "both")) {

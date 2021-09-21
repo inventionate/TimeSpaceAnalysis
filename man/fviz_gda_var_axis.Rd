@@ -24,7 +24,8 @@ fviz_gda_var_axis(
   group_lab_name = "Themengruppen",
   labels = NULL,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  alpha = 1
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ fviz_gda_var_axis(
 \item{xlim}{x Axis limits (vector of length 2).}
 
 \item{ylim}{y Axis limits (vector of length 2).}
+
+\item{alpha}{numeric value between 0 and 1.}
 }
 \value{
 ggplot2 visualization containing selected modalities.

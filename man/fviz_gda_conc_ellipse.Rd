@@ -17,7 +17,9 @@ fviz_gda_conc_ellipse(
   title = "GDA individuals plot",
   plot_modif_rates = TRUE,
   axis_lab_name = "Achse",
-  labels = NULL
+  labels = NULL,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -46,6 +48,10 @@ fviz_gda_conc_ellipse(
 \item{axis_lab_name}{name of axis label.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{xlim}{x Axis limits (vector of length 2).}
+
+\item{ylim}{y Axis limits (vector of length 2).}
 }
 \value{
 ggplot2 GDA visualisation with concentration ellipse.
