@@ -154,6 +154,10 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
       )
   }
 
+  # Dimensionen anpassen
+  if (!is_null(xlim)) p <- p + xlim(xlim)
+  if (!is_null(ylim)) p <- p + ylim(ylim)
+
   # Beschriftung anpassen
   p <- .finalize_plot(
     p,
@@ -162,8 +166,6 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
     labels,
     axis_label_y_vjust = 0.99,
     axis_label_x_hjust = 0.99,
-    xlim = xlim,
-    ylim = ylim
   )
 
   p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)

@@ -22,7 +22,9 @@ fviz_gda_var_axis(
   plot_modif_rates = TRUE,
   axis_lab_name = "Achse",
   group_lab_name = "Themengruppen",
-  labels = NULL
+  labels = NULL,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -61,6 +63,10 @@ fviz_gda_var_axis(
 \item{group_lab_name}{name of variable groups.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{xlim}{x Axis limits (vector of length 2).}
+
+\item{ylim}{y Axis limits (vector of length 2).}
 }
 \value{
 ggplot2 visualization containing selected modalities.

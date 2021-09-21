@@ -22,6 +22,8 @@ NULL
 #' @param axis_lab_name name of axis label.
 #' @param group_lab_name name of variable groups.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
 #'
 #' @return ggplot2 visualization containing selected modalities.
 #' @export
@@ -29,13 +31,16 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
                               group_names = NULL, group_style = "both", textsize = 4, colour_palette = "Set1",
                               individuals = FALSE, individuals_size = "auto", individuals_alpha = 0.5,
                               individuals_names = FALSE, plot_modif_rates = TRUE, axis_lab_name = "Achse",
-                              group_lab_name = "Themengruppen", labels = NULL) {
+                              group_lab_name = "Themengruppen", labels = NULL, xlim = NULL, ylim = NULL) {
   # Check GDA algorithm
   if (inherits(res_gda, c("MCA"))) {
     df <- res_gda$var$contrib
   } else {
     stop("Only MCA plots are currently supported!")
   }
+
+# ---------------------------------------------------------------------------------------------
+
 
   # Calculate contribution criterion (Le Roux & Rouanet 2004: 372)
   if (is.null(res_gda$call$excl)) {
@@ -263,8 +268,17 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
   # Legende für Größen ausblenden
   p <- p + scale_size(guide = "none")
 
+  # Dimensionen anpassen
+  if (!is_null(xlim)) p <- p + xlim(xlim)
+  if (!is_null(ylim)) p <- p + ylim(ylim)
+
   # Plot aufbereiten und finalisieren
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  p <- .finalize_plot(
+    plot = p,
+    res_gda = res_gda,
+    axes = axes,
+    labels = labels
+  )
 
   if (!is.null(group_style) & !is.null(group)) {
     if (group_style %in% c("colour", "both")) {
