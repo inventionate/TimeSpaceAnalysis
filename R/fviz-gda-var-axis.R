@@ -294,8 +294,22 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
   p <- p + scale_size(guide = "none")
 
   # Dimensionen anpassen
-  if (!is_null(xlim)) p <- p + xlim(xlim)
-  if (!is_null(ylim)) p <- p + ylim(ylim)
+  if (!is_null(xlim)) {
+    p <-
+      p +
+      scale_x_continuous(
+        limits = xlim,
+        breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+      )
+  }
+  if (!is_null(ylim)) {
+    p <-
+      p +
+      scale_y_continuous(
+        limits = ylim,
+        breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+      )
+  }
 
   # Plot aufbereiten und finalisieren
   p <- .finalize_plot(
