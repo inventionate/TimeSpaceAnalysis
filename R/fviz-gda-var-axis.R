@@ -250,6 +250,7 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               colour = group,
               label = factor(rowname)
             ),
+            family = "Fira Sans Condensed",
             size = textsize,
             show.legend = FALSE
           )
@@ -264,6 +265,7 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               !!axis_2,
               label = factor(rowname)
             ),
+            family = "Fira Sans Condensed",
             size = textsize,
             show.legend = FALSE
           )

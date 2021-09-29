@@ -23,13 +23,14 @@ NULL
 #' @param impute_ncp number of dimensions to predict missing values.
 #' @param relevel numeric vector containing new level order (index).
 #' @param alpha_ellipses concentration ellipses fill alpha.
-#' @param plot_eta2 plot eta2 value per axis (boolean).
+#' @param print_eta2 print eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
 #' @param label_mean_points show labels (boolean).
 #' @param highlight show facets with highlighted group (boolean).
 #' @param profiles optional add specific profiles (tibble).
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
+#' @param density show density contours (boolean).
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -38,8 +39,9 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
                                     axes = 1:2, palette = "Set1", impute = TRUE, concentration_ellipses = TRUE,
                                     confidence_ellipses = FALSE, conf_colour = FALSE, plot_modif_rates = TRUE, ncol = 3,
                                     individuals = TRUE, impute_ncp = 2, relevel = NULL, alpha_ellipses = 0.15,
-                                    plot_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
-                                    highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3) {
+                                    print_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
+                                    highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3,
+                                    density = FALSE) {
 
   # Datensatz auslesen
   var <-
@@ -48,7 +50,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     mutate_all(as.character)
 
   #eta2 extrahieren
-  if (plot_eta2) {
+  if (print_eta2) {
 
     # Berechnungen der passiven Variable durchführen
     supvar_stats <-
@@ -67,12 +69,18 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       ) %>%
       filter(rowname == "eta2") %>%
       select(-rowname) %>%
-      mutate_all(~ round(., 3))
+      mutate_all(~ round(., 3)) %>%
+        as_tibble() %>%
+        pivot_longer(
+            cols = everything(),
+            names_to = "Dim",
+            values_to = "eta2"
+        ) %>%
+        mutate(
+            "explanation in %" = eta2 * 100
+        )
 
-  } else {
-
-    supvar_eta2 <- NULL
-
+    print(supvar_eta2)
   }
 
   # Auf Fehlende Werte prüfen.
@@ -203,7 +211,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     stop("Only MCA plots are currently supported!")
   }
 
-  # ALlgemeine Konzentrationsellipse hinzufügen (level = 86,47% nach Le Roux/Rouanet 2010: 69, da es sich um eine 2-dimesnionale Konzentrationsellipse handelt)
+  # Allgemeine Konzentrationsellipse hinzufügen (level = 86,47% nach Le Roux/Rouanet 2010: 69, da es sich um eine 2-dimesnionale Konzentrationsellipse handelt)
   p <-
     p +
     stat_ellipse(
@@ -218,6 +226,21 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       segments = 500,
       fill = NA
     )
+
+  # 2D Density contours
+  if (density) {
+      p <-
+          p +
+          geom_density_2d(
+              data = coord_ind_quali,
+              inherit.aes = FALSE,
+              aes(x = x,
+                  y = y,
+                  colour = colour
+              ),
+              alpha = 0.75
+          )
+  }
 
   # Konzentrationsellipsen für die passiven Variablengruppen
   if (individuals) {

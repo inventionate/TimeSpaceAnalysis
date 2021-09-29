@@ -43,7 +43,21 @@ fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour =
       colour = colour,
       fill = fill,
       linetype = linetype
-    ) +
+    )
+
+  # 2D Density contours
+  if (density) {
+      p <-
+          p +
+          geom_density_2d(
+              data = res_gda$ind$coord %>% as_tibble(),
+              inherit.aes = FALSE, aes(`Dim 1`, `Dim 2`),
+              colour = "gray"
+          )
+  }
+
+  p <-
+      p +
     geom_point(
       data = .count_distinct_ind(res_gda, axes) %>% distinct(),
       aes(x, y, size = count),
@@ -55,17 +69,6 @@ fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour =
         scale_size * max(.count_distinct_ind(res_gda)$count)
       )
     )
-
-  # 2D Density contours
-  if (density) {
-    p <-
-      p +
-      geom_density_2d(
-        data = res_gda$ind$coord %>% as_data_frame,
-        inherit.aes = FALSE, aes(`Dim 1`, `Dim 2`),
-        colour = "gray"
-      )
-  }
 
   # Dimensionen anpassen
   if (!is_null(xlim)) {

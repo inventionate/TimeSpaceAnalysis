@@ -265,7 +265,10 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
               label = factor(rowname)
             ),
             size = textsize,
-            show.legend = FALSE
+            family = "Fira Sans Condensed",
+            show.legend = FALSE,
+            max.time = 1,
+            max.iter = 100000
           )
       }
 
@@ -280,6 +283,7 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
               label = factor(rowname)
             ),
             size = textsize,
+            family = "Fira Sans Condensed",
             show.legend = FALSE
           )
       }

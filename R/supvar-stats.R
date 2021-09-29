@@ -70,8 +70,8 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   # nicht korrekt ist.
   #if(inherits(res_gda, c("MFA"))) row_weight <- res_gda$call$row.w.init
   n <- sum(row_weight)
-  FK <- colSums(row_weight*(GDAtools::dichotom(as.data.frame(factor(var)),out='numeric')))/n
   v <- factor(var)
+  FK <- colSums(row_weight*(GDAtools::dichotom(as.data.frame(v),out='numeric')))/n
   wt <- row_weight
   # Hier direkt alle Individuen aus dem GDA Ergebnis
   ind <- data.frame(res_gda$ind$coord[,1:res_gda$call$ncp])
@@ -83,13 +83,15 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   }
   cos2 <- coord*coord/((1/FK)-1)
   weight=n*FK
-  names(weight) <- levels(v)# v au lieu de var
-  rownames(coord) <- levels(v)#[as.numeric(table(v))>0]
-  rownames(cos2) <- levels(v)#[as.numeric(table(v))>0]
+
+  names(weight) <- levels(v)
+  rownames(coord) <- levels(v)
+  rownames(cos2) <- levels(v)
   # Die within variance entspricht dem gewichteten Mittelwert der Unterpunktwolken
   # (vgl. Le Roux/Rouanet 2004: 103)
   wi <- apply(vrc,2,weighted.mean,w=weight)
   be <- res_gda$eig[[1]][1:res_gda$call$ncp]-wi
+  # Für Prozentangabe mal 100 machen!
   eta2 <- be/res_gda$eig[[1]][1:res_gda$call$ncp]
   vrc <- rbind(vrc,wi,be,res_gda$eig[[1]][1:res_gda$call$ncp],eta2)
   vrc <- round(vrc,6)
@@ -97,21 +99,40 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   coord <- round(coord,6)
   v.test <- sqrt(cos2)*sqrt(length(v)-1)
   v.test <- (((abs(coord)+coord)/coord)-1)*v.test
+
+  # Standardisierte Distanzen hinzufügen
+  gda_dist <- function(dim, res_gda, coord) {
+      dist_make(
+          coord[dim] %>% as.matrix(),
+          function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+      )
+  }
+
+  dim_n <- res_gda$call$ncp
+
+  dims <- setNames(1:dim_n, paste0("Dim.", 1:dim_n))
+
+  dist <-
+      dims %>%
+      map(~ gda_dist(., res_gda, coord))
+
   # Absolutes Gewicht bei der MFA wiederherstellen
   if (inherits(res_gda, c("MFA"))) {
     list(
       supvar = var,
-      weight = round(weight,1),
-      coord = coord
+      weight = round(weight, 1),
+      coord = coord,
+      dist = dist
     )
   } else {
     list(
       supvar = var,
-      weight = round(weight,1),
+      weight = round(weight, 1),
       coord = coord,
-      cos2 = round(cos2,6),
-      var = round(vrc,6),
-      v.test = round(v.test,6)
+      cos2 = round(cos2, 6),
+      var = round(vrc, 6),
+      v.test = round(v.test, 6),
+      dist = dist
     )
   }
 }

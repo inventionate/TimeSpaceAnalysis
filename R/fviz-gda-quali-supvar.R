@@ -23,6 +23,10 @@ NULL
 #' @param axis_lab_name name of axis label.
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
+#' @param accuracy numeric vector (defaults to 0.1).
+#' @param pos_adjust numeric vector for axis labels adjustment (defaults to 0.001)
 #'
 #' @return ggplot2 visualization of supplementary variables.
 #' @export
@@ -30,7 +34,8 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
                                   axes = 1:2, scale_point = TRUE, size_point = 3, scale_text = FALSE, size_text = 3,
                                   palette = "Set1", impute = TRUE, plot_modif_rates = TRUE, impute_ncp = 2,
                                   relevel = NULL, plot_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
-                                  labels = NULL) {
+                                  labels = NULL, xlim = NULL, ylim = NULL, accuracy = 0.1,
+                                  pos_adjust = 0.001) {
 
   var <-
     df_var_quali %>%
@@ -142,6 +147,7 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
       ggrepel::geom_text_repel(
         data = supvar,
         aes(x = Dim.1, y = Dim.2, size = weight, label = rowname),
+        family = "Fira Sans Condensed",
         point.padding = unit(0.5, "lines")
       )
   } else {
@@ -150,6 +156,7 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
       ggrepel::geom_text_repel(
         data = supvar,
         aes(x = Dim.1, y = Dim.2, label = rowname),
+        family = "Fira Sans Condensed",
         size = size_text,
         point.padding = unit(0.5, "lines")
       )
@@ -166,10 +173,42 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
   # Standardthema hinzufügen
   if (!is_null(title)) p <- p + ggtitle(title)
 
-  # Beschriftung anpassen
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  # Dimensionen anpassen
+  if (!is_null(xlim)) {
+      p <-
+          p +
+          scale_x_continuous(
+              limits = xlim,
+              breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+          )
+  }
+  if (!is_null(ylim)) {
+      p <-
+          p +
+          scale_y_continuous(
+              limits = ylim,
+              breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+          )
+  }
 
-  p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
+  # Beschriftung anpassen
+  p <- .finalize_plot(
+      plot = p,
+      res_gda = res_gda,
+      axes = axes,
+      labels = labels,
+      xlim = xlim,
+      ylim = ylim,
+      accuracy = accuracy
+  )
+
+  # @TODO: FEINANPASSUNG DER LABELS, DA HIER OFT EIN SEHR NAHER ZOOM!
+  p <- .annotate_axes(
+      p,
+      labels,
+      alpha = axes_annotate_alpha,
+      pos_adjust = pos_adjust
+    )
 
   # Plotten
   p

@@ -13,7 +13,8 @@
                            axis_label_x_hjust = 1,
                            facet_labels = FALSE,
                            xlim = NULL,
-                           ylim = NULL) {
+                           ylim = NULL,
+                           accuracy = 0.1) {
 
   # Werte brechnen
   tickmarks_y <-
@@ -86,13 +87,13 @@
       breaks = tickmarks_x,
       limits= xlim,
       sec.axis = dup_axis(),
-      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1)
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = accuracy)
     ) +
     scale_y_continuous(
       breaks = tickmarks_y,
       limits = ylim,
       sec.axis = dup_axis(),
-      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = 0.1)
+      labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = accuracy)
     )
 
   g <- ggplotGrob(p)
@@ -173,10 +174,11 @@
       xmax = 0,
       xmin = 0) +
     theme(
-      axis.text = element_blank(),
-      axis.title.x.top = element_blank(),
-      axis.title.y.right = element_blank(),
-      axis.ticks = element_blank()
+        text = element_text(family = "Fira Sans Condensed"),
+        axis.text = element_blank(),
+        axis.title.x.top = element_blank(),
+        axis.title.y.right = element_blank(),
+        axis.ticks = element_blank()
     )
 
   if (!facet_labels) {
@@ -485,7 +487,7 @@
 }
 
 # Achsen beschriften
-.annotate_axes <- function(plot, labels = NULL, alpha = 0.7) {
+.annotate_axes <- function(plot, labels = NULL, alpha = 0.7, pos_adjust = 0.008) {
 
   if (is_null(labels)) return(plot)
 
@@ -495,7 +497,7 @@
         annotate(
           "label",
           x = -Inf,
-          y = 0.008,
+          y = pos_adjust,
           size = 4,
           hjust = 0,
           vjust = 0,
@@ -515,7 +517,7 @@
         annotate(
           "label",
           x = Inf,
-          y = 0.008,
+          y = pos_adjust,
           size = 4,
           hjust = 1,
           vjust = 0,
@@ -534,7 +536,7 @@
         plot +
         annotate(
           "label",
-          x = -0.008,
+          x = -pos_adjust,
           y = Inf,
           size = 4,
           hjust = 1,
@@ -554,7 +556,7 @@
           plot +
           annotate(
             "label",
-            x = -0.008,
+            x = -pos_adjust,
             y = -Inf,
             size = 4,
             hjust = 1,

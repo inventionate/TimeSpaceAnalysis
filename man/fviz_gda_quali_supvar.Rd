@@ -24,7 +24,10 @@ fviz_gda_quali_supvar(
   plot_eta2 = TRUE,
   axis_lab_name = "Achse",
   axes_annotate_alpha = 0.3,
-  labels = NULL
+  labels = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  accuracy = 0.1
 )
 }
 \arguments{
@@ -67,6 +70,12 @@ fviz_gda_quali_supvar(
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
+
+\item{xlim}{x Axis limits (vector of length 2).}
+
+\item{ylim}{y Axis limits (vector of length 2).}
+
+\item{accuracy}{numeric vector (defaults to 0.1).}
 }
 \value{
 ggplot2 visualization of supplementary variables.
