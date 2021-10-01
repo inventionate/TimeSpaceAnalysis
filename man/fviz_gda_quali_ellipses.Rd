@@ -26,13 +26,14 @@ fviz_gda_quali_ellipses(
   impute_ncp = 2,
   relevel = NULL,
   alpha_ellipses = 0.15,
-  plot_eta2 = TRUE,
+  print_eta2 = TRUE,
   axis_lab_name = "Achse",
   label_mean_points = TRUE,
   highlight = FALSE,
   profiles = NULL,
   labels = NULL,
-  axes_annotate_alpha = 0.3
+  axes_annotate_alpha = 0.3,
+  density = FALSE
 )
 }
 \arguments{
@@ -78,7 +79,7 @@ fviz_gda_quali_ellipses(
 
 \item{alpha_ellipses}{concentration ellipses fill alpha.}
 
-\item{plot_eta2}{plot eta2 value per axis (boolean).}
+\item{print_eta2}{print eta2 value per axis (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
 
@@ -91,6 +92,8 @@ fviz_gda_quali_ellipses(
 \item{labels}{label axes (vector of length 4; left, right, top, bottom).}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
+
+\item{density}{show density contours (boolean).}
 }
 \value{
 ggplot2 visualization with concentration and quali var ellipses.

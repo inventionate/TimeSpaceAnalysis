@@ -21,13 +21,14 @@ fviz_gda_quali_supvar(
   plot_modif_rates = TRUE,
   impute_ncp = 2,
   relevel = NULL,
-  plot_eta2 = TRUE,
+  print_eta2 = TRUE,
   axis_lab_name = "Achse",
   axes_annotate_alpha = 0.3,
   labels = NULL,
   xlim = NULL,
   ylim = NULL,
-  accuracy = 0.1
+  accuracy = 0.1,
+  pos_adjust = 0.001
 )
 }
 \arguments{
@@ -63,7 +64,7 @@ fviz_gda_quali_supvar(
 
 \item{relevel}{character vector containing new level order.}
 
-\item{plot_eta2}{plot eta2 value per axis (boolean).}
+\item{print_eta2}{print eta2 value per axis (boolean).}
 
 \item{axis_lab_name}{name of axis label.}
 
@@ -76,6 +77,8 @@ fviz_gda_quali_supvar(
 \item{ylim}{y Axis limits (vector of length 2).}
 
 \item{accuracy}{numeric vector (defaults to 0.1).}
+
+\item{pos_adjust}{numeric vector for axis labels adjustment (defaults to 0.001)}
 }
 \value{
 ggplot2 visualization of supplementary variables.

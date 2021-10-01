@@ -19,7 +19,7 @@ NULL
 #' @param plot_modif_rates plot modified rates instead of eigenvalue percentage (boolean).
 #' @param impute_ncp number of dimensions to predict missing values.
 #' @param relevel character vector containing new level order.
-#' @param plot_eta2 plot eta2 value per axis (boolean).
+#' @param print_eta2 print eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
@@ -33,7 +33,7 @@ NULL
 fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL, path = FALSE, linetype = "solid",
                                   axes = 1:2, scale_point = TRUE, size_point = 3, scale_text = FALSE, size_text = 3,
                                   palette = "Set1", impute = TRUE, plot_modif_rates = TRUE, impute_ncp = 2,
-                                  relevel = NULL, plot_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
+                                  relevel = NULL, print_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
                                   labels = NULL, xlim = NULL, ylim = NULL, accuracy = 0.1,
                                   pos_adjust = 0.001) {
   var <-
@@ -64,16 +64,17 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
     )
 
   #eta2 extrahieren
-  if (plot_eta2) {
-    supvar_eta2 <-
-      bind_cols(
-        rowname = rownames(supvar_stats$var), supvar_stats$var
-      ) %>%
-      filter(rowname == "eta2") %>%
-      select(-rowname) %>%
-      mutate_all(~ round(., 3))
-  } else {
-    supvar_eta2 <- NULL
+  if (print_eta2) {
+
+      supvar_eta2 <-
+          bind_cols(
+              rowname = rownames(supvar_stats$var), supvar_stats$var
+          ) %>%
+          filter(rowname == "eta2") %>%
+          select(-rowname) %>%
+          mutate_all(~ round(., 3))
+
+      print(supvar_eta2)
   }
 
   # Spaltennamen anpassen
