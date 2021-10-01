@@ -72,7 +72,16 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
           ) %>%
           filter(rowname == "eta2") %>%
           select(-rowname) %>%
-          mutate_all(~ round(., 3))
+          mutate_all(~ round(., 3)) %>%
+          as_tibble() %>%
+          pivot_longer(
+              cols = everything(),
+              names_to = "Dim",
+              values_to = "eta2"
+          ) %>%
+          mutate(
+              "explanation in %" = eta2 * 100
+          )
 
       print(supvar_eta2)
   }
