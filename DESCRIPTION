@@ -40,7 +40,8 @@ Depends:
     kableExtra,
     ragg,
     concaveman,
-    usedist
+    usedist,
+    gginnards    
 Suggests:
     kml3d,
     explor,
