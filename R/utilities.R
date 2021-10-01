@@ -185,7 +185,7 @@
     p <- p + coord_fixed()
   }
 
-  p <- gginnards::move_layers(p, "GeomCustomAnn" ,position = "bottom")
+  p <- gginnards::move_layers(p, "GeomCustomAnn", position = "bottom")
 
   p
 }
