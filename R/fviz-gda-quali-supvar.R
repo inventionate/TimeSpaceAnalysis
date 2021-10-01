@@ -27,7 +27,7 @@ NULL
 #' @param ylim y Axis limits (vector of length 2).
 #' @param accuracy numeric vector (defaults to 0.1).
 #' @param pos_adjust numeric vector for axis labels adjustment (defaults to 0.001)
-#'
+#' @param colour_point should the points be coloured (boolean)?
 #' @return ggplot2 visualization of supplementary variables.
 #' @export
 fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL, path = FALSE, linetype = "solid",
@@ -35,7 +35,7 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
                                   palette = "Set1", impute = TRUE, plot_modif_rates = TRUE, impute_ncp = 2,
                                   relevel = NULL, print_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
                                   labels = NULL, xlim = NULL, ylim = NULL, accuracy = 0.1,
-                                  pos_adjust = 0.001) {
+                                  pos_adjust = 0.001, colour_point = FALSE) {
   var <-
       df_var_quali %>%
       select(var_quali = {{ var_quali }}) %>%
@@ -127,26 +127,30 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
   }
 
   # Punkte plotten
-  if (scale_point) {
-    p <-
-      p +
+  mapping_point <-
+      aes(
+        x = Dim.1,
+        y = Dim.2,
+        fill = rowname,
+        size = weight
+    )
+
+  if (!colour_point) mapping_point$fill <- NULL
+
+  if (!scale_point) mapping_point$size <- NULL
+
+  geom_mean_point <-
       geom_point(
         data = supvar,
-        aes(x = Dim.1, y = Dim.2, size = weight, colour = rowname),
-        shape = 17,
+        mapping = mapping_point,
+        colour = "black",
+        shape = 23,
         inherit.aes = FALSE
-      )
-  } else {
-    p <-
-      p +
-      geom_point(
-        data = supvar,
-        aes(x = Dim.1, y = Dim.2, colour = rowname),
-        size = size_point,
-        shape = 17,
-        inherit.aes = FALSE
-      )
-  }
+  )
+
+  if (!colour_point) geom_mean_point$aes_params$fill <- "gray75"
+
+  p <- p + geom_mean_point
 
   # Beschriftung hinzufügen
   if (scale_text) {
