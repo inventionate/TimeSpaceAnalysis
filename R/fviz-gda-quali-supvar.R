@@ -36,12 +36,10 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
                                   relevel = NULL, plot_eta2 = TRUE, axis_lab_name = "Achse", axes_annotate_alpha = 0.3,
                                   labels = NULL, xlim = NULL, ylim = NULL, accuracy = 0.1,
                                   pos_adjust = 0.001) {
-
   var <-
-    df_var_quali %>%
-    select({{ var_quali }}) %>%
-    as.data.frame() %>%
-    mutate_all(as.character)
+      df_var_quali %>%
+      select(var_quali = {{ var_quali }}) %>%
+      mutate_all(as.character)
 
   # Berechnungen der passiven Variable durchführen
   supvar_stats <- supvar_stats(
@@ -84,7 +82,7 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
   # Reihenfolge der Zeilen an die Faktorenlevels anpassen
   order_levels <-
     df_var_quali %>%
-    select(matches(var_quali)) %>%
+    select({{ var_quali }}) %>%
     as.data.frame()
 
   order_levels <- levels(factor(order_levels[,1]))
