@@ -21,7 +21,7 @@ NULL
 #' @param ncol Number of facet columns.
 #' @param individuals show individual points (boolean).
 #' @param impute_ncp number of dimensions to predict missing values.
-#' @param relevel numeric vector containing new level order (index).
+#' @param reorder numeric vector containing new level order (index).
 #' @param alpha_ellipses concentration ellipses fill alpha.
 #' @param print_eta2 print eta2 value per axis (boolean).
 #' @param axis_lab_name name of axis label.
@@ -38,7 +38,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
                                     conc_linetype = "solid", conf_linetype = "solid", scale_mean_points = TRUE,
                                     axes = 1:2, palette = "Set1", impute = TRUE, concentration_ellipses = TRUE,
                                     confidence_ellipses = FALSE, conf_colour = FALSE, plot_modif_rates = TRUE, ncol = 3,
-                                    individuals = TRUE, impute_ncp = 2, relevel = NULL, alpha_ellipses = 0.15,
+                                    individuals = TRUE, impute_ncp = 2, reorder = NULL, alpha_ellipses = 0.15,
                                     print_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
                                     highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3,
                                     density = FALSE) {
@@ -152,11 +152,8 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     pull(var_quali) %>%
     levels()
 
-  # Reihenfolge der Levels festlegen
-  if (!is.null(relevel)) {
-    var_levels <-
-      var_levels[relevel]
-  }
+    # Reihenfolge der Levels festlegen
+  if (!is.null(reorder)) var_levels <- var_levels[reorder]
 
   # Spalte in Vektor umwandeln
   var_n <- var %>% count(var_quali, name = "n")

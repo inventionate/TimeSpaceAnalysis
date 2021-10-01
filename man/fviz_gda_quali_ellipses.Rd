@@ -24,7 +24,7 @@ fviz_gda_quali_ellipses(
   ncol = 3,
   individuals = TRUE,
   impute_ncp = 2,
-  relevel = NULL,
+  reorder = NULL,
   alpha_ellipses = 0.15,
   print_eta2 = TRUE,
   axis_lab_name = "Achse",
@@ -75,7 +75,7 @@ fviz_gda_quali_ellipses(
 
 \item{impute_ncp}{number of dimensions to predict missing values.}
 
-\item{relevel}{numeric vector containing new level order (index).}
+\item{reorder}{numeric vector containing new level order (index).}
 
 \item{alpha_ellipses}{concentration ellipses fill alpha.}
 
