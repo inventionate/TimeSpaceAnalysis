@@ -340,6 +340,10 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
         inherit.aes = FALSE
       )
 
+    # Der eccentricity coefficient @LeRoux2004: 441 lässt sich über
+    # die Distanzangaben zum Mittelpunkt berechnen.
+    # Er bewegt sich zwischen 0 (Kreis) und 1 ( Linie) und gibt an,
+    # wie stark die Ellipse an einer Achse orintiert ist (diese polarisiert).
   }
 
   if (confidence_ellipses) {
