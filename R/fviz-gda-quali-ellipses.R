@@ -31,6 +31,7 @@ NULL
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param density show density contours (boolean).
+#' @param global_conc_ellipses should the global concentration ellipse be shown (boolean).
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -41,7 +42,10 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
                                     individuals = TRUE, impute_ncp = 2, reorder = NULL, alpha_ellipses = 0.15,
                                     print_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
                                     highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3,
-                                    density = FALSE) {
+                                    density = FALSE, global_conc_ellipses = TRUE) {
+
+# ---------------------------------------------------------------------------------------------
+
 
   # Datensatz auslesen
   var <-
@@ -209,6 +213,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
   }
 
   # Allgemeine Konzentrationsellipse hinzufügen (level = 86,47% nach Le Roux/Rouanet 2010: 69, da es sich um eine 2-dimesnionale Konzentrationsellipse handelt)
+  if (global_conc_ellipses) {
   p <-
     p +
     stat_ellipse(
@@ -223,6 +228,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       segments = 500,
       fill = NA
     )
+  }
 
   # 2D Density contours
   if (density) {

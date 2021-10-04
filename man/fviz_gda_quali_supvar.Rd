@@ -28,7 +28,8 @@ fviz_gda_quali_supvar(
   xlim = NULL,
   ylim = NULL,
   accuracy = 0.1,
-  pos_adjust = 0.001
+  pos_adjust = 0.001,
+  colour_point = FALSE
 )
 }
 \arguments{
@@ -79,6 +80,8 @@ fviz_gda_quali_supvar(
 \item{accuracy}{numeric vector (defaults to 0.1).}
 
 \item{pos_adjust}{numeric vector for axis labels adjustment (defaults to 0.001)}
+
+\item{colour_point}{should the points be coloured (boolean)?}
 }
 \value{
 ggplot2 visualization of supplementary variables.

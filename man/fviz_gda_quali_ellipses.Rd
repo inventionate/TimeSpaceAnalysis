@@ -15,7 +15,7 @@ fviz_gda_quali_ellipses(
   conf_linetype = "solid",
   scale_mean_points = TRUE,
   axes = 1:2,
-  palette = "Set1",
+  colour = "Set1",
   impute = TRUE,
   concentration_ellipses = TRUE,
   confidence_ellipses = FALSE,
@@ -33,7 +33,8 @@ fviz_gda_quali_ellipses(
   profiles = NULL,
   labels = NULL,
   axes_annotate_alpha = 0.3,
-  density = FALSE
+  density = FALSE,
+  global_conc_ellipses = TRUE
 )
 }
 \arguments{
@@ -57,7 +58,7 @@ fviz_gda_quali_ellipses(
 
 \item{axes}{the GDA dimensions to plot.}
 
-\item{palette}{Colour brewer scale.}
+\item{colour}{Colour brewer scale or FALSE.}
 
 \item{impute}{impute missing data (boolean).}
 
@@ -94,6 +95,8 @@ fviz_gda_quali_ellipses(
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{density}{show density contours (boolean).}
+
+\item{global_conc_ellipses}{should the global concentration ellipse be shown (boolean).}
 }
 \value{
 ggplot2 visualization with concentration and quali var ellipses.
