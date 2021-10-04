@@ -481,7 +481,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     p <-
       p +
       scale_colour_brewer(
-          palette = palette,
+          palette = colour,
           aesthetics = c("colour", "fill")
       )
     } else {
