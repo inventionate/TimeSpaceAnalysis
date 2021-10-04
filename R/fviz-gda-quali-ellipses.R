@@ -32,6 +32,7 @@ NULL
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param density show density contours (boolean).
 #' @param global_conc_ellipses should the global concentration ellipse be shown (boolean).
+#' @param in_freq order by number of observations with each level (largest first) (boolean).
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -42,7 +43,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
                                     individuals = TRUE, impute_ncp = 2, reorder = NULL, alpha_ellipses = 0.15,
                                     print_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
                                     highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3,
-                                    density = FALSE, global_conc_ellipses = TRUE) {
+                                    density = FALSE, global_conc_ellipses = TRUE, in_freq = FALSE) {
 
 # ---------------------------------------------------------------------------------------------
 
@@ -153,10 +154,14 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     var %>%
     select(var_quali) %>%
     mutate_all(as.factor) %>%
-    pull(var_quali) %>%
-    levels()
+    pull(var_quali)
 
-    # Reihenfolge der Levels festlegen
+  # Reihenfolge der Levels nach der Anzahl der Fälle
+  if (in_freq) var_levels <- fct_infreq(var_levels)
+
+  var_levels <- var_levels %>% levels()
+
+  # Reihenfolge der Levels festlegen
   if (!is.null(reorder)) var_levels <- var_levels[reorder]
 
   # Spalte in Vektor umwandeln
@@ -326,7 +331,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
          )
       )
 
-    if (!colour) alpha_ellipses <- 0.01
+    if (colour == FALSE) alpha_ellipses <- 0.01
 
     p <-
       p +

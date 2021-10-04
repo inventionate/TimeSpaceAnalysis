@@ -34,7 +34,8 @@ fviz_gda_quali_ellipses(
   labels = NULL,
   axes_annotate_alpha = 0.3,
   density = FALSE,
-  global_conc_ellipses = TRUE
+  global_conc_ellipses = TRUE,
+  in_freq = FALSE
 )
 }
 \arguments{
@@ -97,6 +98,8 @@ fviz_gda_quali_ellipses(
 \item{density}{show density contours (boolean).}
 
 \item{global_conc_ellipses}{should the global concentration ellipse be shown (boolean).}
+
+\item{in_freq}{order by number of observations with each level (largest first) (boolean).}
 }
 \value{
 ggplot2 visualization with concentration and quali var ellipses.
