@@ -182,7 +182,7 @@
     )
 
   if (!facet_labels) {
-    p <- p + coord_fixed()
+    p <- p + coord_fixed(clip = "off")
   }
 
   p <- gginnards::move_layers(p, "GeomCustomAnn", position = "bottom")
