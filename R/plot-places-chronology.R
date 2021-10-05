@@ -207,7 +207,7 @@ plot_places_chronology <- function(data, id, weekday = "all", size_range = NULL,
       ), # get rid of leg
       rect = element_rect(fill = NA) # all rectangles
     ) +
-    coord_fixed(ratio = 4, xlim = c(0.5,7.5), ylim = c(0,1))
+    coord_fixed(ratio = 4, xlim = c(0.5,7.5), ylim = c(0,1), clip = "off")
 
   if (facets) {
     plot_time <-

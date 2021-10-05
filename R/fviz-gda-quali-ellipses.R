@@ -562,7 +562,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
     #     k <- k + 2
     # }
 
-    p <- p + coord_fixed(1)
+    p <- p + coord_fixed(1, clip = "off")
 
   } else {
 
