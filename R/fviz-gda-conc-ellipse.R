@@ -20,7 +20,7 @@ NULL
 #'
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
-fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dashed",
+fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dotted",
                                   density = FALSE, fill = NA, axes = 1:2, scale_size = 1,
                                   title = "GDA individuals plot", plot_modif_rates = TRUE, axis_lab_name = "Achse",
                                   labels = NULL, xlim = NULL, ylim = NULL) {

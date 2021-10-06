@@ -229,7 +229,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       type = "norm",
       alpha = 0.1,
       colour = "black",
-      linetype = "dashed",
+      linetype = "dotted",
       segments = 500,
       fill = NA
     )
