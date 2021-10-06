@@ -9,7 +9,7 @@ fviz_gda_conc_ellipse(
   level = 0.8647,
   alpha = 0.1,
   colour = "black",
-  linetype = "dashed",
+  linetype = "dotted",
   density = FALSE,
   fill = NA,
   axes = 1:2,

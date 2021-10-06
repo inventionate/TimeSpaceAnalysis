@@ -33,6 +33,7 @@ NULL
 #' @param density show density contours (boolean).
 #' @param global_conc_ellipses should the global concentration ellipse be shown (boolean).
 #' @param in_freq order by number of observations with each level (largest first) (boolean).
+#' @param facet_title_size size of the facet stripe title (numeric).
 #'
 #' @return ggplot2 visualization with concentration and quali var ellipses.
 #' @export
@@ -43,7 +44,8 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
                                     individuals = TRUE, impute_ncp = 2, reorder = NULL, alpha_ellipses = 0.15,
                                     print_eta2 = TRUE, axis_lab_name = "Achse", label_mean_points = TRUE,
                                     highlight = FALSE, profiles = NULL, labels = NULL, axes_annotate_alpha = 0.3,
-                                    density = FALSE, global_conc_ellipses = TRUE, in_freq = FALSE) {
+                                    density = FALSE, global_conc_ellipses = TRUE, in_freq = FALSE,
+                                    facet_title_size = 14) {
 
 # ---------------------------------------------------------------------------------------------
 
@@ -143,7 +145,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       ungroup() %>%
       mutate(var_quali = str_glue(
         "<b>{var_quali}</b><br>
-      <span style='font-size:9pt'>
+      <span style='font-size:{facet_title_size - 3}pt'>
       {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
       </span>"
       )
@@ -530,8 +532,8 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
         panel.spacing = unit(0.5, "cm"),
         strip.text = element_textbox(
           halign = 0.5,
-          size = 12,
-          margin = unit(c(0.5, 0, 0, 0), "mm")
+          size = facet_title_size,
+          margin = unit(c(0.5, 0, 1, 0), "mm")
         )
       )
 

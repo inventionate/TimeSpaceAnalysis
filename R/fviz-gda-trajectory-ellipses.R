@@ -22,6 +22,7 @@ NULL
 #' @param xlim x limits.
 #' @param ylim y limits.
 #' @param complete_obs plot only complete observations (boolean).
+#' @param facet_title_size size of the facet stripe title (numeric).
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -29,7 +30,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
                                          time_point_names = NULL, ind_points = TRUE, concentration_ellipse = TRUE,
                                          title = NULL, plot_modif_rates = TRUE, alpha = 0.15, select = NULL,
                                          select_facet = TRUE, labels = NULL, xlim = NULL, ylim = NULL,
-                                         axes_annotate_alpha = 0.3, complete_obs = FALSE) {
+                                         axes_annotate_alpha = 0.3, complete_obs = FALSE,
+                                         facet_title_size = 14) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -132,7 +134,7 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
       mutate(
         time = fct_inorder(as_factor(str_glue(
         "<b>{time}</b><br>
-        <span style='font-size:9pt'>
+        <span style='font-size:{facet_title_size - 3}pt'>
         {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
         </span>"
       )))
@@ -674,8 +676,8 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
         panel.spacing = unit(0.5, "cm"),
         strip.text = element_textbox(
           halign = 0.5,
-          size = 12,
-          margin = unit(c(0.5, 0, 0, 0), "mm")
+          size = facet_title_size,
+          margin = unit(c(0.5, 0, 1, 0), "mm")
         )
       )
   }

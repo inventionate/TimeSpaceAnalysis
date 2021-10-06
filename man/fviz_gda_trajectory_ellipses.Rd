@@ -22,7 +22,8 @@ fviz_gda_trajectory_ellipses(
   xlim = NULL,
   ylim = NULL,
   axes_annotate_alpha = 0.3,
-  complete_obs = FALSE
+  complete_obs = FALSE,
+  facet_title_size = 14
 )
 }
 \arguments{
@@ -61,6 +62,8 @@ fviz_gda_trajectory_ellipses(
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{complete_obs}{plot only complete observations (boolean).}
+
+\item{facet_title_size}{size of the facet stripe title (numeric).}
 }
 \value{
 ggplot2 visualization.

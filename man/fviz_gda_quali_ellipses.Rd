@@ -35,7 +35,8 @@ fviz_gda_quali_ellipses(
   axes_annotate_alpha = 0.3,
   density = FALSE,
   global_conc_ellipses = TRUE,
-  in_freq = FALSE
+  in_freq = FALSE,
+  facet_title_size = 14
 )
 }
 \arguments{
@@ -100,6 +101,8 @@ fviz_gda_quali_ellipses(
 \item{global_conc_ellipses}{should the global concentration ellipse be shown (boolean).}
 
 \item{in_freq}{order by number of observations with each level (largest first) (boolean).}
+
+\item{facet_title_size}{size of the facet stripe title (numeric).}
 }
 \value{
 ggplot2 visualization with concentration and quali var ellipses.
