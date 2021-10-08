@@ -17,13 +17,15 @@ NULL
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param legend_x x position of legend.
 #' @param legend_y y position of legend.
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
 #'
 #' @return trajectory ggplot2 visualization.
 #' @export
 fviz_gda_trajectory <- function(res_gda, select = list(name = NULL, within_inertia = NULL, case = NULL), title = NULL,
                                 axes = 1:2, ind_labels = FALSE, time_point_names = NULL, plot_modif_rates = TRUE,
                                 axis_lab_name = "Achse", labels = NULL, legend_x = 0.12, legend_y = 0.9,
-                                axes_annotate_alpha = 0.3) {
+                                axes_annotate_alpha = 0.3, xlim = NULL, ylim = NULL) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -51,7 +53,8 @@ fviz_gda_trajectory <- function(res_gda, select = list(name = NULL, within_inert
 
   p <-
     p +
-    scale_colour_brewer(palette = "YlGnBu", direction = -1) +
+    # scale_colour_brewer(palette = "YlGnBu", direction = -1) +
+    scale_colour_viridis_d() +
     geom_point(
       data = coord_ind_timeseries,
       aes(
@@ -100,8 +103,35 @@ fviz_gda_trajectory <- function(res_gda, select = list(name = NULL, within_inert
       )
   }
 
-  # Beschriftung anpassen
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  # Dimensionen anpassen
+  if (!is_null(xlim)) {
+      p <-
+          p +
+          scale_x_continuous(
+              limits = xlim,
+              breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+          )
+  }
+  if (!is_null(ylim)) {
+      p <-
+          p +
+          scale_y_continuous(
+              limits = ylim,
+              breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+          )
+  }
+
+  # Plot aufbereiten und finalisieren
+  p <- .finalize_plot(
+      plot = p,
+      res_gda = res_gda,
+      axes = axes,
+      axis_label_y_vjust = 0.99,
+      axis_label_x_hjust = 0.99,
+      labels = labels,
+      xlim = xlim,
+      ylim = ylim
+  )
 
   p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
 

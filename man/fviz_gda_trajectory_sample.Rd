@@ -18,7 +18,9 @@ fviz_gda_trajectory_sample(
   axes_annotate_alpha = 0.3,
   labels = NULL,
   legend_x = 0.12,
-  legend_y = 0.9
+  legend_y = 0.9,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -49,6 +51,10 @@ fviz_gda_trajectory_sample(
 \item{legend_x}{x position of legend.}
 
 \item{legend_y}{y position of legend.}
+
+\item{xlim}{x Axis limits (vector of length 2).}
+
+\item{ylim}{y Axis limits (vector of length 2).}
 }
 \value{
 ggplot2 visualization.

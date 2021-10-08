@@ -19,6 +19,7 @@ NULL
 #' @param xlim numeric vector of 2.
 #' @param ylim numeric vector of 2.
 #' @param var_quali_select the name of the selected categories/clusters.
+#' @param case_names named character vector containing names of cases.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -26,7 +27,7 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
                                       ind_labels = FALSE, title = NULL, time_point_names = NULL,
                                       select = list(name = NULL, within_inertia = NULL, case = NULL), impute = TRUE,
                                       plot_modif_rates = TRUE, labels = NULL, xlim = NULL, ylim = NULL,
-                                      axes_annotate_alpha = 0.3) {
+                                      axes_annotate_alpha = 0.3, case_names = NULL) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -88,7 +89,30 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
   selected_ind <- .select_trajectory(coord_all, select, time_point_names, axes)
 
   # Filterung vornehmen
-  coord_ind_timeseries <-  coord_var_quali %>% filter(id %in% selected_ind$id)
+  coord_ind_timeseries <-
+      coord_var_quali %>%
+      filter(id %in% selected_ind$id) %>%
+      mutate(name = id)
+
+  # Namen hinzufügen und variablen machen
+
+
+  if (!is_null(case_names)) {
+    coord_ind_timeseries <-
+        coord_ind_timeseries %>%
+        mutate(
+            name = fct_recode(
+                as_factor(name),
+                !!!case_names
+            )
+        )
+  }
+
+  # Umbenennen der ausgewählten Individuen
+  #
+  # Konzept: Label Spalte nutzen, die die IDs kopiert und alle Angaben entsprechend eines
+  # übergebenen Vektors ersetzt.
+  print(selected_ind)
 
   # Plot der Daten
   if (inherits(res_gda, c("MCA"))) {
@@ -97,17 +121,10 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
     stop("Only MCA plots are currently supported!")
   }
 
-  if (!is_null(xlim)) {
-    p <- p + xlim(xlim)
-  }
-
-  if (!is_null(ylim)) {
-    p <- p + ylim(ylim)
-  }
-
   p <-
     p +
-    scale_colour_brewer(palette = "YlGnBu", direction = -1) +
+    # scale_colour_brewer(palette = "YlGnBu", direction = -1) +
+    scale_colour_viridis_d() +
     geom_point(
       data = coord_ind_timeseries,
       aes(
@@ -149,14 +166,28 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
           !!axis_1,
           !!axis_2,
           colour = time,
-          label = id
+          label = name
         )
       )
   }
 
   # Dimensionen anpassen
-  if (!is_null(xlim)) p <- p + xlim(xlim)
-  if (!is_null(ylim)) p <- p + ylim(ylim)
+  if (!is_null(xlim)) {
+      p <-
+          p +
+          scale_x_continuous(
+              limits = xlim,
+              breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+          )
+  }
+  if (!is_null(ylim)) {
+      p <-
+          p +
+          scale_y_continuous(
+              limits = ylim,
+              breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+          )
+  }
 
   # Beschriftung anpassen
   p <- .finalize_plot(
@@ -188,8 +219,9 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
         family = "Fira Sans Condensed Medium",
         vjust = 0.5,
         hjust = 0.5,
-        size = 12,
-        margin = margin(0, 0, 3, 0, "mm")
+        size = 14,
+        margin = unit(c(0.5, 0, 1, 0), "mm")
+
       ),
       legend.position = "bottom",
       legend.title = element_blank()

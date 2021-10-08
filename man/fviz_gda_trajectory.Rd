@@ -16,7 +16,9 @@ fviz_gda_trajectory(
   labels = NULL,
   legend_x = 0.12,
   legend_y = 0.9,
-  axes_annotate_alpha = 0.3
+  axes_annotate_alpha = 0.3,
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ fviz_gda_trajectory(
 \item{legend_y}{y position of legend.}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
+
+\item{xlim}{x Axis limits (vector of length 2).}
+
+\item{ylim}{y Axis limits (vector of length 2).}
 }
 \value{
 trajectory ggplot2 visualization.

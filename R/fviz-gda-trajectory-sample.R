@@ -18,13 +18,16 @@ NULL
 #' @param axes_annotate_alpha alpha value of axes annotations.
 #' @param legend_x x position of legend.
 #' @param legend_y y position of legend.
+#' @param xlim x Axis limits (vector of length 2).
+#' @param ylim y Axis limits (vector of length 2).
 #'
 #' @return ggplot2 visualization.
 #' @export
 fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 1:2, ind_points = TRUE,
                                        concentration_ellipse = TRUE, complete = TRUE, title = NULL,
                                        plot_modif_rates = TRUE, alpha = 0.15, axis_lab_name = "Achse",
-                                       axes_annotate_alpha = 0.3, labels = NULL, legend_x = 0.12, legend_y = 0.9) {
+                                       axes_annotate_alpha = 0.3, labels = NULL, legend_x = 0.12,
+                                       legend_y = 0.9, xlim = NULL, ylim = NULL) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -104,7 +107,7 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 
         type = "norm",
         alpha = 0.1,
         colour = "black",
-        linetype = "dashed",
+        linetype = "dotted",
         fill = NA,
         segments = 500
       )
@@ -188,9 +191,9 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 
   end_points <-
     ellipse_axes %>%
     slice(even_indexes) %>%
-    select(xend = x, yend = y, dist2center)
+    select(xend = x, yend = y, dist2center, time)
 
-  ellipse_axes <- full_join(start_points, end_points, by = "dist2center")
+  ellipse_axes <- full_join(start_points, end_points, by = c("dist2center", "time"))
 
   # Plot Ellipse
   p <-
@@ -237,44 +240,61 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 
   }
 
   p <-
-    p +
-    geom_point(
-      data = coord_mean_mass,
-      aes(
-        !!axis_1,
-        !!axis_2,
-        # @CHECK is mass multiply works.
-        size = mass * 1.75
-      ),
-      colour = "black",
-      shape = 18,
-      show.legend = FALSE
-    ) +
-    geom_point(
-      data = coord_mean_mass,
-      aes(
-        !!axis_1,
-        !!axis_2,
-        size = mass,
-        colour = time
-      ),
-      shape = 18,
-      show.legend = TRUE
-    ) +
-    geom_path(
-      data = coord_mean_mass,
-      aes(
-        !!axis_1,
-        !!axis_2
-      ),
-      size = 1,
-      arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
-      show.legend = FALSE
-    ) +
-    scale_size_continuous(guide = "none")
+      p +
+      geom_point(
+          data = coord_mean_mass,
+          aes(
+              !!axis_1,
+              !!axis_2,
+              size = mass,
+              fill = time
+          ),
+          colour = "black",
+          shape = 23,
+          show.legend = TRUE
+      ) +
+        geom_path(
+          data = coord_mean_mass,
+          aes(
+            !!axis_1,
+            !!axis_2
+          ),
+          size = 1,
+          arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+          show.legend = FALSE
+        ) +
+        scale_size_continuous(guide = "none") +
+        scale_colour_viridis_d(aesthetics = c("colour", "fill"))
 
-  # Beschriftung anpassen
-  p <- .finalize_plot(p, res_gda, axes, labels)
+  # Dimensionen anpassen
+  if (!is_null(xlim)) {
+      p <-
+          p +
+          scale_x_continuous(
+              limits = xlim,
+              breaks = seq(round(xlim[1]), round(xlim[2]), by = 0.5)
+          )
+  }
+  if (!is_null(ylim)) {
+      p <-
+          p +
+          scale_y_continuous(
+              limits = ylim,
+              breaks = seq(round(ylim[1]), round(ylim[2]), by = 0.5)
+          )
+  }
+
+  # Plot aufbereiten und finalisieren
+  p <- .finalize_plot(
+      plot = p,
+      res_gda = res_gda,
+      axes = axes,
+      labels = labels,
+      axis_label_y_vjust = 0.99,
+      axis_label_x_hjust = 0.99,
+      xlim = xlim,
+      ylim = ylim
+  )
 
   p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
 

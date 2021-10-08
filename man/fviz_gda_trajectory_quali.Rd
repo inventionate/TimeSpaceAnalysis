@@ -19,7 +19,8 @@ fviz_gda_trajectory_quali(
   labels = NULL,
   xlim = NULL,
   ylim = NULL,
-  axes_annotate_alpha = 0.3
+  axes_annotate_alpha = 0.3,
+  case_names = NULL
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ fviz_gda_trajectory_quali(
 \item{ylim}{numeric vector of 2.}
 
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
+
+\item{case_names}{named character vector containing names of cases.}
 }
 \value{
 ggplot2 visualization.

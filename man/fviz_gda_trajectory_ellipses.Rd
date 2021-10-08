@@ -23,7 +23,9 @@ fviz_gda_trajectory_ellipses(
   ylim = NULL,
   axes_annotate_alpha = 0.3,
   complete_obs = FALSE,
-  facet_title_size = 14
+  facet_title_size = 14,
+  density = FALSE,
+  ellipses = TRUE
 )
 }
 \arguments{
@@ -41,7 +43,7 @@ fviz_gda_trajectory_ellipses(
 
 \item{ind_points}{show individuals (boolean).}
 
-\item{concentration_ellipse}{plot confidence ellipses (boolean).}
+\item{concentration_ellipse}{plot concentration ellipses (boolean).}
 
 \item{title}{title of the plot.}
 
@@ -64,6 +66,10 @@ fviz_gda_trajectory_ellipses(
 \item{complete_obs}{plot only complete observations (boolean).}
 
 \item{facet_title_size}{size of the facet stripe title (numeric).}
+
+\item{density}{should 2D density lines be drawn (boolean).}
+
+\item{ellipses}{should ellipses be drawn (boolean).}
 }
 \value{
 ggplot2 visualization.
