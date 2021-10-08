@@ -71,6 +71,27 @@ fviz_gda_trajectory_sample <- function(res_gda, time_point_names = NULL, axes = 
   # Mittelpunkte und Massen zusammenführen
   coord_mean_mass <- full_join(coord_mean, coord_mass, by = "time")
 
+  # Standardisierte Distanzen hinzufügen
+  gda_dist <- function(dim, res_gda, coord) {
+      dist_make(
+          coord[dim] %>% as.matrix(),
+          function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+      )
+  }
+
+  coord <- coord_mean_mass %>% select(-time)
+
+  dim_n <- length(axes)
+
+  dims <- setNames(1:dim_n, paste0("Dim.", 1:dim_n))
+
+  dist <-
+      dims %>%
+      map(~ gda_dist(., res_gda, coord))
+
+  message("Distanzen der Schwerpunkte (SD):")
+  print(dist)
+
   # Masse hinzufügen
   coord_all <-
     coord_all %>%

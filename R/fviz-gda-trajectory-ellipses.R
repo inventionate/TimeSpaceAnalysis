@@ -351,6 +351,31 @@ fviz_gda_trajectory_ellipses <- function(res_gda, df_var_quali, var_quali, axes 
 
     ellipse_axes_all <- full_join(start_points, end_points, by = "dist2center")
 
+    # Standardisierte Distanzen hinzufügen
+    gda_dist <- function(dim, res_gda, coord) {
+        dist_make(
+            coord[dim] %>% as.matrix(),
+            function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+        )
+    }
+
+    coord <-
+        coord_mean_var_quali %>%
+        ungroup() %>%
+        filter(var_quali == select) %>%
+        select(-time, -var_quali)
+
+    dim_n <- length(axes)
+
+    dims <- setNames(1:dim_n, paste0("Dim.", 1:dim_n))
+
+    dist <-
+        dims %>%
+        map(~ gda_dist(., res_gda, coord))
+
+    message("Distanzen der Schwerpunkte (SD):")
+    print(dist)
+
     if (ellipses) {
         p <-
           p +
