@@ -20,7 +20,9 @@ fviz_gda_trajectory_quali(
   xlim = NULL,
   ylim = NULL,
   axes_annotate_alpha = 0.3,
-  case_names = NULL
+  case_names = NULL,
+  label_x_limits = NA,
+  label_y_limits = NA
 )
 }
 \arguments{
@@ -55,6 +57,10 @@ fviz_gda_trajectory_quali(
 \item{axes_annotate_alpha}{alpha value of axes annotations.}
 
 \item{case_names}{named character vector containing names of cases.}
+
+\item{label_x_limits}{constrain the labels to a specific area. Limits are specified in data coordinates.}
+
+\item{label_y_limits}{constrain the labels to a specific area. Limits are specified in data coordinates.}
 }
 \value{
 ggplot2 visualization.

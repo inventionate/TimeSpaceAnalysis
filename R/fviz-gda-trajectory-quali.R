@@ -20,6 +20,8 @@ NULL
 #' @param ylim numeric vector of 2.
 #' @param var_quali_select the name of the selected categories/clusters.
 #' @param case_names named character vector containing names of cases.
+#' @param label_x_limits constrain the labels to a specific area. Limits are specified in data coordinates.
+#' @param label_y_limits constrain the labels to a specific area. Limits are specified in data coordinates.
 #'
 #' @return ggplot2 visualization.
 #' @export
@@ -27,7 +29,8 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
                                       ind_labels = FALSE, title = NULL, time_point_names = NULL,
                                       select = list(name = NULL, within_inertia = NULL, case = NULL), impute = TRUE,
                                       plot_modif_rates = TRUE, labels = NULL, xlim = NULL, ylim = NULL,
-                                      axes_annotate_alpha = 0.3, case_names = NULL) {
+                                      axes_annotate_alpha = 0.3, case_names = NULL, label_x_limits = NA,
+                                      label_y_limits = NA) {
 
   # Evaluate axes
   axis_1 <- sym(paste0("Dim.", axes[1]))
@@ -164,7 +167,9 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
         ),
         point.padding = 0,
         min.segment.length = 0,
-        box.padding = 0.5
+        box.padding = 0.5,
+        xlim  = label_x_limits,
+        ylim  = label_y_limits,
       )
   }
 
