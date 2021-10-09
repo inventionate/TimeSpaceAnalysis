@@ -191,7 +191,10 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
             ),
             colour = "black",
             size = individuals_size,
-            alpha = individuals_alpha)
+            alpha = individuals_alpha,
+            box.padding = 0.5,
+            point.padding = 0
+            )
       }
       if (group_style == "both") {
         p <-
@@ -248,7 +251,9 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               !!axis_1,
               !!axis_2,
               colour = group,
-              label = factor(rowname)
+              label = factor(rowname),
+              box.padding = 0.5,
+              point.padding = 0
             ),
             family = "Fira Sans Condensed",
             size = textsize,
@@ -267,7 +272,9 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
             ),
             family = "Fira Sans Condensed",
             size = textsize,
-            show.legend = FALSE
+            show.legend = FALSE,
+            box.padding = 0.5,
+            point.padding = 0,
           )
       }
 

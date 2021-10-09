@@ -161,7 +161,10 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
           !!axis_2,
           colour = time,
           label = name
-        )
+        ),
+        point.padding = 0,
+        min.segment.length = 0,
+        box.padding = 0.5
       )
   }
 
