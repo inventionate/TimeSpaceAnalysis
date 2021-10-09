@@ -108,12 +108,6 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
         )
   }
 
-  # Umbenennen der ausgewählten Individuen
-  #
-  # Konzept: Label Spalte nutzen, die die IDs kopiert und alle Angaben entsprechend eines
-  # übergebenen Vektors ersetzt.
-  print(selected_ind)
-
   # Plot der Daten
   if (inherits(res_gda, c("MCA"))) {
     p <- .create_plot()
