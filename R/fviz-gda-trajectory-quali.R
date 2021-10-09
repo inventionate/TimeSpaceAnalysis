@@ -157,19 +157,26 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
       p +
       ggrepel::geom_label_repel(
         data = coord_ind_timeseries %>%
-          filter(time == time_point_names[1]),
+            # Alle drei Punkte pro Person, aber nur ersten Punkt mit Label für repel Algorithmus.
+            mutate(
+                point_label = if_else(
+                    time == time_point_names[1],
+                    as.character(name),
+                    "")
+        ),
         show.legend = FALSE,
         aes(
           !!axis_1,
           !!axis_2,
           colour = time,
-          label = name
+          label = point_label
         ),
         point.padding = 0,
         min.segment.length = 0,
         box.padding = 0.5,
         xlim  = label_x_limits,
         ylim  = label_y_limits,
+        max.overlaps = 20
       )
   }
 
