@@ -101,7 +101,8 @@ plot_places_chronology <- function(data, id, weekday = "all", size_range = NULL,
     ) +
     coord_fixed(
       xlim = xlim,
-      ylim = ylim
+      ylim = ylim,
+      clip = "off"
     ) +
     theme_void() +
     theme(

@@ -43,22 +43,30 @@ NULL
 #' @param map_scalebar_unit_pos_dist add space between scalebar values and unit.
 #' @param exclude_meaning meanings to be excluded (vector).
 #' @param area_buffer The size of the region around the mark where labels cannot be placed (in mm).
+#' @param con_size size of the label connector (numeric).
+#' @param area_expand size of the area expand (numeric).
 #'
 #' @return ggplot2 visualization of place chronology data.
 #' @export
-plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range = NULL, colour_path = "black",
-                                           size_path = 2, alpha_path = 0.25, alpha_points = 1, linetype_path = "solid",
-                                           title = NULL, axis_label = FALSE, print_place_duration = TRUE,
-                                           exclude_sleep = TRUE, facets = FALSE, facets_include_place = NULL,
-                                           facets_include_all = FALSE, exclude_na = FALSE, exclude = NULL,
-                                           exclude_meaning = NULL, meanings = NULL, map = FALSE, map_zoom = 10,
-                                           map_add_x = 0.2, map_add_y = 0.1, graph = TRUE, area_fill = "white",
+plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range = NULL,
+                                           colour_path = "black", size_path = 2, alpha_path = 0.25,
+                                           alpha_points = 1, linetype_path = "solid",
+                                           title = NULL, axis_label = FALSE,
+                                           print_place_duration = TRUE, exclude_sleep = TRUE,
+                                           facets = FALSE, facets_include_place = NULL,
+                                           facets_include_all = FALSE, exclude_na = FALSE,
+                                           exclude = NULL, exclude_meaning = NULL, meanings = NULL,
+                                           map = FALSE, map_zoom = 10, map_add_x = 0.2,
+                                           map_add_y = 0.1, graph = TRUE, area_fill = "white",
                                            area_colour = "black", area_alpha = 0, area_size = 1.5,
-                                           area_linetype = "solid", area_label_fontsize = c(12, 10), area_buffer = 10,
+                                           con_size = 5, area_linetype = "solid", area_expand = 0.5,
+                                           area_label_fontsize = c(12, 10), area_buffer = 10,
                                            map_scalebar = TRUE, map_scalebar_location = "topright",
-                                           map_scalebar_text_size = 4.5, map_scalebar_box_size = 0.015,
+                                           map_scalebar_text_size = 4.5,
+                                           map_scalebar_box_size = 0.015,
                                            map_scalebar_border_size = 0.85, map_scalebar_dist = 1,
-                                           map_scalebar_text_dist = 0.02, map_scalebar_unit_pos_dist = 0.5) {
+                                           map_scalebar_text_dist = 0.02,
+                                           map_scalebar_unit_pos_dist = 0.5) {
 
   # Check if only one id is given
   if (length(id) > 1) stop("Please give only one ID.")
@@ -148,13 +156,6 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
     facets_include_place <- df_pc_meaning$place
   }
 
-  df_pc_meaning_facets <-
-    df_pc_meaning %>%
-    filter(
-      place_duration > mean(data_pc$data_unique_places_overall$place_duration) |
-        place %in% facets_include_place
-    )
-
   # Plot Stamen maps as background
   if (map) {
     height <- max(df_pc_meaning$lat) - min(df_pc_meaning$lat)
@@ -185,7 +186,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
   if (!map && !facets) {
     plot_pc <-
       plot_pc +
-      coord_quickmap() +
+      coord_quickmap(clip = "off") +
       scale_y_continuous(expand = expansion(add = 0.1)) +
       scale_x_continuous(expand = expansion(add = 0.1))
   }
@@ -246,27 +247,29 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
         label.fontsize = area_label_fontsize,
         label.buffer = unit(area_buffer, "mm"),
         label.fill = "gray90",
-        con.cap = unit(area_size, "mm"),
+        con.cap = unit(con_size, "mm"),
         show.legend = FALSE
       )
   } else {
     plot_pc <-
       plot_pc +
       geom_mark_circle(
-        data = df_pc_meaning_facets,
+        data = df_pc_meaning,
         aes(
           x = lon,
           y = lat,
           group = place,
           label = place,
-          description = place_desc
+          description = place_desc,
+          filter = place_duration > mean(data_pc$data_unique_places_overall$place_duration) |
+              place %in% facets_include_place
         ),
-        expand = unit(0.1, "mm"),
+        expand = unit(area_expand, "mm"),
         label.family = "Fira Sans Condensed Medium",
         label.fontsize = area_label_fontsize,
-        label.buffer = unit(10, "mm"),
+        label.buffer = unit(area_buffer, "mm"),
         label.fill = "gray90",
-        con.cap = unit(4, "mm"),
+        con.cap = unit(con_size, "mm"),
         show.legend = FALSE
       ) +
       theme(

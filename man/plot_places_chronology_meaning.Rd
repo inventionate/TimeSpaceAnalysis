@@ -34,7 +34,9 @@ plot_places_chronology_meaning(
   area_colour = "black",
   area_alpha = 0,
   area_size = 1.5,
+  con_size = 5,
   area_linetype = "solid",
+  area_expand = 0.5,
   area_label_fontsize = c(12, 10),
   area_buffer = 10,
   map_scalebar = TRUE,
@@ -106,7 +108,11 @@ plot_places_chronology_meaning(
 
 \item{area_size}{size of meaning area.}
 
+\item{con_size}{size of the label connector (numeric).}
+
 \item{area_linetype}{linetype of meaning area.}
+
+\item{area_expand}{size of the area expand (numeric).}
 
 \item{area_label_fontsize}{area label fontsize (vector).}
 
