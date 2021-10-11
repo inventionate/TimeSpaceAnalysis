@@ -143,13 +143,26 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       group_by(var_quali) %>%
       mutate(count = n()) %>%
       ungroup() %>%
-      mutate(var_quali = str_glue(
+      mutate(var_label = str_glue(
         "<b>{var_quali}</b><br>
       <span style='font-size:{facet_title_size - 3}pt'>
       {format(round(count/n() * 100, 1), decimal.mark=',')} %, n = {count}
       </span>"
       )
       )
+
+    if (!is_null(profiles)) {
+        profiles <-
+            left_join(profiles, var %>% distinct(), by = "var_quali") %>%
+            mutate(var_quali = var_label) %>%
+            select(-var_label)
+    }
+
+    var <-
+        var %>%
+        mutate(var_quali = var_label) %>%
+        select(-var_label)
+
   }
 
   var_levels <-
@@ -458,27 +471,6 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
       p <- p + geom_mean_point
   }
 
-  if (!is_null(profiles)) {
-    profiles <-
-      profiles %>%
-      mutate(
-        colour = clust
-      )
-
-    p <-
-      p +
-      geom_label(
-          data = profiles,
-          inherit.aes = FALSE,
-          aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
-          family = "Fira Sans Condensed Medium",
-          size = 5,
-          alpha = 1
-        )
-    # segment.colour = "black",
-    # # segment.size = 1.5)
-  }
-
   if (colour != FALSE) {
     p <-
       p +
@@ -572,6 +564,36 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
 
     p <- .annotate_axes(p, labels, alpha = axes_annotate_alpha)
 
+  }
+
+  if (!is_null(profiles)) {
+
+      if (facet) {
+          profiles <-
+              profiles %>%
+              mutate(
+                  colour = var_quali
+              )
+      } else {
+          profiles <-
+              profiles %>%
+              mutate(
+                  colour = {{ var_quali }}
+              )
+      }
+
+      p <-
+          p +
+          geom_label(
+              data = profiles,
+              inherit.aes = FALSE,
+              aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
+              family = "Fira Sans Condensed Medium",
+              size = 5,
+              alpha = 1
+          )
+      # segment.colour = "black",
+      # # segment.size = 1.5)
   }
 
   if (!is_null(title)) p <- p + ggtitle(title)
