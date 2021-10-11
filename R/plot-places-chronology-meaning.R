@@ -191,38 +191,38 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
       scale_x_continuous(expand = expansion(add = 0.1))
   }
 
-  plot_pc <-
-    plot_pc +
-    geom_path(
-      data = df_pc_meaning_path,
-      aes(
-        x = lon,
-        y = lat,
-        group = day
-      ),
-      size = size_path,
-      alpha = alpha_path,
-      lineend = "round",
-      linetype = linetype_path,
-      colour = "black"
-    ) +
-    geom_point(
-      data = df_pc_meaning,
-      aes(
-        x = lon,
-        y = lat,
-        size = place_duration
-      ),
-      alpha = alpha_points,
-      show.legend = FALSE
-    ) +
-    ggtitle(
-      data_pc$title
-    ) +
-    theme(
-      text = element_text(family = "Fira Sans Condensed Medium"),
-      title = element_text(face = "bold")
-    )
+    plot_pc <-
+        plot_pc +
+            geom_path(
+                data = df_pc_meaning_path,
+                aes(
+                  x = lon,
+                  y = lat,
+                  group = day
+              ),
+              size = size_path,
+              alpha = alpha_path,
+              lineend = "round",
+              linetype = linetype_path,
+              colour = "black"
+          ) +
+          geom_point(
+              data = df_pc_meaning,
+              aes(
+                  x = lon,
+                  y = lat,
+                  size = place_duration
+              ),
+              alpha = alpha_points,
+              show.legend = FALSE
+          ) +
+          ggtitle(
+              data_pc$title
+          ) +
+          theme(
+              text = element_text(family = "Fira Sans Condensed Medium"),
+              title = element_text(face = "bold")
+          )
 
   # Geo plot
   if (!facets) {
