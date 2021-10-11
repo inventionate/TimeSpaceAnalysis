@@ -264,6 +264,10 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
           filter = place_duration > mean(data_pc$data_unique_places_overall$place_duration) |
               place %in% facets_include_place
         ),
+        size = area_size,
+        colour = area_colour,
+        fill = area_fill,
+        alpha = area_alpha,
         expand = unit(area_expand, "mm"),
         label.family = "Fira Sans Condensed Medium",
         label.fontsize = area_label_fontsize,
