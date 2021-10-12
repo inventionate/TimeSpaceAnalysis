@@ -89,6 +89,7 @@ Collate:
     'modified-rates.R'
     'plot-barplot.R'
     'plot-places-chronology-meaning.R'
+    'plot-places-chronology-path.R'
     'plot-places-chronology-time-pattern.R'
     'plot-places-chronology.R'
     'plot-time-pattern-profile.R'

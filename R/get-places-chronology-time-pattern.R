@@ -77,16 +77,21 @@ get_places_chronology_time_pattern <- function(oc_data, id = "all", weekday = "a
     ungroup() %>%
     # Festlegen der Reihenfolge der Levels und orden der Daten.
     mutate(
-      activity = fct_relevel(
-        activity,
-        "Lehrveranstaltung",
-        "Lerngruppe",
-        "Selbststudium",
-        "Fahrzeit",
-        "Arbeitszeit",
-        "Freizeit",
-        "Schlafen"
-      )
+        activity = fct_recode(
+            activity,
+            "Arbeit" = "Arbeitszeit",
+            "Private Zeit" = "Freizeit",
+        ),
+          activity = fct_relevel(
+            activity,
+            "Lehrveranstaltung",
+            "Lerngruppe",
+            "Selbststudium",
+            "Fahrzeit",
+            "Arbeit",
+            "Private Zeit",
+            "Schlafen"
+          )
     ) %>%
     arrange(questionnaire_id, day, activity)
 
