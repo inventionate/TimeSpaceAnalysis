@@ -432,7 +432,7 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
         radius = unit(5, "mm"),
         label.family = "Fira Sans Condensed Medium",
         label.fontsize = c(12, 10),
-        label.buffer = unit(10, "mm"),
+        label.buffer = unit(5, "mm"),
         label.fill = "gray90",
         # Small fix for label margin
         label.margin = margin(2, 2, 2, 3, "mm"),
