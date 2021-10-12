@@ -339,13 +339,12 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
       )
   }
 
-  if (!axis_label) {
+  if (axis_label) {
     plot_pc <-
       plot_pc +
       theme(
-        axis.title = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank()
+          axis.title = element_text(size = 10),
+          axis.text = element_text(size = 10)
       )
   }
 
