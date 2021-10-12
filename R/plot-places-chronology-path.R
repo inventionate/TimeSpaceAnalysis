@@ -30,29 +30,26 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
     # Create meanings path tibble
     df_pc_path <-
         df_pc_prepared$data_places_chronology %>%
-        mutate(week = lubridate::isoweek(date)) %>%
-        mutate(date = lubridate::wday(date, TRUE, week_start = 1)) %>%
-        # Add missing sleep
         ungroup() %>%
         add_row(
-            questionnaire_id = df_pc_meaning_path[1, ]$questionnaire_id,
+            questionnaire_id = df_pc_prepared$data_places_chronology[1, ]$questionnaire_id,
             start_time = 0,
-            duration = df_pc_meaning_path[1, ]$start_time,
-            date = df_pc_meaning_path[1, ]$date,
-            place = df_pc_meaning_path[1, ]$place,
+            duration = df_pc_prepared$data_places_chronology[1, ]$start_time,
+            date = df_pc_prepared$data_places_chronology[1, ]$date,
+            place = df_pc_prepared$data_places_chronology[1, ]$place,
             activity = "Schlafen",
-            week = df_pc_meaning_path[1, ]$week,
             .before = 1
         ) %>%
         # Rename weeks
         mutate(
             week = fct_relevel(
                 fct_recode(
-                    as_factor(week),
+                    as_factor(lubridate::isoweek(date)),
                     !!!recode_week
                 ),
                 "Woche 4", "Woche 3", "Woche 2", "Woche 1"
-            )
+            ),
+            date = lubridate::wday(date, TRUE, week_start = 1)
         ) %>%
         filter(questionnaire_id == id) %>%
         filter(duration > 0) %>%
@@ -81,7 +78,8 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
                 NA_character_,
                 as.character(place)
             )
-        )
+        ) %>%
+        select(questionnaire_id, start_time, duration, date, place, activity, week, place_label)
 
     # Farben definieren
     colours <- c(
