@@ -8,7 +8,7 @@ plot_places_chronology_path(
   data,
   id,
   recodeded_places = NULL,
-  week = c(`Woche 4` = "5", `Woche 3` = "4", `Woche 2` = "3", `Woche 1` = "2")
+  recode_week = c(`Woche 4` = "5", `Woche 3` = "4", `Woche 2` = "3", `Woche 1` = "2")
 )
 }
 \arguments{

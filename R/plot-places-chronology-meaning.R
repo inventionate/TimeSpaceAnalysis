@@ -174,7 +174,12 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
         maptype = "watercolor",
       )
 
-    plot_pc <- ggmap(map_background)
+    plot_pc <- ggmap(map_background) +
+        theme(
+            axis.title = element_blank(),
+            axis.text = element_blank(),
+            axis.ticks = element_blank()
+        )
   } else {
     plot_pc <- ggplot() +
       theme_void() +

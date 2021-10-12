@@ -15,7 +15,8 @@ plot_places_chronology_time_pattern(
   ncol = 3,
   labels = NULL,
   facet_label = TRUE,
-  legend_bottom = TRUE
+  legend_bottom = TRUE,
+  legend_cols = 2
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ plot_places_chronology_time_pattern(
 \item{facet_label}{show facets (boolean).}
 
 \item{legend_bottom}{show legend on bottom (boolean).}
+
+\item{legend_cols}{number of legend cols (numeric).}
 }
 \value{
 ggplot2 visualization of place chronology time pattern data.

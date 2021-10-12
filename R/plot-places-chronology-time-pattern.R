@@ -14,12 +14,15 @@ NULL
 #' @param labels facet labels.
 #' @param facet_label show facets (boolean).
 #' @param legend_bottom show legend on bottom (boolean).
+#' @param legend_cols number of legend cols (numeric).
 #'
 #' @return ggplot2 visualization of place chronology time pattern data.
 #' @export
 plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all", graph = TRUE,
-                                                print_prop_duration = TRUE, legend = TRUE, bar_width = 1, ncol = 3,
-                                                labels = NULL, facet_label = TRUE, legend_bottom = TRUE) {
+                                                print_prop_duration = TRUE, legend = TRUE,
+                                                bar_width = 1, ncol = 3, labels = NULL,
+                                                facet_label = TRUE, legend_bottom = TRUE,
+                                                legend_cols = 2) {
 
   # Datensatz Zeitmuster
   data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)
@@ -139,7 +142,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
         plot_pc_zm <-
             plot_pc_zm +
             theme(legend.position = "bottom") +
-            guides(fill = guide_legend(ncol = 4))
+            guides(fill = guide_legend(ncol = legend_cols))
     }
 
     if (graph) print(plot_pc_zm)
