@@ -6,10 +6,14 @@ NULL
 #' @param data a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).
 #' @param id vector, which contains questionnaire ids. Choose "all" to compute all ids.
 #' @param recodeded_places recode leves of place labels by named vector.
+#' @param week recode leves of week labels by named vector.
 #'
 #' @return ggplot2 visualization of place chronology path.
 #' @export
-plot_places_chronology_path <- function(data, id, recodeded_places = NULL) {
+plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
+                                        recode_week = c("Woche 4" = "5", "Woche 3" = "4",
+                                                        "Woche 2" = "3", "Woche 1" = "2")
+                                        ) {
       # Check if only one id is given
       if (length(id) > 1) stop("Please give only one ID.")
 
@@ -45,11 +49,9 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL) {
             week = fct_relevel(
                 fct_recode(
                     as_factor(week),
-                    "Woche 3" = "4",
-                    "Woche 2" = "3",
-                    "Woche 1" = "2"
+                    !!!recode_week
                 ),
-                "Woche 3", "Woche 2", "Woche 1"
+                "Woche 4", "Woche 3", "Woche 2", "Woche 1"
             )
         ) %>%
         filter(questionnaire_id == id) %>%

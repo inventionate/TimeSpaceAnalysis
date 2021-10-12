@@ -4,7 +4,12 @@
 \alias{plot_places_chronology_path}
 \title{Plot place chronologies activity paths.}
 \usage{
-plot_places_chronology_path(data, id, recodeded_places)
+plot_places_chronology_path(
+  data,
+  id,
+  recodeded_places = NULL,
+  week = c(`Woche 4` = "5", `Woche 3` = "4", `Woche 2` = "3", `Woche 1` = "2")
+)
 }
 \arguments{
 \item{data}{a data frame (columns: ID, day, duration, place, address, lon, lat, prop_duration).}
@@ -12,6 +17,8 @@ plot_places_chronology_path(data, id, recodeded_places)
 \item{id}{vector, which contains questionnaire ids. Choose "all" to compute all ids.}
 
 \item{recodeded_places}{recode leves of place labels by named vector.}
+
+\item{week}{recode leves of week labels by named vector.}
 }
 \value{
 ggplot2 visualization of place chronology path.
