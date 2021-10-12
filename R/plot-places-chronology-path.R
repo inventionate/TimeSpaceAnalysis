@@ -130,10 +130,12 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
             legend.title = element_blank(),
             strip.text = element_text(
                 face = "bold",
-                size = 14,
+                size = 16,
                 hjust = 0.5,
                 margin = margin(0,0,4,0)
             ),
+            legend.margin = margin(0,0,0,0),
+            legend.box.margin = margin(-20,0,0,0)
         ) +
         scale_colour_manual(values = colours) +
         facet_wrap(~week, ncol = 1)
