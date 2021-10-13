@@ -154,8 +154,7 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
       plot.caption = element_text(vjust = 19)
     ) +
     guides(fill = guide_legend(nrow = 1)) +
-    labs(caption = missing_cases) +
-    coord_fixed(ratio = 4)
+    labs(caption = missing_cases)
 
 
   # Mehrere Gafiken parallel erzeugen
