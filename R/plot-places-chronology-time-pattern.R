@@ -131,8 +131,8 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
         legend.title = element_blank(),
         legend.text = element_text(size = 12),
         legend.position = "right"
-      )
-      coord_fixed(ratio = 4, clip = "off")
+      ) +
+      coord_fixed(ratio = 5, clip = "off")
 
     if (!legend) {
         plot_pc_zm <-
