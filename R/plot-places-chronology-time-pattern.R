@@ -113,7 +113,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
       theme(
         text = element_text(colour = "gray17"),
         title = element_text(size = 14),
-        strip.text = element_text(size = 12, face = "bold"),
+        strip.text = element_text(size = 12, face = "bold", margin = margin(0,0,6,0)),
         panel.spacing.x = unit(3, "mm"),
         panel.spacing.y = unit(1, "lines"),
         axis.text = element_text(size = 9),
