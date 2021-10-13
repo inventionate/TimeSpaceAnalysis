@@ -116,7 +116,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
         strip.text = element_text(size = 12, face = "bold", margin = margin(0,0,6,0)),
         panel.spacing.x = unit(3, "mm"),
         panel.spacing.y = unit(1, "lines"),
-        axis.text = element_text(size = 9),
+        axis.text = element_text(size = 12),
         axis.title = element_blank(),
         axis.ticks = element_blank(),
         panel.grid.minor = element_blank(),
@@ -129,6 +129,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
           linetype = "solid"
         ),
         legend.title = element_blank(),
+        legend.text = element_text(size = 12)
         legend.position = "right"
       ) +
       coord_fixed(ratio = 5, clip = "off")
