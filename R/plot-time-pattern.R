@@ -16,35 +16,22 @@ NULL
 #' @return ggplot2 visualization of time pattern data.
 #' @export
 plot_time_pattern <- function(data, id = "all", ncol = 4, reshape_data = TRUE, print_prop_duration = TRUE,
-                              fluid = FALSE, labels = NULL, legend = TRUE, facet = TRUE) {
+                              fluid = FALSE, labels = NULL, legend = TRUE, facet = TRUE, remove_) {
 
   data <- get_time_pattern(data, id, reshape_data)
 
-    if(reshape_data) {
-      # Flexible Kategorienanzahl
-      # colours <-  RColorBrewer::brewer.pal(name="Spectral", n = nlevels(data$activity))
-      # Fixe sieben Kategorien
-      colours <- c("#f15b60",
-                   "#ce7058",
-                   "#faa75b",
-                   "#9e67ab",
-                   "#5a9bd4",
-                   "#7ac36a",
-                   "#737373")
-    } else {
-      # Flexible Kategorienanzahl
-      # colours <-  RColorBrewer::brewer.pal(name="Spectral", n = nlevels(data$activity))
-      # Fixe sieben Kategorien
-      colours <- c("#f15b60",
-                   "#ce7058",
-                   "#faa75b",
-                   "#9e67ab",
-                   "#5a9bd4",
-                   "#7ac36a",
-                   "#737373")
-      # Die Farbe für "Lerngruppen" ändern, da es sich deutlich von "Zwischenzeit" unterscheiden sollte.
-      colours[2] <- "#d77fb4"
-    }
+  colours <- c(
+      "Lehrveranstaltung" = "#f15b60",
+      "Selbststudium"  = "#faa75b",
+      "Lerngruppe" = "#CFAB59",
+      "Zwischenzeit" = "#ce7058",
+      "Fahrzeit" = "#9e67ab",
+      "Arbeit" = "#5a9bd4",
+      "Private Zeit" = "#7ac36a",
+      "Schlafen" = "#737373"
+  )
+
+  colours <- colours[names(colours) %in% levels(data$activity)]
 
     if (print_prop_duration) {
       data %>%

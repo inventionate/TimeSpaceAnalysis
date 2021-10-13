@@ -8,9 +8,8 @@
 #' @export
 get_places_chronology_time_pattern <- function(oc_data, id = "all", weekday = "all") {
 
-  print(oc_data)
   # Relevante Variablen auswählen
-  oc_data <-
+    data_pc_zm <-
     oc_data %>%
     ungroup() %>%
     select(
@@ -23,43 +22,10 @@ get_places_chronology_time_pattern <- function(oc_data, id = "all", weekday = "a
       activity = as.factor(activity)
     )
 
-  print(oc_data)
-  # Leeren Datensatz hinzufügen, um vergleichbare Ausgangsbedingungen zu schaffen.
-  # D. h., jeder Person wird eine vergleichbare Aktivität mit der Länge Null hinzugefügt.
-  # Für jede ID an jedem Tag eine Aktivität mit prop_duration 0 erzeugen.
-  activities <- levels(oc_data$activity)
-
-  data_scaffold <- oc_data %>%
-    group_by(questionnaire_id, day) %>%
-    distinct(.keep_all = TRUE) %>%
-    na.omit()
-
-  # @todo: Hier in Functional Programming switchen.
-  data_zero_duration_activites <- NULL
-  for(i in seq_along(activities))
-  {
-    data_zero_duration_activites <-
-      bind_rows(
-        data_zero_duration_activites,
-        data_scaffold %>%
-          mutate(
-            duration = 0,
-            activity = activities[i]
-          )
-      )
-  }
-
-  data_pc_zm <-
-    oc_data <-
-    bind_rows(
-      oc_data,
-      data_zero_duration_activites %>%
-        mutate_at(vars(activity), ~ as.factor(.)))
-
   # Nach ID filtern
   # Es darf dein NA Auschluss durchgeführt werden, weil sonst die Fahrzeit verloren geht!
   if (id[[1]] != "all") {
-    data_pc_zm <- oc_data %>% filter(questionnaire_id %in% id)
+    data_pc_zm <- data_pc_zm %>% filter(questionnaire_id %in% id)
   }
 
   if (weekday[[1]] != "all") {
@@ -82,16 +48,16 @@ get_places_chronology_time_pattern <- function(oc_data, id = "all", weekday = "a
             "Arbeit" = "Arbeitszeit",
             "Private Zeit" = "Freizeit",
         ),
-          activity = fct_relevel(
+          activity = fct_drop(fct_relevel(
             activity,
             "Lehrveranstaltung",
             "Lerngruppe",
             "Selbststudium",
-            "Fahrzeit",
             "Arbeit",
+            "Fahrzeit",
             "Private Zeit",
             "Schlafen"
-          )
+          ))
     ) %>%
     arrange(questionnaire_id, day, activity)
 

@@ -153,9 +153,18 @@ plot_places_chronology <- function(data, id, weekday = "all", size_range = NULL,
   # Time plot
   df_time <- get_places_chronology_time_pattern(data, id, weekday)
 
-  colours <- c("#f15b60", "#ce7058", "#faa75b", "#9e67ab", "#5a9bd4", "#7ac36a", "#737373")
-  # Die Farbe für "Lerngruppen" ändern, da es sich deutlich von "Zwischenzeit" unterscheiden sollte.
-  colours[2] <- "#d77fb4"
+  colours <- c(
+      "Lehrveranstaltung" = "#f15b60",
+      "Selbststudium"  = "#faa75b",
+      "Lerngruppe" = "#CFAB59",
+      "Zwischenzeit" = "#ce7058",
+      "Fahrzeit" = "#9e67ab",
+      "Arbeit" = "#5a9bd4",
+      "Private Zeit" = "#7ac36a",
+      "Schlafen" = "#737373"
+  )
+
+  colours <- colours[names(colours) %in% levels(df_time$activity)]
 
   plot_time <-
     ggplot(

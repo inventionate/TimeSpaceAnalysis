@@ -68,8 +68,8 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
                 "Lehrveranstaltung",
                 "Lerngruppe",
                 "Selbststudium",
-                "Fahrzeit",
                 "Arbeit",
+                "Fahrzeit",
                 "Private Zeit",
                 "Schlafen"
             ),
@@ -85,7 +85,7 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
     colours <- c(
         "Lehrveranstaltung" = "#f15b60",
         "Selbststudium"  = "#faa75b",
-        "Lerngruppe" = "#d77fb4",
+        "Lerngruppe" = "#CFAB59",
         "Arbeit" = "#5a9bd4",
         "Private Zeit" = "#7ac36a",
         "Schlafen" = "#737373"

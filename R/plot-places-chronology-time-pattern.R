@@ -27,19 +27,27 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
   # Datensatz Zeitmuster
   data_pc_zm <- get_places_chronology_time_pattern(data, id, weekday)
 
+  # Kontrolle, ob es Lerngruppe gibt und ggf. entfernen.
+
+  # Lerngruppe aus dem Datensatz entfernen und auch die Farben entsprechend anpassen!
+  #     Außerdem andere Angabe für das allgemeine Datensätzchen
+
   # Tagesauswahl definieren
   if (weekday[[1]] != "all") {
     # Farbpalette festlegen
-    # colours <- RColorBrewer::brewer.pal(name="Spectral", n = nlevels(data_pc_zm$activity))
-    colours <- c("#f15b60",
-                 "#ce7058",
-                 "#faa75b",
-                 "#9e67ab",
-                 "#5a9bd4",
-                 "#7ac36a",
-                 "#737373")
-    # Die Farbe für "Lerngruppe" ändern, damit es sich von "Zwischenzeit" unterscheidet.
-    colours[2] <- "#d77fb4"
+      colours <- c(
+          "Lehrveranstaltung" = "#f15b60",
+          "Selbststudium"  = "#faa75b",
+          "Lerngruppe" = "#CFAB59",
+          "Zwischenzeit" = "#ce7058",
+          "Fahrzeit" = "#9e67ab",
+          "Arbeit" = "#5a9bd4",
+          "Private Zeit" = "#7ac36a",
+          "Schlafen" = "#737373"
+      )
+
+      colours <- colours[names(colours) %in% levels(data_pc_zm$activity)]
+
 
     # Prozentuale Verteilung der Aktivitäten
     if(print_prop_duration) {

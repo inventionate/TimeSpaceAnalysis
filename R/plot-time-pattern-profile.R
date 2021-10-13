@@ -33,17 +33,25 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
       zeitmuster = glue(
         "<b>{zeitmuster}</b><br>
         <span style='font-size:9pt'>{prop}, n = {n}<span>"
+      ),
+      activity = fct_recode(
+        activity,
+         "Arbeit" = "Arbeitszeit"
       )
     )
 
-  # Fixe sieben Kategorien
-  colours <- c("#f15b60",
-               "#ce7058",
-               "#faa75b",
-               "#9e67ab",
-               "#5a9bd4",
-               "#7ac36a",
-               "#737373")
+  colours <- c(
+      "Lehrveranstaltungen" = "#f15b60",
+      "Selbststudium"  = "#faa75b",
+      "Lerngruppe" = "#CFAB59",
+      "Zwischenzeit" = "#ce7058",
+      "Fahrzeit" = "#9e67ab",
+      "Arbeit" = "#5a9bd4",
+      "Private Zeit" = "#7ac36a",
+      "Schlafen" = "#737373"
+  )
+
+  colours <- colours[names(colours) %in% levels(data_tsp$activity)]
 
   p <-
     ggplot(
