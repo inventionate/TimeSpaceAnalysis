@@ -125,7 +125,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
         panel.border = element_rect(
           fill = NA,
           colour = "gray17",
-          size = 2,
+          size = 1,
           linetype = "solid"
         ),
         legend.title = element_blank(),
