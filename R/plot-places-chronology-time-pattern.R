@@ -112,8 +112,8 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
       theme_minimal(base_family = "Fira Sans Condensed Medium") +
       theme(
         text = element_text(colour = "gray17"),
-        title = element_text(size = 14),
-        strip.text = element_text(size = 12, face = "bold", margin = margin(0,0,6,0)),
+        title = element_text(size = 18),
+        strip.text = element_text(size = 18, face = "bold", margin = margin(0,0,6,0)),
         panel.spacing.x = unit(3, "mm"),
         panel.spacing.y = unit(1, "lines"),
         axis.text = element_text(size = 12),
@@ -129,7 +129,7 @@ plot_places_chronology_time_pattern <- function(data, id = "all", weekday = "all
           linetype = "solid"
         ),
         legend.title = element_blank(),
-        legend.text = element_text(size = 12)
+        legend.text = element_text(size = 12),
         legend.position = "right"
       ) +
       coord_fixed(ratio = 5, clip = "off")
