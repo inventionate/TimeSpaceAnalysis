@@ -116,13 +116,32 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
       dims %>%
       map(~ gda_dist(., res_gda, coord))
 
+  # Hypothetische Beiträge berechnen
+  # Gesamtsumme berechnen
+  var_weight <- fct_count(res_gda$call$X[-res_gda$call$row.sup, 1])[1, 2]
+
+  n_abs <- as.numeric(var_weight * 100 / res_gda$call$marge.col[1])
+
+  # Hypothetische Beiträge brechnen
+  ctr <-
+      coord %>%
+      rownames_to_column("mod") %>%
+      as_tibble() %>%
+      add_column(weight = weight) %>%
+      mutate(
+          across(starts_with("Dim"), ~ .x^2 * weight * 100 / n_abs / res_gda$eig$eigenvalue[as.numeric(str_remove(cur_column(), "Dim."))] * 100)
+      ) %>%
+      select(-weight) %>%
+      column_to_rownames("mod")
+
   # Absolutes Gewicht bei der MFA wiederherstellen
   if (inherits(res_gda, c("MFA"))) {
     list(
       supvar = var,
       weight = round(weight, 1),
       coord = coord,
-      dist = dist
+      dist = dist,
+      ctr = ctr
     )
   } else {
     list(
@@ -132,7 +151,8 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
       cos2 = round(cos2, 6),
       var = round(vrc, 6),
       v.test = round(v.test, 6),
-      dist = dist
+      dist = dist,
+      ctr = ctr
     )
   }
 }
