@@ -132,6 +132,11 @@ plot_places_chronology_path <- function(data, id, recodeded_places = NULL,
                 hjust = 0.5,
                 margin = margin(0,0,4,0)
             ),
+            panel.border = element_rect(
+                size = 1,
+                fill = NA,
+                colour = "gray17"
+            ),
             legend.margin = margin(0,0,0,0),
             legend.box.margin = margin(-20,0,0,0)
         ) +
