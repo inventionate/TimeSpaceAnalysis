@@ -373,7 +373,7 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
           fill = "white"
         ),
         legend.text = element_text(size = 10),
-        legend.box.margin = margin(0, 0.2, 0.1, 0, "cm"),
+        legend.box.margin = margin(0.07, 0.2, 0.1, 0, "cm"),
         legend.title = element_blank()
       ) +
       guides(

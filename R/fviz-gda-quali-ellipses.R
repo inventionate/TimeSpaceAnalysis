@@ -283,8 +283,6 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
 
   p <- p + scale_size_continuous(range = c(1, 7))
 
-  if (concentration_ellipses) {
-
     ellipse_axes <- NULL
 
     for (i in seq_along(var_levels)) {
@@ -345,6 +343,9 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
             levels = var_levels
          )
       )
+
+    if (concentration_ellipses) {
+
 
     if (colour == FALSE) alpha_ellipses <- 0.01
 
@@ -590,13 +591,34 @@ fviz_gda_quali_ellipses <- function(res_gda, df_var_quali, var_quali, title = NU
               aes(x = Dim.1, y = Dim.2, label = name, colour = colour),
               family = "Fira Sans Condensed Medium",
               size = 5,
-              alpha = 1
+              alpha = 1,
+              show.legend = FALSE
           )
       # segment.colour = "black",
       # # segment.size = 1.5)
   }
 
   if (!is_null(title)) p <- p + ggtitle(title)
+
+    # Falls Dichtelinien, Legende plotten
+
+    if (density) {
+       p <-
+           p +
+            guides(size = "none") +
+            theme(
+                legend.position = "bottom",
+                legend.direction = "horizontal",
+                legend.box.background = element_rect(
+                    linetype = "solid",
+                    colour = "gray17",
+                    fill = "white"
+                ),
+                legend.text = element_text(size = 10),
+                legend.box.margin = margin(0.07, 0.2, 0.1, 0, "cm"),
+                legend.title = element_blank()
+            )
+    }
 
   # Plotten
   p
