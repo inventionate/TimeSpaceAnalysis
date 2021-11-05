@@ -118,7 +118,11 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
 
   # Hypothetische Beiträge berechnen
   # Gesamtsumme berechnen
-  var_weight <- fct_count(res_gda$call$X[-res_gda$call$row.sup, 1])[1, 2]
+  if (is_null(res_gda$call$row.sup)) {
+      var_weight <- fct_count(res_gda$call$X[, 1])[1, 2]
+  } else {
+      var_weight <- fct_count(res_gda$call$X[-res_gda$call$row.sup, 1])[1, 2]
+  }
 
   n_abs <- as.numeric(var_weight * 100 / res_gda$call$marge.col[1])
 
