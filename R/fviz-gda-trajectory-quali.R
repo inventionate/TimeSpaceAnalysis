@@ -130,6 +130,7 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
             select(-id, -var_quali) %>%
             mutate(name = paste(name, time)) %>%
             select(-time) %>%
+            arrange(name) %>%
             column_to_rownames(var = "name")
         )
     )
