@@ -97,9 +97,7 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
       filter(id %in% selected_ind$id) %>%
       mutate(name = id)
 
-  # Namen hinzufügen und variablen machen
-
-
+  # Namen hinzufügen
   if (!is_null(case_names)) {
     coord_ind_timeseries <-
         coord_ind_timeseries %>%
@@ -110,6 +108,34 @@ fviz_gda_trajectory_quali <- function(res_gda, df_var_quali, var_quali, var_qual
             )
         )
   }
+
+  # Ausgabe der standardisierten Distanzen
+  ind_dist <- function(dim, res_gda, coord) {
+      dist_make(
+          coord[dim] %>% as.matrix(),
+          function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+      )
+  }
+
+  dim_n <- res_gda$call$ncp
+
+  dims <- setNames(1:dim_n, paste0("Dim.", 1:dim_n))
+
+  dist <-
+      dims %>%
+      map(~ ind_dist(
+          .,
+          res_gda,
+          coord_ind_timeseries %>%
+            select(-id, -var_quali) %>%
+            mutate(name = paste(name, time)) %>%
+            select(-time) %>%
+            column_to_rownames(var = "name")
+        )
+    )
+
+  message("Standardized Distances:")
+  print(dist[axes])
 
   # Plot der Daten
   if (inherits(res_gda, c("MCA"))) {
