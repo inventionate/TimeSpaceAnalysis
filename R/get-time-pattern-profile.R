@@ -32,17 +32,12 @@ get_time_pattern_profile <- function(data_tp, id = "all")
         )
     ) %>%
     mutate(
-      activity = fct_recode(
-        activity,
-        "Private Zeit" = "Freizeit")
-    ) %>%
-    mutate(
       activity = fct_relevel(
         activity,
         "Lehrveranstaltungen",
         "Zwischenzeit",
         "Selbststudium",
-        "Arbeitszeit",
+        "Arbeit",
         "Fahrzeit",
         "Private Zeit",
         "Schlafen")

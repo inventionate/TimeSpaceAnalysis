@@ -28,7 +28,9 @@ get_time_pattern_series <- function(data_tp) {
       ),
       activity = fct_recode(
         str_to_title(activity),
-        "Lehrveranstaltungen" = "Veranstaltungen")
+        "Lehrveranstaltungen" = "Veranstaltungen",
+        "Private Zeit" = "Freizeit",
+        "Arbeit" = "Arbeitszeit")
     ) %>%
     mutate(
       activity = fct_relevel(
@@ -37,8 +39,8 @@ get_time_pattern_series <- function(data_tp) {
         "Zwischenzeit",
         "Selbststudium",
         "Fahrzeit",
-        "Arbeitszeit",
-        "Freizeit",
+        "Arbeit",
+        "Private Zeit",
         "Schlafen")
     ) %>%
     drop_na()
@@ -54,9 +56,9 @@ get_time_pattern_series <- function(data_tp) {
 
   # Prozentuale Verteilung der Zeitmuster
   data_series_profile_prop <-
-    data_tp %>%
-    select(zeitmuster) %>%
-    count(zeitmuster) %>%
+    data_tp |>
+    select(zeitmuster) |>
+    count(zeitmuster) |>
     transmute(
       zeitmuster = fct_explicit_na(zeitmuster, "Fehlend"),
       prop = str_glue("{format(round(n / sum(n) * 100, 1), decimal.mark=',')} %"),

@@ -33,10 +33,6 @@ plot_time_pattern_profile <- function(data_tp, id = "all", ncol = 4, fluid = FAL
       zeitmuster = glue(
         "<b>{zeitmuster}</b><br>
         <span style='font-size:9pt'>{prop}, n = {n}<span>"
-      ),
-      activity = fct_recode(
-        activity,
-         "Arbeit" = "Arbeitszeit"
       )
     )
 

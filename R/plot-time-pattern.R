@@ -16,7 +16,7 @@ NULL
 #' @return ggplot2 visualization of time pattern data.
 #' @export
 plot_time_pattern <- function(data, id = "all", ncol = 4, reshape_data = TRUE, print_prop_duration = TRUE,
-                              fluid = FALSE, labels = NULL, legend = TRUE, facet = TRUE, remove_) {
+                              fluid = FALSE, labels = NULL, legend = TRUE, facet = TRUE) {
 
   data <- get_time_pattern(data, id, reshape_data)
 

@@ -8,7 +8,6 @@ plot_time_pattern_series(
   data_tp,
   alpha = 0.3,
   individual_lines = FALSE,
-  colours = NULL,
   title = "Time pattern profiles (kml3d results)",
   hour_limits = c(0, 24),
   hour_scale = c(0, 4, 8, 12)
@@ -20,8 +19,6 @@ plot_time_pattern_series(
 \item{alpha}{opacity of the time pattern lines.}
 
 \item{individual_lines}{show individual time pattern lines (boolean).}
-
-\item{colours}{colour of average time pattern lines.}
 
 \item{title}{plot title.}
 

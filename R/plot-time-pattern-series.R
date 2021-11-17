@@ -5,7 +5,6 @@ NULL
 #'
 #' @param data_tp data frame including questionnaire_id, kml3d results and time pattern data.
 #' @param alpha opacity of the time pattern lines.
-#' @param colours colour of average time pattern lines.
 #' @param title plot title.
 #' @param hour_scale y axis breaks (hours).
 #' @param hour_limits y axis limits (hours).
@@ -13,14 +12,32 @@ NULL
 #'
 #' @return ggplot2 time pattern series plot.
 #' @export
-plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FALSE, colours = NULL,
-                                     title = "Time pattern profiles (kml3d results)", hour_limits = c(0, 24),
-                                     hour_scale = c(0, 4, 8, 12)) {
+plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FALSE,
+                                     title = "Time pattern profiles (kml3d results)",
+                                     hour_limits = c(0, 24), hour_scale = c(0, 4, 8, 12)) {
   data_ts <- get_time_pattern_series(data_tp)
 
-  if (is.null(colours)) {
-    colours = RColorBrewer::brewer.pal(9, "Set1")
-  }
+  colours <- c(
+      "Zeitmuster: Lehrveranstaltung" = "#f15b60",
+      "Zeitmuster: Selbststudium" = "#faa75b",
+      "Zeitmuster: Lerngruppe" = "#CFAB59",
+      "Zeitmuster: Zwischenzeit" = "#ce7058",
+      "Zeitmuster: Pendeln" = "#9e67ab",
+      "Zeitmuster: Erwerbsarbeit" = "#5a9bd4",
+      "Zeitmuster: Private Zeit" = "#7ac36a",
+      "Zeitmuster: Schlafen" = "#737373"
+  )
+
+  colours <- colours[
+      names(colours) %in% levels(data_ts$data_series_average$zeitmuster)
+    ]
+
+  # Reihenfolge abgleichen, um die korrekten Farben zu bestimmen.
+  colours <- colours[
+      order(factor(names(colours),
+                   levels=levels(data_ts$data_series_average$zeitmuster))
+            )
+      ]
 
   # Zeitserien plotten
   p <-
@@ -44,8 +61,8 @@ plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FA
       aes(
         x = day,
         y = avg_duration,
-        group = as.factor(zeitmuster),
-        colour = as.factor(zeitmuster)
+        group = zeitmuster,
+        colour = zeitmuster
       ),
       inherit.aes = FALSE,
       size = 1
@@ -55,17 +72,17 @@ plot_time_pattern_series <- function(data_tp, alpha = 0.3, individual_lines = FA
       aes(
         x = day,
         y = avg_duration,
-        group = as.factor(zeitmuster),
-        colour = as.factor(zeitmuster)
+        group = zeitmuster,
+        colour = zeitmuster
       ),
       shape = 15,
       inherit.aes = FALSE,
       size = 3
     ) +
     scale_colour_manual(
-      values = colours,
-      name = "Zeitmuster",
-      labels = data_ts$data_series_profile_prop_label
+        name = "Zeitmuster",
+        values = colours,
+        labels = data_ts$data_series_profile_prop_label$zeitmuster
     ) +
     scale_x_discrete(
       name = "Wochentage",
