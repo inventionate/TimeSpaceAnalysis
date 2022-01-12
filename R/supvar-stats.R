@@ -102,10 +102,10 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
 
   # Standardisierte Distanzen hinzufügen
   gda_dist <- function(dim, res_gda, coord) {
-      dist_make(
-          coord[dim] %>% as.matrix(),
-          function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
-      )
+        dist_make(
+            coord[dim] %>% as.matrix(),
+            function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+        )
   }
 
   dim_n <- res_gda$call$ncp
