@@ -14,7 +14,8 @@
                            facet_labels = FALSE,
                            xlim = NULL,
                            ylim = NULL,
-                           accuracy = 0.1) {
+                           accuracy = 0.1,
+                           blank = FALSE) {
 
   # Werte brechnen
   tickmarks_y <-
@@ -50,13 +51,24 @@
     legend.position = "none"
   )
 
+  if (blank) {
+      p <-
+          p +
+          theme(
+              axis.title.x = element_blank(),
+              axis.title.y = element_blank()
+          )
+  }
+
   # Beschriftung ausführen!
-  p <- .gda_plot_labels(
-    res_gda = res_gda,
-    ggplot_gda = p,
-    axes = axes,
-    mod_rates_message = FALSE
-  )
+  if (!blank) {
+      p <- .gda_plot_labels(
+        res_gda = res_gda,
+        ggplot_gda = p,
+        axes = axes,
+        mod_rates_message = FALSE
+      )
+  }
 
   # Achsen und beschriftung neu ausrichten
   p <-
@@ -95,6 +107,17 @@
       sec.axis = dup_axis(),
       labels = scales::label_comma(decimal.mark = ",", big.mark = " ", accuracy = accuracy)
     )
+
+  if (blank) {
+      p <-
+          p +
+          theme(
+              axis.title.x.top= element_blank(),
+              axis.title.y.right= element_blank(),
+              axis.text = element_blank(),
+              axis.ticks = element_blank()
+          )
+  }
 
   g <- ggplotGrob(p)
 

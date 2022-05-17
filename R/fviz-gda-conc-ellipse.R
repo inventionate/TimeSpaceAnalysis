@@ -17,13 +17,14 @@ NULL
 #' @param labels label axes (vector of length 4; left, right, top, bottom).
 #' @param xlim x Axis limits (vector of length 2).
 #' @param ylim y Axis limits (vector of length 2).
+#' @param blank visualisation without labels and tick values.
 #'
 #' @return ggplot2 GDA visualisation with concentration ellipse.
 #' @export
 fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour = "black", linetype = "dotted",
                                   density = FALSE, fill = NA, axes = 1:2, scale_size = 1,
                                   title = "GDA individuals plot", plot_modif_rates = TRUE, axis_lab_name = "Achse",
-                                  labels = NULL, xlim = NULL, ylim = NULL) {
+                                  labels = NULL, xlim = NULL, ylim = NULL, blank = FALSE) {
 
   if (!inherits(res_gda, c("MCA"))) {
     stop("Only MCA plots are currently supported!")
@@ -95,7 +96,8 @@ fviz_gda_conc_ellipse <- function(res_gda, level = 0.8647, alpha = 0.1, colour =
     axes = axes,
     labels = labels,
     xlim = xlim,
-    ylim = ylim
+    ylim = ylim,
+    blank = blank
   )
 
   p <- .annotate_axes(p, labels)
