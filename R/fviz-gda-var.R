@@ -308,6 +308,46 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
           colour = "gray17",
         )
 
+      if (individuals) {
+          if (individuals_size == "auto") {
+              p <-
+                  p +
+                  geom_point(
+                      data = .count_distinct_ind(res_gda, axes, modalities_coord$weight) %>%
+                          distinct(),
+                      aes(x, y, size = count),
+                      inherit.aes = FALSE,
+                      alpha = individuals_alpha
+                  )
+          } else {
+              p <-
+                  p +
+                  geom_point(
+                      data = .count_distinct_ind(res_gda, axes) %>% distinct(),
+                      aes(x, y),
+                      size = individuals_size,
+                      inherit.aes = FALSE,
+                      alpha = individuals_alpha
+                  )
+          }
+      }
+
+      if (individuals_names) {
+          p <-
+              p +
+              ggrepel::geom_label_repel(
+                  data = .count_distinct_ind(res_gda, axes),
+                  aes(
+                      !!axis_1,
+                      !!axis_2,
+                      label = rownames(.count_distinct_ind(res_gda, axes))
+                  ),
+                  colour = "black",
+                  size = individuals_size,
+                  alpha = individuals_alpha
+              )
+      }
+
     }
 
   }
