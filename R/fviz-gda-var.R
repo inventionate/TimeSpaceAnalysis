@@ -297,7 +297,8 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
           repel = TRUE,
           select.var = list(name = modalities$category),
           axes.linetype = "blank",
-          axes = axes
+          axes = axes,
+          labelsize = textsize
         ) +
         geom_hline(
           yintercept = 0,
@@ -309,6 +310,23 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
         )
 
       if (individuals) {
+          # Zeilennamen hinzufügen
+          if (is.null(res_gda$call$excl)) {
+              col_weight <- res_gda$call$marge.col
+          } else {
+              col_weight <- res_gda$call$marge.col[-res_gda$call$excl]
+          }
+
+          modalities_coord <-
+              res_gda$var$coord %>%
+              data.frame() %>%
+              tibble::rownames_to_column() %>%
+              bind_cols(
+                  .,
+                  data.frame(weight = col_weight * res_gda$call$N)
+              ) %>%
+              filter(rowname %in% modalities$category)
+
           if (individuals_size == "auto") {
               p <-
                   p +
