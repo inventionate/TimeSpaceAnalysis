@@ -104,7 +104,7 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
   gda_dist <- function(dim, res_gda, coord) {
         dist_make(
             coord[dim] %>% as.matrix(),
-            function (v1, v2) abs((v1 - v2)/sqrt(res_gda$eig$eigenvalue[dim]))
+            function (v1, v2) abs((v1 - v2)/sqrt(as.data.frame(res_gda$eig)$eigenvalue[dim]))
         )
   }
 
@@ -133,7 +133,7 @@ supvar_stats <- function(res_gda, var_quali_df, var_quali, impute = TRUE, impute
       as_tibble() %>%
       add_column(weight = weight) %>%
       mutate(
-          across(starts_with("Dim"), ~ .x^2 * weight * 100 / n_abs / res_gda$eig$eigenvalue[as.numeric(str_remove(cur_column(), "Dim."))] * 100)
+          across(starts_with("Dim"), ~ .x^2 * weight * 100 / n_abs / as.data.frame(res_gda$eig)$eigenvalue[as.numeric(str_remove(cur_column(), "Dim."))] * 100)
       ) %>%
       select(-weight) %>%
       column_to_rownames("mod")
