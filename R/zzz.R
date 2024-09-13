@@ -1,5 +1,5 @@
 .onLoad <- function(...) {
-    if (systemfonts::match_fonts("Fira Sans Condensed") |> nrow()) {
+    if (systemfonts::match_fonts("Fira Sans Condensed") |> nrow() > 0) {
         systemfonts::register_variant(
             name = "Fira Sans Condensed Semibold",
             family = "Fira Sans Condensed",
