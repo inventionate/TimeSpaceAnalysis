@@ -19,7 +19,8 @@ fviz_gda_conc_ellipse(
   axis_lab_name = "Achse",
   labels = NULL,
   xlim = NULL,
-  ylim = NULL
+  ylim = NULL,
+  blank = FALSE
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ fviz_gda_conc_ellipse(
 \item{xlim}{x Axis limits (vector of length 2).}
 
 \item{ylim}{y Axis limits (vector of length 2).}
+
+\item{blank}{visualisation without labels and tick values.}
 }
 \value{
 ggplot2 GDA visualisation with concentration ellipse.
