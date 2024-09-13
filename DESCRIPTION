@@ -41,7 +41,8 @@ Depends:
     ragg,
     concaveman,
     usedist,
-    gginnards    
+    gginnards,
+    vdiffr
 Suggests:
     kml3d,
     explor,
