@@ -83,7 +83,7 @@
       ),
       axis.title.x.bottom = element_blank(),
       axis.title.y.right = element_text(
-        margin = margin(0, 0, 0, 1.65, "cm"),
+        margin = margin(0, 0, 0, 0.25, "cm"),
         angle = 0,
         vjust = axis_label_y_vjust
       ),
@@ -453,6 +453,7 @@
 
   return(df_group_names)
 }
+
 # Beschriftung eines Plots anpassen
 .gda_plot_labels <- function(res_gda,
                              ggplot_gda,
@@ -506,8 +507,9 @@
 
   }
 
-  p <- ggplot_gda + labs(title = title, x = xlab, y = ylab, caption = caption)
-
+  p <-
+      ggplot_gda +
+      labs(title = title, x = xlab, y = ylab, caption = caption)
   p
 }
 
