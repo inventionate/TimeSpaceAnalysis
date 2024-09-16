@@ -5,6 +5,11 @@ Tools for socio-analysis of social time-spaces. Includes Geometric Data Analysis
 ## Installation
 
 ``` r
-install.packages("devtools")
-devtools::install_github("inventionate/TimeSpaceAnalysis")
+install.packages(
+    'TimeSpaceAnalysis', 
+    repos = c(
+        'https://inventionate.r-universe.dev', 
+        'https://cloud.r-project.org'
+    )
+)
 ```
