@@ -252,9 +252,9 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
               !!axis_2,
               colour = group,
               label = factor(rowname),
-              box.padding = 0.5,
-              point.padding = 0
             ),
+            box.padding = 0.5,
+            point.padding = 0,
             family = "Fira Sans Condensed",
             size = textsize,
             show.legend = FALSE
