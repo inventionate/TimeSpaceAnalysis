@@ -168,7 +168,7 @@ plot_places_chronology_meaning <- function(data, id, weekday = "all", size_range
     )
 
     map_background <-
-      get_stamenmap(
+        get_stadiamap(
         bbox = borders,
         zoom = map_zoom,
         maptype = "watercolor",
