@@ -69,19 +69,19 @@ fviz_gda_var <- function(res_gda, contrib = "auto", title = NULL, axes = 1:2, gr
       select(category) %>%
       data.frame()
   } else {
-
     modalities <-
       df %>%
       data.frame() %>%
-      select(matches(str_glue("^Dim.{axes[1]}|{axes[2]}$"))) %>%
+      select(matches(paste0("^Dim.", axes[1], "$|^Dim.", axes[2], "$"))) %>%
       tibble::rownames_to_column(var = "category") %>%
-      mutate_at(vars(matches("Dim")), function(x) {x * eigenvalues$.}) %>%
-      mutate(ctr = !!parse_quo(str_glue("Dim.{axes[1]} + Dim.{axes[2]}"))) %>%
+      mutate(across(starts_with("Dim"), \(cat) {cat * eigenvalues[,cur_column()]})) %>%
+      rowwise() %>%
+      mutate(ctr = sum(c_across(starts_with("Dim")))) %>%
+      ungroup() %>%
       arrange(desc(ctr)) %>%
       slice(1:contrib) %>%
       select(category) %>%
       data.frame()
-
   }
 
   if (inherits(res_gda, c("MCA"))) {
