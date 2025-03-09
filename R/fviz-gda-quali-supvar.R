@@ -60,7 +60,8 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
     select(
       rowname,
       weight,
-      matches(str_glue("Dim.{axes[1]}$|Dim.{axes[2]}$"))
+      matches(str_glue("Dim.{axes[1]}$")),
+      matches(str_glue("Dim.{axes[2]}$"))
     )
 
   #eta2 extrahieren
@@ -85,6 +86,8 @@ fviz_gda_quali_supvar <- function(res_gda, df_var_quali, var_quali, title = NULL
 
       print(supvar_eta2)
   }
+
+  {axes[1]}
 
   # Spaltennamen anpassen
   colnames(supvar) <- c("rowname", "weight", "Dim.1", "Dim.2")
