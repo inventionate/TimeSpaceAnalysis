@@ -361,10 +361,17 @@ fviz_gda_var_axis <- function(res_gda, axis = 1, contrib = "auto", title = NULL,
         )
     }
 
+      if(is.null(title)) {
+          p <-
+              p +
+              theme(
+                  plot.title = element_blank()
+              )
+      }
+
     p <-
       p +
       theme(
-        plot.title = element_blank(),
         legend.position = "bottom",
         legend.direction = "horizontal",
         legend.box.background = element_rect(
